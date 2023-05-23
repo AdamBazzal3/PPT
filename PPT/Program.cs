@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PPT.Data;
 using PPT.Models;
+using System.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,10 +13,10 @@ builder.Services.AddDbContext<PPTDatacontext>(options =>
 builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<PPTDatacontext>();
 
-var connString = Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<AppDbContext>(
-                      options => options.UseSqlServer(connString)
-                      );
+//var connString = Configuration.GetConnectionString("DefaultConnection");
+//builder.Services.AddDbContext<AppDbContext>(
+//                      options => options.UseSqlServer(connString)
+//                      );
 var app = builder.Build();
 
 
