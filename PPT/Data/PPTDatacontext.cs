@@ -12,6 +12,11 @@ public class PPTDatacontext : IdentityDbContext<User>
     {
     }
     public DbSet<User> users { get; set; }
+    public DbSet<Doctor> doctors { get; set; }
+    public DbSet<Attendance> attendances { get; set; }
+    public DbSet<Department> departments { get; set; }
+    public DbSet<Section> sections { get; set; }
+    public DbSet<Faculty> faculty { get; set; }
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);

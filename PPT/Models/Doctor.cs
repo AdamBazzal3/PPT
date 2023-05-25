@@ -1,14 +1,20 @@
-﻿namespace PPT.Models
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace PPT.Models
 {
     public class Doctor
-    { 
-        public int id { get; set; }
-        public string universityId { get; set; }
-        public string rank { get; set; }//what is this for? maybe: contract,manager,main,secondary
-        public string officeLocation { get; set; }
-        public string email { get; set; }
-
-        public List<Attendance> attendances { get; set; }
+    {
+        [Key]
+        int id { get; set; }
+        string universityId { get; set; }
+        string name { get; set; }
+        string rank { get; set; }//what is this for? maybe: contract,manager,main,secondary
+        string officeLocation { get; set; }
+        string email { get; set; }
+        List<Attendance> attendances { get; set; }
+        [ForeignKey("department")]
+        Department department { get; set; }
 
     }
 }

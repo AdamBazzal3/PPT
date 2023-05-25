@@ -1,10 +1,14 @@
-﻿namespace PPT.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace PPT.Models
 {
     public class Section
     {
-        public int id { get; set; }
-        public string name { get; set; }
+        [Key]
+        int id { get; set; }
+        string name { get; set; }
+        
+        List<Department> departments { get; set; }
 
-        public Section() { }
     }
 }
