@@ -4,5 +4,6 @@ namespace PPT.Models
 {
     public class User: IdentityUser
     {
+
     }
 }

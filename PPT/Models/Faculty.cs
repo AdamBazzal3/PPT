@@ -2,7 +2,7 @@
 {
     public class Faculty
     {
-        int id { get; set; }
-        string name { get; set; }
+        public int id { get; set; }
+        public string name { get; set; }
     }
 }
