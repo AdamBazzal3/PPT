@@ -4,10 +4,9 @@ namespace PPT.Models
 {
     public class Faculty
     {
-        [Key]
-        int id { get; set; }
-        string name { get; set; }
-        List<Section> sections { get; set; }
+        public int ID { get; set; }
+        public string Name { get; set; }
+        List<Section> Sections { get; set; }
 
     }
 }

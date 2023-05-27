@@ -1,5 +1,10 @@
-﻿<!DOCTYPE html>
-<html lang="en" dir="rtl">
+﻿@using Microsoft.AspNetCore.Identity
+@using PPT.Models
+
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -26,9 +31,12 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Calendar">Calendar</a>
-                        </li>
+                        @if (SignInManager.IsSignedIn(User) && User.IsInRole("Secretary"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Calendar">Calendar</a>
+                            </li>
+                        }
                         <partial name="_LoginPartial" />
                     </ul>
                 </div>
@@ -37,6 +45,8 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
+            <h1 class="text-primary mb-3">@ViewData["Title"]</h1>
+            <hr />
             @RenderBody()
         </main>
     </div>

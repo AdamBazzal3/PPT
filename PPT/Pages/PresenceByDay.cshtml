@@ -5,27 +5,28 @@
 }
 
 <div>
-    <h1 class="mb-4">Professors Presence for this day</h1>
     <table class="table table-striped">
         <thead>
             <tr>
                 <th scope="col">#</th>
                 <th scope="col">Name</th>
-                <th scope="col">University Id</th>
-                <th scope="col">Attended</th>
-                <th scope="col">is Contracted</th>
-                <th scope="col">Duration</th>
+                <th scope="col">Rank</th>
+                <th scope="col">Department id</th>
+                <th scope="col">Present</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>10834874-238473482-118347-111</td>
-                <td>yes</td>
-                <td>yes</td>
-                <td>10</td>
-            </tr>
+            @foreach(var doctor in Model.Doctors){
+                <tr>
+                    <th scope="row">@doctor.ID</th>
+                    <td>@doctor.Name</td>
+                    <td>@doctor.Rank</td>
+                    <td>@doctor.DepartmentID</td>
+                    <td>
+                        <input type="checkbox" class="custom-control-input" name="Present">
+                    </td>
+                </tr>
+            }
       
         </tbody>
     </table>
