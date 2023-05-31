@@ -1,13 +1,16 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PPT.Models
 {
     public class Department
     {
-        [Key]
-        public int id { get; set; }
-        public string? name { get; set; }
-        public List<Doctor>? doctors { get; set; }
-        public Section? section { get; set; }
+        public int ID { get; set; }
+        public string Name { get; set; }
+        public List<Doctor> Doctors { get; set; }
+        public int SectionID { get; set; }
+        public Section Section { get; set; }
+        public string? SecretaryID { get; set; }
+        public virtual User Secretary { get; set; }
     }
 }

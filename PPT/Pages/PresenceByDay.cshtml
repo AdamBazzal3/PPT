@@ -4,8 +4,30 @@
     ViewData["Title"] = "Presence by Day";
 }
 
-<div class="bg-primary">
-    <p>
-        this is where table of professors would be
-    </p>
+<div>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Rank</th>
+                <th scope="col">Department id</th>
+                <th scope="col">Present</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var doctor in Model.Doctors){
+                <tr>
+                    <th scope="row">@doctor.ID</th>
+                    <td>@doctor.Name</td>
+                    <td>@doctor.Rank</td>
+                    <td>@doctor.DepartmentID</td>
+                    <td>
+                        <input type="checkbox" class="custom-control-input" name="Present">
+                    </td>
+                </tr>
+            }
+      
+        </tbody>
+    </table>
 </div>

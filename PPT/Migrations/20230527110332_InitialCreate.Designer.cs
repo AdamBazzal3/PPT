@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PPT.Data;
 
@@ -11,9 +12,11 @@ using PPT.Data;
 namespace PPT.Migrations
 {
     [DbContext(typeof(PPTDatacontext))]
-    partial class PPTDatacontextModelSnapshot : ModelSnapshot
+    [Migration("20230527110332_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -621,6 +624,60 @@ namespace PPT.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("PPT.Models.Attendance", b =>
+                {
+                    b.HasOne("PPT.Models.Doctor", "Doctor")
+                        .WithMany("Attendances")
+                        .HasForeignKey("DoctorID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Doctor");
+                });
+
+            modelBuilder.Entity("PPT.Models.Department", b =>
+                {
+                    b.HasOne("PPT.Models.User", "Secretary")
+                        .WithMany()
+                        .HasForeignKey("SecretaryID");
+
+                    b.HasOne("PPT.Models.Section", "Section")
+                        .WithMany("Departments")
+                        .HasForeignKey("SectionID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Secretary");
+
+                    b.Navigation("Section");
+                });
+
+            modelBuilder.Entity("PPT.Models.Doctor", b =>
+                {
+                    b.HasOne("PPT.Models.Department", "Department")
+                        .WithMany("Doctors")
+                        .HasForeignKey("DepartmentID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Department");
+                });
+
+            modelBuilder.Entity("PPT.Models.Department", b =>
+                {
+                    b.Navigation("Doctors");
+                });
+
+            modelBuilder.Entity("PPT.Models.Doctor", b =>
+                {
+                    b.Navigation("Attendances");
+                });
+
+            modelBuilder.Entity("PPT.Models.Section", b =>
+                {
+                    b.Navigation("Departments");
                 });
 #pragma warning restore 612, 618
         }
