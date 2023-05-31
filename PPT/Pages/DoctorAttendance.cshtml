@@ -1,14 +1,110 @@
-﻿@page
+﻿@page "{handler?}"
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @model PPT.Pages.DoctorAttendanceModel
 @{
 	ViewData["Title"] = "حضور الدكتور";
 }
+
+
+@*strategy: 1: select doctor      DONE
+			2: select month
+			3: view fresh table of this month regardless of old attendance
+			4: new checked days will be added 
+			take into consideration that this page will not allow updates,
+			so an update is as follows: 
+			1: select a doctor and a specific month, and then only show days 
+			with attendance done, to allow the clerk to remove them(delete rows 
+			from the database), so there is no update but only delete, unless the
+			doctor is contracted, so we will show field to update duration
+			if attendance is still checked, if unchecked -> hide duration update field.
+*@
 <body>
 	
-	<input dir="rtl" type="radio" id="day" name="attendaceType" value="DAY">
-	<label dir="rtl" for="day">يومي</label><br />
-	<input dir="rtl" type="radio" id="month" name="attendaceType" value="MONTH">
-	<label dir="rtl" for="month">شهري</label>
+
+        <select id="ddlDoctors" name="id" style="width:170px;" asp-items="@Model.DoctorsList">
+            <option value="0">الإسم</option>
+        </select>
+@*        <input type="hidden" name="DrName"/>*@
+        <br/>
+        <br/>
+@*        <input type="submit" value="Submit"asp-page-handler="Search"/>*@
+		<script src="~/lib/jquery/dist/jquery.min.js"></script>
+		<link href="~/lib/select2/dist/css/select2.min.css" rel="stylesheet" />
+		<script src="~/lib/select2/dist/js/select2.min.js" defer></script>
+        <script type="text/javascript">
+            $(function () {
+                $("#ddlDoctors").select2();
+            });
+            //$("body").on("change", "#ddlDoctors", function () {
+            //    $("input[name=DrName]").val($(this).find("option:selected").text());
+            //});
+        </script>
+
+
+@*	<form>
+		<p>
+			الإسم: <input type="text" asp-for="SearchString" />
+			<input type="submit" value="بحث" asp-page-handler="Search"/>
+		</p>
+	</form>
+	@{
+		if(@Model.Doctors != null)
+		{
+			<ul>@foreach(var doctor in @Model.Doctors)
+			{
+				<li>@doctor.name</li>
+			}			
+			</ul>
+		}
+			
+	}*@
+
+
 	
-	
+@*	<script>
+		function show()
+		{
+			const day = document.getElementById("day");
+			const month = document.getElementById("month");
+			if(day.checked)
+			{
+				document.getElementById("dayselector").style.display = "block";
+				document.getElementById("monthselector").style.display = "none";
+			}
+			if(month.checked)
+			{
+				document.getElementById("monthselector").style.display = "block";
+				document.getElementById("dayselector").style.display = "none";
+			}
+		}
+		
+	</script>*@
+
+@*	<input type="radio" id="day" name="attendaceType" value="DAY" onclick="show()">
+	<label for="day">يومي</label><br />
+
+	<input type="radio" id="month" name="attendaceType" value="MONTH" onclick="show()">
+	<label for="month">شهري</label><br /><br />*@
+
+
+	<div id="monthselector">
+		<form action = "DateAttendance">
+			<label for="month">الشهر</label>
+			<input type="month" id="monthSel" name="month">
+@*			<label for="attendance">الحضور</label>
+			<input type="checkbox" id="attendance" name="IsChecked" value="true"><br />
+			<input type="submit" value="حفظ"/>*@
+		</form>		
+	</div>
+
+@*	<div id="dayselector" style="display:none">
+		<form>
+			<label for="day">اليوم</label>
+			<input type="date" id="daySel" name="day" ><br /><br />
+			<label for="attendance">الحضور</label>
+			<input type="checkbox" id="attendance" name="IsChecked" value="true"><br />
+			<input type="submit" value="حفظ" asp-page-handler="ByDay"/>
+		</form>
+	</div>*@
+
 </body>

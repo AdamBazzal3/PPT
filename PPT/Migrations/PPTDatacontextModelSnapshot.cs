@@ -159,6 +159,121 @@ namespace PPT.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("PPT.Models.Attendance", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<DateOnly>("date")
+                        .HasColumnType("date");
+
+                    b.Property<int>("doctorid")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("duration")
+                        .HasColumnType("int");
+
+                    b.Property<bool?>("isPublished")
+                        .HasColumnType("bit");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("doctorid");
+
+                    b.ToTable("attendances");
+                });
+
+            modelBuilder.Entity("PPT.Models.Department", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<string>("name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("sectionid")
+                        .HasColumnType("int");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("sectionid");
+
+                    b.ToTable("departments");
+                });
+
+            modelBuilder.Entity("PPT.Models.Doctor", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<bool>("IsContracted")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("departmentid")
+                        .HasColumnType("int");
+
+                    b.Property<string>("name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("universityId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("departmentid");
+
+                    b.ToTable("doctors");
+                });
+
+            modelBuilder.Entity("PPT.Models.Faculty", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<string>("name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("id");
+
+                    b.ToTable("faculty");
+                });
+
+            modelBuilder.Entity("PPT.Models.Section", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<int?>("Facultyid")
+                        .HasColumnType("int");
+
+                    b.Property<string>("name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("Facultyid");
+
+                    b.ToTable("sections");
+                });
+
             modelBuilder.Entity("PPT.Models.User", b =>
                 {
                     b.Property<string>("Id")
@@ -273,6 +388,62 @@ namespace PPT.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("PPT.Models.Attendance", b =>
+                {
+                    b.HasOne("PPT.Models.Doctor", "doctor")
+                        .WithMany("attendances")
+                        .HasForeignKey("doctorid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("doctor");
+                });
+
+            modelBuilder.Entity("PPT.Models.Department", b =>
+                {
+                    b.HasOne("PPT.Models.Section", "section")
+                        .WithMany("departments")
+                        .HasForeignKey("sectionid");
+
+                    b.Navigation("section");
+                });
+
+            modelBuilder.Entity("PPT.Models.Doctor", b =>
+                {
+                    b.HasOne("PPT.Models.Department", "department")
+                        .WithMany("doctors")
+                        .HasForeignKey("departmentid");
+
+                    b.Navigation("department");
+                });
+
+            modelBuilder.Entity("PPT.Models.Section", b =>
+                {
+                    b.HasOne("PPT.Models.Faculty", null)
+                        .WithMany("sections")
+                        .HasForeignKey("Facultyid");
+                });
+
+            modelBuilder.Entity("PPT.Models.Department", b =>
+                {
+                    b.Navigation("doctors");
+                });
+
+            modelBuilder.Entity("PPT.Models.Doctor", b =>
+                {
+                    b.Navigation("attendances");
+                });
+
+            modelBuilder.Entity("PPT.Models.Faculty", b =>
+                {
+                    b.Navigation("sections");
+                });
+
+            modelBuilder.Entity("PPT.Models.Section", b =>
+                {
+                    b.Navigation("departments");
                 });
 #pragma warning restore 612, 618
         }

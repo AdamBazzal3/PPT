@@ -6,15 +6,12 @@ namespace PPT.Models
     public class Doctor
     {
         [Key]
-        int id { get; set; }
-        string universityId { get; set; }
-        string name { get; set; }
-        string rank { get; set; }//what is this for? maybe: contract,manager,main,secondary
-        string officeLocation { get; set; }
-        string email { get; set; }
-        List<Attendance> attendances { get; set; }
-        [ForeignKey("department")]
-        Department department { get; set; }
+        public int id { get; set; }
+        public string? universityId { get; set; }
+        public string name { get; set; }
+        public bool IsContracted { get; set; }//what is this for? maybe: contract,main
+        public List<Attendance>? attendances { get; set; }
+        public Department? department { get; set; }
 
     }
 }

@@ -5,10 +5,9 @@ namespace PPT.Models
     public class Section
     {
         [Key]
-        int id { get; set; }
-        string name { get; set; }
-        
-        List<Department> departments { get; set; }
+        public int id { get; set; }
+        public string name { get; set; }
+        public List<Department> departments { get; set; }
 
     }
 }
