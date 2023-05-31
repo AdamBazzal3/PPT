@@ -7,7 +7,7 @@ namespace PPT.Models
         public int ID { get; set; }
         public string Name { get; set; }
         
-        public List<Department> Departments { get; set; }
+        public List<Department>? Departments { get; set; }
 
     }
 }

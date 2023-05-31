@@ -51,22 +51,22 @@ namespace PPT.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "47904383-fb86-4a89-9f62-4396248a9766",
-                            ConcurrencyStamp = "ae046bfb-fa5f-4807-83ed-41c27f541fe5",
+                            Id = "64c0bac3-9025-42a6-9f3c-744e361b4cf7",
+                            ConcurrencyStamp = "57ab0584-18bd-42b8-9db5-cd1674deb634",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "d125eda1-8fc3-4422-a22e-9c40ad75c199",
-                            ConcurrencyStamp = "98567dfc-2378-46dd-9434-e90dc7fd8f8c",
+                            Id = "b467e238-5fcc-49ce-b85c-0d5a40f30ae6",
+                            ConcurrencyStamp = "8519a517-729c-43d3-9367-36c15a120fa8",
                             Name = "Secretary",
                             NormalizedName = "SECRETARY"
                         },
                         new
                         {
-                            Id = "4b452a14-4b00-4147-90af-cb8c27c7e6a1",
-                            ConcurrencyStamp = "664f833e-3c3a-479c-94c4-690cf15f8244",
+                            Id = "6eae0a44-7fd5-41d8-8ffb-b0ebb77eeb96",
+                            ConcurrencyStamp = "82e6b33c-1a40-4285-9346-cba810d11a31",
                             Name = "Manager",
                             NormalizedName = "MANAGER"
                         });
@@ -236,17 +236,17 @@ namespace PPT.Migrations
                         new
                         {
                             UserId = "8e445865-a24d-4543-a6c6-9443d048cdb9",
-                            RoleId = "47904383-fb86-4a89-9f62-4396248a9766"
+                            RoleId = "64c0bac3-9025-42a6-9f3c-744e361b4cf7"
                         },
                         new
                         {
                             UserId = "8e445865-a24d-4543-7u7u-9443d048cdb9",
-                            RoleId = "d125eda1-8fc3-4422-a22e-9c40ad75c199"
+                            RoleId = "b467e238-5fcc-49ce-b85c-0d5a40f30ae6"
                         },
                         new
                         {
                             UserId = "8e445865-a24d-4543-i9i9-9443d048cdb9",
-                            RoleId = "4b452a14-4b00-4147-90af-cb8c27c7e6a1"
+                            RoleId = "6eae0a44-7fd5-41d8-8ffb-b0ebb77eeb96"
                         });
                 });
 
@@ -520,15 +520,15 @@ namespace PPT.Migrations
                         {
                             Id = "8e445865-a24d-4543-a6c6-9443d048cdb9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "2d4bb4c8-10a2-4342-87fa-7db87b30f8fa",
+                            ConcurrencyStamp = "7d8e85ee-c32c-41c5-ab4a-eaf2a981bf44",
                             Email = "adam.bazzal666@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADAM.BAZZAL666@GMAIL.com",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAENXTa+m2xmKiMCIaD4y0p4a6BJIwepW/csXyKQSLadKw64Apajb8BCCaLO/o4ith9Q==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEP0q8UK4cejvJZK6exiup5FdZYwkXVdRiebSmaaHnRKhjn0KzRIZaL+zLZNok5WkKA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "0a62bf87-d3a4-42d9-bc60-6ba8a4e2eef8",
+                            SecurityStamp = "bb5c950f-0ec9-46f0-93a5-1ecc4b87657d",
                             TwoFactorEnabled = false,
                             UserName = "Admin",
                             FirstName = "Adam",
@@ -538,15 +538,15 @@ namespace PPT.Migrations
                         {
                             Id = "8e445865-a24d-4543-7u7u-9443d048cdb9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "17a506a1-4467-4ece-8335-8597362118da",
+                            ConcurrencyStamp = "f0bba5f3-d797-451c-aa37-bd59a71340f9",
                             Email = "samar.bazzal666@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "SAMAR.BAZZAL666@GMAIL.com",
                             NormalizedUserName = "SECRETARY",
-                            PasswordHash = "AQAAAAEAACcQAAAAELJkRfOx5xonkXQaaRYBK/xGP7VpDW6DJKKCP08ILRtYlAcAD0AWzqPgtjEsfSFf+A==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBp1LTi3PrSKUmJ3pT0wwnO1cNfRgMgDv4j1TC+C9X7PGCCk22WEdLZIxsEmox0QIQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "5e4afbcf-ceae-4df6-b1a5-fc486003d621",
+                            SecurityStamp = "94d2105c-09c1-48ad-87b3-d4f09679c945",
                             TwoFactorEnabled = false,
                             UserName = "Secretary",
                             FirstName = "Samar",
@@ -556,15 +556,15 @@ namespace PPT.Migrations
                         {
                             Id = "8e445865-a24d-4543-i9i9-9443d048cdb9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d2ceb6fb-178c-4ce9-ab31-2066ed5b0504",
+                            ConcurrencyStamp = "5535b902-6b6f-477d-9682-ae636b77aeed",
                             Email = "hsayn.bazzal666@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "HSAYN.BAZZAL666@GMAIL.com",
                             NormalizedUserName = "MANAGER",
-                            PasswordHash = "AQAAAAEAACcQAAAAENb+9/SIxy4H2w+dAl8kiJn3p4VX3y0zqmWq0eT/f77oqRJWml+raQnzxYQ1MrQQJQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEFn963xklBUYP77hBK1rapnJNlZilp972RKOuCtIThc+ydyTJ1z2CJD0XyGRrG13Yg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "1f629958-6591-4201-8974-ccc5680d7cd6",
+                            SecurityStamp = "3997bc95-705a-4e0b-bdb0-938a45f82ed4",
                             TwoFactorEnabled = false,
                             UserName = "Manager",
                             FirstName = "Hsayn",
@@ -621,6 +621,60 @@ namespace PPT.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("PPT.Models.Attendance", b =>
+                {
+                    b.HasOne("PPT.Models.Doctor", "Doctor")
+                        .WithMany("Attendances")
+                        .HasForeignKey("DoctorID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Doctor");
+                });
+
+            modelBuilder.Entity("PPT.Models.Department", b =>
+                {
+                    b.HasOne("PPT.Models.User", "Secretary")
+                        .WithMany()
+                        .HasForeignKey("SecretaryID");
+
+                    b.HasOne("PPT.Models.Section", "Section")
+                        .WithMany("Departments")
+                        .HasForeignKey("SectionID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Secretary");
+
+                    b.Navigation("Section");
+                });
+
+            modelBuilder.Entity("PPT.Models.Doctor", b =>
+                {
+                    b.HasOne("PPT.Models.Department", "Department")
+                        .WithMany("Doctors")
+                        .HasForeignKey("DepartmentID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Department");
+                });
+
+            modelBuilder.Entity("PPT.Models.Department", b =>
+                {
+                    b.Navigation("Doctors");
+                });
+
+            modelBuilder.Entity("PPT.Models.Doctor", b =>
+                {
+                    b.Navigation("Attendances");
+                });
+
+            modelBuilder.Entity("PPT.Models.Section", b =>
+                {
+                    b.Navigation("Departments");
                 });
 #pragma warning restore 612, 618
         }

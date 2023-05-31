@@ -22,10 +22,10 @@ namespace PPT.Pages
         //}
         public async Task OnGetAsync()
         {
-            var doctors = from m in _context.doctors
+            var doctors = from m in _context.Doctors
                           select m;
             Doctors = await doctors.ToListAsync();
-            this.DoctorsList = new SelectList(Doctors, "id", "name");
+            this.DoctorsList = new SelectList(Doctors, "ID", "Name");
         }
         //public async Task OnGetSearchAsync()
         //{
