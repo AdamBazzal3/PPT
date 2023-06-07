@@ -8,8 +8,8 @@ namespace PPT.Models
         public DateTime Date { get; set; }
         public int? Duration { get; set; } // default 0 , this is only for contract dr
         public bool? IsPublished { get; set; } // default 0 for pending, 1 for published
-        public int DoctorID { get; set; }
 
-        public Doctor Doctor { get; set; }
+        public int? DoctorID { get; set; }
+        public virtual Doctor? Doctor { get; set; }
     }
 }

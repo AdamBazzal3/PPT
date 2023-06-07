@@ -1,33 +1,87 @@
-﻿@page
+﻿@page 
 @model PPT.Pages.PresenceByDayModel
 @{
-    ViewData["Title"] = "Presence by Day";
+    ViewData["Title"] = "الحضور للنهار";
 }
 
 <div>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Name</th>
-                <th scope="col">Rank</th>
-                <th scope="col">Department id</th>
-                <th scope="col">Present</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach(var doctor in Model.Doctors){
+
+    @Html.AntiForgeryToken()
+
+    @if (Model.Doctors == null || Model.Doctors.Count == 0)
+    {
+        // The list is null or empty
+        <table class="table table-striped">
+            <thead>
                 <tr>
-                    <th scope="row">@doctor.ID</th>
-                    <td>@doctor.Name</td>
-                    <td>@doctor.Rank</td>
-                    <td>@doctor.DepartmentID</td>
-                    <td>
-                        <input type="checkbox" class="custom-control-input" name="Present">
-                    </td>
+                    <th scope="col">#</th>
+                    <th scope="col">الاسم</th>
+                    <th scope="col">القسم</th>
                 </tr>
-            }
-      
-        </tbody>
-    </table>
+            </thead>
+        </table>
+        <h3 class="text-center text-black-50 mt-5">ليس هناك معلومات</h3>
+    }
+    else{
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">الاسم</th>
+                    <th scope="col">القسم</th>
+                    <th>إجراء</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var doctor in Model.Doctors)
+                {
+                    <tr>
+                        <th scope="row">@doctor.ID</th>
+                        <td>@doctor.Name</td>
+                        <td>@doctor.Department.Name</td>
+                        <td>
+                            <button class="btn btn-danger" onclick='removeAttendance(this, @doctor.ID, "@Model.date.ToString("yyyy-MM-ddTHH:mm:ss")")'>Remove</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    <button class="btn btn-primary" onclick="toggle()">إضافة</button>
 </div>
+
+<div class="overlay" id="overlay"></div>
+
+<div id="popup" class="popup" style="display: none;">
+    <span class="btn btn-danger mb-3 display-3" onclick="toggle()"><b>&times;</b></span>
+    <h2>قائمة الأساتذة</h2>
+    <div id="content">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Select</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Professor 1</td>
+                    <td><input type="checkbox"></td>
+                </tr>
+                <tr>
+                    <td>Professor 2</td>
+                    <td><input type="checkbox"></td>
+                </tr>
+                <tr>
+                    <td>Professor 3</td>
+                    <td><input type="checkbox"></td>
+                </tr>
+                <!-- Add more rows for additional professors -->
+            </tbody>
+        </table>
+        <div class="spinner-border" style="width: 5rem; height: 5rem;display:none;" role="status" id="spinner">
+        </div>
+    </div>
+    
+</div>
+

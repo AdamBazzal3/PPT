@@ -17,7 +17,7 @@ public class PPTDatacontext : IdentityDbContext
     public DbSet<Department> Departments { get; set; }
     public DbSet<Doctor> Doctors { get; set; }
     public DbSet<Faculty> Faculties { get; set; }
-    public DbSet<Section> Sections { get; set; }
+    public DbSet<Branch> Branches { get; set; }
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
@@ -42,10 +42,9 @@ public class PPTDatacontext : IdentityDbContext
         builder.Entity<User>().HasData(
             new User
             {
-                FirstName = "Adam",
-                LastName = "Bazzal",
-                Email="adam.bazzal666@gmail.com",
-                NormalizedEmail = "ADAM.BAZZAL666@GMAIL.com",
+                FirstName = "زينب ",
+                LastName = "الصغير",
+                Email="zainab.alsaghir@gmail.com",
                 Id = "8e445865-a24d-4543-a6c6-9443d048cdb9", // primary key
                 UserName = "Admin",
                 NormalizedUserName = "ADMIN",
@@ -54,10 +53,9 @@ public class PPTDatacontext : IdentityDbContext
             },
             new User
             {
-                FirstName = "Samar",
-                LastName = "Bazzal",
-                Email = "samar.bazzal666@gmail.com",
-                NormalizedEmail = "SAMAR.BAZZAL666@GMAIL.com",
+                FirstName = "هناء",
+                LastName = "",
+                Email = "hanaa666@gmail.com",
                 Id = "8e445865-a24d-4543-7u7u-9443d048cdb9", // primary key
                 UserName = "Secretary",
                 NormalizedUserName = "SECRETARY",
@@ -66,12 +64,22 @@ public class PPTDatacontext : IdentityDbContext
             },
             new User
             {
-                FirstName = "Hsayn",
-                LastName = "Bazzal",
+                FirstName = "باسم",
+                LastName = "",
+                Email = "bassem666@gmail.com",
+                Id = "8e445865-a24d-4543-9O9O-9443d048cdb9", // primary key
+                UserName = "SecretaryBassem",
+                NormalizedUserName = "SECRETARYBASSEM",
+                PasswordHash = hasher.HashPassword(null, "P@ssw0rd"),
+                EmailConfirmed = true
+            },
+            new User
+            {
+                FirstName = "حسين",
+                LastName = "بزي",
                 Id = "8e445865-a24d-4543-i9i9-9443d048cdb9", // primary key
                 UserName = "Manager",
-                Email = "hsayn.bazzal666@gmail.com",
-                NormalizedEmail = "HSAYN.BAZZAL666@GMAIL.com",
+                Email = "hsayn.bazzi666@gmail.com",
                 NormalizedUserName = "MANAGER",
                 PasswordHash = hasher.HashPassword(null, "P@ssw0rd"),
                 EmailConfirmed = true
@@ -93,6 +101,11 @@ public class PPTDatacontext : IdentityDbContext
             },
             new IdentityUserRole<string>
             {
+                RoleId = secretaryId,
+                UserId = "8e445865-a24d-4543-9O9O-9443d048cdb9"
+            },
+            new IdentityUserRole<string>
+            {
                 RoleId = managerId,
                 UserId = "8e445865-a24d-4543-i9i9-9443d048cdb9"
             }
@@ -102,20 +115,20 @@ public class PPTDatacontext : IdentityDbContext
             new Faculty
             {
                 ID = 1,
-                Name = "Faculty of Sciences",
+                Name = "كلية العلوم",
             }
         );
 
-        builder.Entity<Section>().HasData(
-            new Section
+        builder.Entity<Branch>().HasData(
+            new Branch
             {
                 ID = 1,
-                Name = "Zahle",
+                Name = "زحلة",
             },
-            new Section
+            new Branch
             {
                 ID = 2,
-                Name = "Hadath",
+                Name = "الحدت",
             }
         );
 
@@ -124,26 +137,27 @@ public class PPTDatacontext : IdentityDbContext
             {
                 ID = 1,
                 Name = "Computer science and mathmatics",
-                SectionID = 2,
+                BranchID = 2,
                 SecretaryID = "8e445865-a24d-4543-7u7u-9443d048cdb9"
             },
             new Department
             {
                 ID = 2,
                 Name = "Physics",
-                SectionID = 1
+                BranchID = 1,
+                SecretaryID = "8e445865-a24d-4543-9O9O-9443d048cdb9"
             },
             new Department
             {
                 ID = 3,
                 Name = "Chemistry",
-                SectionID = 1
+                BranchID = 1
             },
             new Department
             {
                 ID = 4,
                 Name = "Biochemistry",
-                SectionID = 2
+                BranchID = 2
             }
         );
 
@@ -171,6 +185,19 @@ public class PPTDatacontext : IdentityDbContext
                 ID = 4,
                 Name = "أحمد فاعور",
                 DepartmentID = 1
+            }
+            ,
+            new Doctor
+            {
+                ID = 5,
+                Name = "سامر",
+                DepartmentID = 2
+            },
+            new Doctor
+            {
+                ID = 6,
+                Name = "أحمد",
+                DepartmentID = 2
             }
         );
 
