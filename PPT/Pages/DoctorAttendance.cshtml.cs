@@ -12,11 +12,15 @@ namespace PPT.Pages
     {
         readonly PPTDatacontext _context;
         public SelectList? DoctorsList { get; set; }
+        [BindProperty(SupportsGet = true)]
+        public List<string>? AreChecked { get; set; } = null;
+        [BindProperty(SupportsGet = true)]
+        public List<int>? durations { get; set; } = null;
         public DoctorAttendanceModel(PPTDatacontext context)
         {
             _context = context;
         }
-        public List<Doctor>? Doctors { get; set; }
+        public static List<Doctor>? Doctors { get; set; }
         //public void OnGet()
         //{
         //}
@@ -37,27 +41,19 @@ namespace PPT.Pages
         //        Doctors = await doctors.ToListAsync();
         //    }
         //}
-        public void OnGetByDay()
+        public IActionResult OnGetDateAttendance(List<string>? AreChecked,List<int>? durations)
         {
-            if(IsChecked != null && AttendanceDate != null)
-            {
-                DateOnly AttDate = DateOnly.FromDateTime((DateTime)AttendanceDate);
-
-            }
-            
+            return RedirectToPage("/Index");
 
         }
 
+        public JsonResult OnGetIsContractedAsync(int id)
+        {
+            foreach (var d in Doctors)
+                if (d.ID == id && d.IsContracted!=null && (bool)d.IsContracted==true) return new JsonResult("true");
+            return new JsonResult("false");
+        }
 
-        [BindProperty(SupportsGet = true)]
-        public string? SearchString { get; set; }
-
-        [BindProperty(SupportsGet =true)]
-        public string? IsChecked { get; set; }
-
-        [BindProperty(SupportsGet =true)]
-        [DataType(DataType.Date)]
-        public DateTime? AttendanceDate { get; set; }
 
     }
 }

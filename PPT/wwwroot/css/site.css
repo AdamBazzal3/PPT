@@ -124,3 +124,7 @@ header .current-date {
 .bg-purple {
     background-color: purple; /* Replace with your desired color value */
 }
+
+table, th, td {
+    border: 1px solid black;
+}

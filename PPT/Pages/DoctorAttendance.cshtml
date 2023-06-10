@@ -33,11 +33,21 @@
 		<script src="~/lib/select2/dist/js/select2.min.js" defer></script>
         <script type="text/javascript">
             $(function () {
-                $("#ddlDoctors").select2();
+				$("#ddlDoctors").select2();
+				$('#ddlDoctors').on('select2:selecting', function(e) {
+					$.ajax({
+					url: "/doctorattendance/iscontracted",
+					data: { "id": e.params.args.data.id },
+					success: function (result) {
+						if (result == "true")
+							$("#duration").show();
+						else 
+							$("#duration").hide();
+					}
+					});
+					$("#tableBody").find("tr:not(:first)").remove();
+				});
             });
-            //$("body").on("change", "#ddlDoctors", function () {
-            //    $("input[name=DrName]").val($(this).find("option:selected").text());
-            //});
         </script>
 
 
@@ -85,15 +95,92 @@
 
 	<input type="radio" id="month" name="attendaceType" value="MONTH" onclick="show()">
 	<label for="month">شهري</label><br /><br />*@
+	
 
+	<div id="monthselector"> 
+		<label for="monthSel">الشهر</label>
+		<input type="month" id="monthSel" name="month" onchange="showTable()">
+		<br /><br />
+		<form>
 
-	<div id="monthselector">
-		<form action = "DateAttendance">
-			<label for="month">الشهر</label>
-			<input type="month" id="monthSel" name="month">
-@*			<label for="attendance">الحضور</label>
-			<input type="checkbox" id="attendance" name="IsChecked" value="true"><br />
-			<input type="submit" value="حفظ"/>*@
+			<table id="tableBody">
+				<tr id ="table_head">
+					<th>اليوم</th>
+					<th>الحضور</th>
+					<th id = "duration" style="display:none">المدة</th>
+			    </tr>
+
+			</table>
+			<script>
+					//document.getElementById('ddlDoctors').addEventListener("change", () => {
+					//	Console.Log("hi");
+					//	var url = `/IsContracted?id=${document.getElementById('ddlDoctors').selectedOptions[0].value}`;
+					//	fetch(url)
+					//		.then((response) => {
+					//			return response.text();
+					//		})
+					//		.then((result) => {
+					//			if(result=="true")
+					//				document.getElementById("duration").style.display = "block";
+					//		});
+					//});
+
+				function showTable() {
+					var date = document.getElementById('monthSel').value;
+                    if (date != NaN && document.getElementById('ddlDoctors').value !=0) {
+                        const data = date.split("-");
+                        var year = parseInt(data[0]);
+                        var month = parseInt(data[1]);
+                        var days = new Date(year, month, 0).getDate();
+                        var table = document.getElementById('tableBody');
+						for(let i = 1;i < table.children.length;)
+							table.removeChild(table.children[i]);
+                        for (let i = 1; i < days; i++) {
+                            let current_day = new Date(year, month, i);
+							let row = document.createElement('tr');
+
+							let c1 = document.createElement('td');
+							let c2 = document.createElement('td');
+
+							c1.innerHTML  = current_day.toLocaleDateString();
+                            var x = document.createElement('INPUT');
+							x.setAttribute("type", "checkbox");
+							x.setAttribute("name", "AreChecked");
+							x.setAttribute("id",current_day.toLocaleDateString());
+							x.setAttribute("value",current_day.toLocaleDateString())
+							x.addEventListener('change', function() {
+								let aid = "duration"+this.id;
+								let a = document.getElementById(aid);
+								if (this.checked) {
+									a.disabled = false;
+									
+								} else {
+									a.disabled = true;
+								}
+							});
+							c2.appendChild(x);
+                            row.appendChild(c1);
+							row.appendChild(c2);
+							if (window.getComputedStyle(document.getElementById('duration')).display != 'none') {
+								let c3 = document.createElement("td")
+								let y = document.createElement('INPUT');
+								y.setAttribute("type", "number");
+								y.setAttribute("name","durations");
+								y.disabled = true;
+								y.setAttribute("id","duration"+ current_day.toLocaleDateString());
+								y.style.width = "70px";
+								c3.appendChild(y);
+								row.appendChild(c3);
+                            }
+								
+                            table.appendChild(row)
+                        }
+                    }
+				}
+				
+			</script>
+
+			<input type="submit" value="حفظ" asp-page-handler="DateAttendance"/>
 		</form>		
 	</div>
 
