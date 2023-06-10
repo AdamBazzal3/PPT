@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using PPT.Models;
+using System.ComponentModel;
 
 namespace PPT.Areas.Identity.Pages.Account
 {
@@ -65,14 +66,16 @@ namespace PPT.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
+            [Required(ErrorMessage = "يجب إدخال هذه الخانة")]
+            [DisplayName("البريد")]
             public string Email { get; set; }
 
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
+            [Required(ErrorMessage = "يجب إدخال هذه الخانة")]
+            [DisplayName("كلمة السر")]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
@@ -80,7 +83,7 @@ namespace PPT.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Display(Name = "Remember me?")]
+            [Display(Name = "حفظ؟")]
             public bool RememberMe { get; set; }
         }
 
@@ -128,7 +131,7 @@ namespace PPT.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "دخول غير صحيح");
                     return Page();
                 }
             }

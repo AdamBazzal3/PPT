@@ -9,10 +9,9 @@ namespace PPT.Models
         public string? UniversityId { get; set; }
         public string Name { get; set; }
         public bool? IsContracted { get; set; }
-        public List<Attendance>? Attendances { get; set; }
+        public virtual List<Attendance>? Attendances { get; set; }
+
         public int? DepartmentID { get; set; }
-        public Department? Department { get; set; }
-
-
+        public virtual Department? Department { get; set; }
     }
 }

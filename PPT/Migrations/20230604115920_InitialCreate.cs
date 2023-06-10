@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PPT.Migrations
 {
     /// <inheritdoc />
-    public partial class INITIAL : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -66,19 +66,6 @@ namespace PPT.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Faculties", x => x.ID);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Sections",
-                columns: table => new
-                {
-                    ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Sections", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -188,13 +175,32 @@ namespace PPT.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Branches",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FacultyID = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Branches", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Branches_Faculties_FacultyID",
+                        column: x => x.FacultyID,
+                        principalTable: "Faculties",
+                        principalColumn: "ID");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Departments",
                 columns: table => new
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SectionID = table.Column<int>(type: "int", nullable: false),
+                    BranchID = table.Column<int>(type: "int", nullable: true),
                     SecretaryID = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
@@ -206,11 +212,10 @@ namespace PPT.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Departments_Sections_SectionID",
-                        column: x => x.SectionID,
-                        principalTable: "Sections",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "FK_Departments_Branches_BranchID",
+                        column: x => x.BranchID,
+                        principalTable: "Branches",
+                        principalColumn: "ID");
                 });
 
             migrationBuilder.CreateTable(
@@ -221,10 +226,8 @@ namespace PPT.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UniversityId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Rank = table.Column<bool>(type: "bit", nullable: false),
-                    OfficeLocation = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DepartmentID = table.Column<int>(type: "int", nullable: false)
+                    IsContracted = table.Column<bool>(type: "bit", nullable: true),
+                    DepartmentID = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -233,8 +236,7 @@ namespace PPT.Migrations
                         name: "FK_Doctors_Departments_DepartmentID",
                         column: x => x.DepartmentID,
                         principalTable: "Departments",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "ID");
                 });
 
             migrationBuilder.CreateTable(
@@ -244,9 +246,9 @@ namespace PPT.Migrations
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Duration = table.Column<int>(type: "int", nullable: false),
-                    IsPublished = table.Column<bool>(type: "bit", nullable: false),
-                    DoctorID = table.Column<int>(type: "int", nullable: false)
+                    Duration = table.Column<int>(type: "int", nullable: true),
+                    IsPublished = table.Column<bool>(type: "bit", nullable: true),
+                    DoctorID = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -255,8 +257,7 @@ namespace PPT.Migrations
                         name: "FK_Attendances_Doctors_DoctorID",
                         column: x => x.DoctorID,
                         principalTable: "Doctors",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "ID");
                 });
 
             migrationBuilder.InsertData(
@@ -264,9 +265,9 @@ namespace PPT.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "64c0bac3-9025-42a6-9f3c-744e361b4cf7", "57ab0584-18bd-42b8-9db5-cd1674deb634", "Administrator", "ADMINISTRATOR" },
-                    { "6eae0a44-7fd5-41d8-8ffb-b0ebb77eeb96", "82e6b33c-1a40-4285-9346-cba810d11a31", "Manager", "MANAGER" },
-                    { "b467e238-5fcc-49ce-b85c-0d5a40f30ae6", "8519a517-729c-43d3-9367-36c15a120fa8", "Secretary", "SECRETARY" }
+                    { "29668846-7fe5-4b99-833b-8de5908d1a9c", "a1271afb-847c-4c69-a02a-6518589ef2b1", "Administrator", "ADMINISTRATOR" },
+                    { "3e8115ec-d9ab-46bd-a05a-c571f4b79b55", "e59b7d86-b77b-4048-bd3a-8a1cf8734ebf", "Secretary", "SECRETARY" },
+                    { "ec8710d3-6aaa-4077-9353-5df4ac4b9b88", "5617a780-dd07-4bce-8ee2-cc333822700c", "Manager", "MANAGER" }
                 });
 
             migrationBuilder.InsertData(
@@ -274,55 +275,59 @@ namespace PPT.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "8e445865-a24d-4543-7u7u-9443d048cdb9", 0, "f0bba5f3-d797-451c-aa37-bd59a71340f9", "User", "samar.bazzal666@gmail.com", true, "Samar", "Bazzal", false, null, "SAMAR.BAZZAL666@GMAIL.com", "SECRETARY", "AQAAAAEAACcQAAAAEBp1LTi3PrSKUmJ3pT0wwnO1cNfRgMgDv4j1TC+C9X7PGCCk22WEdLZIxsEmox0QIQ==", null, false, "94d2105c-09c1-48ad-87b3-d4f09679c945", false, "Secretary" },
-                    { "8e445865-a24d-4543-a6c6-9443d048cdb9", 0, "7d8e85ee-c32c-41c5-ab4a-eaf2a981bf44", "User", "adam.bazzal666@gmail.com", true, "Adam", "Bazzal", false, null, "ADAM.BAZZAL666@GMAIL.com", "ADMIN", "AQAAAAEAACcQAAAAEP0q8UK4cejvJZK6exiup5FdZYwkXVdRiebSmaaHnRKhjn0KzRIZaL+zLZNok5WkKA==", null, false, "bb5c950f-0ec9-46f0-93a5-1ecc4b87657d", false, "Admin" },
-                    { "8e445865-a24d-4543-i9i9-9443d048cdb9", 0, "5535b902-6b6f-477d-9682-ae636b77aeed", "User", "hsayn.bazzal666@gmail.com", true, "Hsayn", "Bazzal", false, null, "HSAYN.BAZZAL666@GMAIL.com", "MANAGER", "AQAAAAEAACcQAAAAEFn963xklBUYP77hBK1rapnJNlZilp972RKOuCtIThc+ydyTJ1z2CJD0XyGRrG13Yg==", null, false, "3997bc95-705a-4e0b-bdb0-938a45f82ed4", false, "Manager" }
+                    { "8e445865-a24d-4543-7u7u-9443d048cdb9", 0, "915164cd-ff1f-45a7-8219-54e7d44d5812", "User", "hanaa666@gmail.com", true, "هناء", "", false, null, null, "SECRETARY", "AQAAAAEAACcQAAAAEAElberaxQLX4xKYlkpo7xMEPx7wIKGhl1tZWweGy6aPEyxA1KfECgIv31yvPhL8kA==", null, false, "b533a1af-9cd1-45cc-b2cb-ad2bc6adc283", false, "Secretary" },
+                    { "8e445865-a24d-4543-9O9O-9443d048cdb9", 0, "662409d3-bb9e-467b-ad18-36685ba70fa0", "User", "bassem666@gmail.com", true, "باسم", "", false, null, null, "SECRETARYBASSEM", "AQAAAAEAACcQAAAAEAOnmo9WUr3iy4BKQmMsNAom6e8QvFGPu/zVD9c4KPjRttYJo5u642m6Uyuuz4IvWg==", null, false, "5656201d-2320-4bb3-b1a8-700b93c86de2", false, "SecretaryBassem" },
+                    { "8e445865-a24d-4543-a6c6-9443d048cdb9", 0, "df17defd-d824-4b81-8492-0f913c00bf86", "User", "zainab.alsaghir@gmail.com", true, "زينب ", "الصغير", false, null, null, "ADMIN", "AQAAAAEAACcQAAAAEIYqChJIP+DGzHTABYK0w78Hb5laP9bJ3DVwSuxAglvmX66CUs7C2X6Vc1V5zmSk7g==", null, false, "a39b6830-c365-4c91-8bfd-d0da39382dde", false, "Admin" },
+                    { "8e445865-a24d-4543-i9i9-9443d048cdb9", 0, "e4a3a9a2-57ba-4302-a25e-8c93bc9ad4bf", "User", "hsayn.bazzi666@gmail.com", true, "حسين", "بزي", false, null, null, "MANAGER", "AQAAAAEAACcQAAAAECQsqILryx1VGLP4Gh9Lx5hgrVOz6g1gTtnJ2XFJB6JfA0yxGfuemoNX4jf6Ok46lw==", null, false, "786e10bf-833c-4d57-b1f2-66204771547d", false, "Manager" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "Branches",
+                columns: new[] { "ID", "FacultyID", "Name" },
+                values: new object[,]
+                {
+                    { 1, null, "زحلة" },
+                    { 2, null, "الحدت" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Faculties",
                 columns: new[] { "ID", "Name" },
-                values: new object[] { 1, "Faculty of Sciences" });
-
-            migrationBuilder.InsertData(
-                table: "Sections",
-                columns: new[] { "ID", "Name" },
-                values: new object[,]
-                {
-                    { 1, "Zahle" },
-                    { 2, "Hadath" }
-                });
+                values: new object[] { 1, "كلية العلوم" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
                 values: new object[,]
                 {
-                    { "b467e238-5fcc-49ce-b85c-0d5a40f30ae6", "8e445865-a24d-4543-7u7u-9443d048cdb9" },
-                    { "64c0bac3-9025-42a6-9f3c-744e361b4cf7", "8e445865-a24d-4543-a6c6-9443d048cdb9" },
-                    { "6eae0a44-7fd5-41d8-8ffb-b0ebb77eeb96", "8e445865-a24d-4543-i9i9-9443d048cdb9" }
+                    { "3e8115ec-d9ab-46bd-a05a-c571f4b79b55", "8e445865-a24d-4543-7u7u-9443d048cdb9" },
+                    { "3e8115ec-d9ab-46bd-a05a-c571f4b79b55", "8e445865-a24d-4543-9O9O-9443d048cdb9" },
+                    { "29668846-7fe5-4b99-833b-8de5908d1a9c", "8e445865-a24d-4543-a6c6-9443d048cdb9" },
+                    { "ec8710d3-6aaa-4077-9353-5df4ac4b9b88", "8e445865-a24d-4543-i9i9-9443d048cdb9" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Departments",
-                columns: new[] { "ID", "Name", "SecretaryID", "SectionID" },
+                columns: new[] { "ID", "BranchID", "Name", "SecretaryID" },
                 values: new object[,]
                 {
-                    { 1, "Computer science and mathmatics", "8e445865-a24d-4543-7u7u-9443d048cdb9", 2 },
-                    { 2, "Physics", null, 1 },
-                    { 3, "Chemistry", null, 1 },
-                    { 4, "Biochemistry", null, 2 }
+                    { 1, 2, "Computer science and mathmatics", "8e445865-a24d-4543-7u7u-9443d048cdb9" },
+                    { 2, 1, "Physics", "8e445865-a24d-4543-9O9O-9443d048cdb9" },
+                    { 3, 1, "Chemistry", null },
+                    { 4, 2, "Biochemistry", null }
                 });
 
             migrationBuilder.InsertData(
                 table: "Doctors",
-                columns: new[] { "ID", "DepartmentID", "Email", "Name", "OfficeLocation", "Rank", "UniversityId" },
+                columns: new[] { "ID", "DepartmentID", "IsContracted", "Name", "UniversityId" },
                 values: new object[,]
                 {
-                    { 1, 1, null, "علي غريب", null, false, null },
-                    { 2, 1, null, "محمد دبوق", null, false, null },
-                    { 3, 1, null, "كمال بيضون", null, false, null },
-                    { 4, 1, null, "أحمد فاعور", null, false, null }
+                    { 1, 1, null, "علي غريب", null },
+                    { 2, 1, null, "محمد دبوق", null },
+                    { 3, 1, null, "كمال بيضون", null },
+                    { 4, 1, null, "أحمد فاعور", null },
+                    { 5, 2, null, "سامر", null },
+                    { 6, 2, null, "أحمد", null }
                 });
 
             migrationBuilder.InsertData(
@@ -330,10 +335,10 @@ namespace PPT.Migrations
                 columns: new[] { "ID", "Date", "DoctorID", "Duration", "IsPublished" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 3, 0, false },
-                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 0, false },
-                    { 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 0, false },
-                    { 4, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, 0, false }
+                    { 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 3, null, false },
+                    { 2, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, false },
+                    { 3, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, null, false },
+                    { 4, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, null, false }
                 });
 
             migrationBuilder.CreateIndex(
@@ -381,14 +386,19 @@ namespace PPT.Migrations
                 column: "DoctorID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Branches_FacultyID",
+                table: "Branches",
+                column: "FacultyID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Departments_BranchID",
+                table: "Departments",
+                column: "BranchID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Departments_SecretaryID",
                 table: "Departments",
                 column: "SecretaryID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Departments_SectionID",
-                table: "Departments",
-                column: "SectionID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Doctors_DepartmentID",
@@ -418,9 +428,6 @@ namespace PPT.Migrations
                 name: "Attendances");
 
             migrationBuilder.DropTable(
-                name: "Faculties");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
@@ -433,7 +440,10 @@ namespace PPT.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Sections");
+                name: "Branches");
+
+            migrationBuilder.DropTable(
+                name: "Faculties");
         }
     }
 }

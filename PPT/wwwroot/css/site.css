@@ -121,8 +121,67 @@ header .current-date {
 }
 
 /* Custom CSS file */
-.bg-purple {
-    background-color: purple; /* Replace with your desired color value */
+.bg-blue {
+    background-color: blue; /* Replace with your desired color value */
+}
+
+.navbar-brand {
+    padding-right: 0.3125rem;
+    padding-left: 0.3125rem;
+    font-weight:bold;
+}
+
+.nav-link {
+    color: rgb(13, 110, 253);
+}
+.form-label{
+    text-align: end;
+}
+
+.drop-area {
+    border: 2px dashed #ccc;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+    .drop-area.highlight {
+        background-color: #f1f1f1;
+    }
+.drag-handle {
+    cursor: move;
+}
+
+.remove-attendance {
+    color: red;
+    cursor: pointer;
+}
+
+/* Styles for the pop-up window */
+.popup {
+    width: 90%;
+    max-width: 1000px;
+    min-height: 400px;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    z-index: 9999;
+}
+
+/* Styles for the overlay */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9998;
+    display: none;
 }
 
 table, th, td {

@@ -3,7 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using PPT.Data;
 using PPT.Models;
 using PPT.Repositories;
+using PPT.Services;
 using System.Configuration;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,12 +17,17 @@ builder.Services.AddIdentity<User, IdentityRole>()
     .AddDefaultTokenProviders()
                 .AddDefaultUI()
                 .AddEntityFrameworkStores<PPTDatacontext>();
-builder.Services.AddScoped<IRepository<Doctor>, SqlServerRepository<Doctor>>(); 
+builder.Services.AddScoped<IRepository<Doctor>, SqlServerRepository<Doctor>>();
+builder.Services.AddScoped<IRepository<Attendance>, SqlServerRepository<Attendance>>();
+//builder.Services.AddSingleton<IRepository<Department>, SqlServerRepository<Department>>();
+//builder.Services.AddSingleton<IAuthService, AuthService>();
 
 //var connString = Configuration.GetConnectionString("DefaultConnection");
 //builder.Services.AddDbContext<AppDbContext>(
 //                      options => options.UseSqlServer(connString)
 //                      );
+builder.Services.AddAntiforgery(o => o.HeaderName = "XSRF-TOKEN");
+
 var app = builder.Build();
 
 
