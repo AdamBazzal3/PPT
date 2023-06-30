@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PPT.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class updatemodels : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -53,19 +53,6 @@ namespace PPT.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Faculties",
-                columns: table => new
-                {
-                    ID = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Faculties", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -175,17 +162,42 @@ namespace PPT.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Faculties",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DeanID = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Faculties", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Faculties_AspNetUsers_DeanID",
+                        column: x => x.DeanID,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Branches",
                 columns: table => new
                 {
                     ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FacultyID = table.Column<int>(type: "int", nullable: true)
+                    FacultyID = table.Column<int>(type: "int", nullable: true),
+                    DirectorID = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Branches", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Branches_AspNetUsers_DirectorID",
+                        column: x => x.DirectorID,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Branches_Faculties_FacultyID",
                         column: x => x.FacultyID,
@@ -201,11 +213,17 @@ namespace PPT.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     BranchID = table.Column<int>(type: "int", nullable: true),
-                    SecretaryID = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    SecretaryID = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    HeadID = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Departments", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_Departments_AspNetUsers_HeadID",
+                        column: x => x.HeadID,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Departments_AspNetUsers_SecretaryID",
                         column: x => x.SecretaryID,
@@ -265,9 +283,9 @@ namespace PPT.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "29668846-7fe5-4b99-833b-8de5908d1a9c", "a1271afb-847c-4c69-a02a-6518589ef2b1", "Administrator", "ADMINISTRATOR" },
-                    { "3e8115ec-d9ab-46bd-a05a-c571f4b79b55", "e59b7d86-b77b-4048-bd3a-8a1cf8734ebf", "Secretary", "SECRETARY" },
-                    { "ec8710d3-6aaa-4077-9353-5df4ac4b9b88", "5617a780-dd07-4bce-8ee2-cc333822700c", "Manager", "MANAGER" }
+                    { "a6a44735-415f-4683-ad10-0749c931bf8f", "a2fa49ef-74db-4ec8-8fb2-dffbf2c931c7", "Administrator", "ADMINISTRATOR" },
+                    { "b1c5ebb3-e08b-473d-afa9-81d12113c1f8", "bb95675e-d7fd-48e4-96b4-0b2efb9c9337", "Secretary", "SECRETARY" },
+                    { "bda61c7a-3f3a-4ef4-bf2f-eab3c63d83da", "a82a7fda-d8cb-4b1d-9208-7c3169280d6b", "Manager", "MANAGER" }
                 });
 
             migrationBuilder.InsertData(
@@ -275,46 +293,46 @@ namespace PPT.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "8e445865-a24d-4543-7u7u-9443d048cdb9", 0, "915164cd-ff1f-45a7-8219-54e7d44d5812", "User", "hanaa666@gmail.com", true, "هناء", "", false, null, null, "SECRETARY", "AQAAAAEAACcQAAAAEAElberaxQLX4xKYlkpo7xMEPx7wIKGhl1tZWweGy6aPEyxA1KfECgIv31yvPhL8kA==", null, false, "b533a1af-9cd1-45cc-b2cb-ad2bc6adc283", false, "Secretary" },
-                    { "8e445865-a24d-4543-9O9O-9443d048cdb9", 0, "662409d3-bb9e-467b-ad18-36685ba70fa0", "User", "bassem666@gmail.com", true, "باسم", "", false, null, null, "SECRETARYBASSEM", "AQAAAAEAACcQAAAAEAOnmo9WUr3iy4BKQmMsNAom6e8QvFGPu/zVD9c4KPjRttYJo5u642m6Uyuuz4IvWg==", null, false, "5656201d-2320-4bb3-b1a8-700b93c86de2", false, "SecretaryBassem" },
-                    { "8e445865-a24d-4543-a6c6-9443d048cdb9", 0, "df17defd-d824-4b81-8492-0f913c00bf86", "User", "zainab.alsaghir@gmail.com", true, "زينب ", "الصغير", false, null, null, "ADMIN", "AQAAAAEAACcQAAAAEIYqChJIP+DGzHTABYK0w78Hb5laP9bJ3DVwSuxAglvmX66CUs7C2X6Vc1V5zmSk7g==", null, false, "a39b6830-c365-4c91-8bfd-d0da39382dde", false, "Admin" },
-                    { "8e445865-a24d-4543-i9i9-9443d048cdb9", 0, "e4a3a9a2-57ba-4302-a25e-8c93bc9ad4bf", "User", "hsayn.bazzi666@gmail.com", true, "حسين", "بزي", false, null, null, "MANAGER", "AQAAAAEAACcQAAAAECQsqILryx1VGLP4Gh9Lx5hgrVOz6g1gTtnJ2XFJB6JfA0yxGfuemoNX4jf6Ok46lw==", null, false, "786e10bf-833c-4d57-b1f2-66204771547d", false, "Manager" }
+                    { "8e445865-a24d-4543-7u7u-9443d048cdb9", 0, "29101223-065d-47d4-a70e-db0eee9ae89f", "User", "hanaa666@gmail.com", true, "هناء", "", false, null, null, "SECRETARY", "AQAAAAEAACcQAAAAEBSQFg7dHWDAKcs3ZITWvQH2DlRoLLF+tCFvdz7RuYk0cVVUbsCvCFqbsmhOxQpPOA==", null, false, "d46fbc21-893d-470f-8aea-9e50b5c24999", false, "Secretary" },
+                    { "8e445865-a24d-4543-9O9O-9443d048cdb9", 0, "9278ca84-c7f7-4363-a7d2-8babb0d84e9d", "User", "bassem666@gmail.com", true, "باسم", "", false, null, null, "SECRETARYBASSEM", "AQAAAAEAACcQAAAAEI1E4mFtjNsWMUi/QoLHlqGDD6FCy3lqfcGnNViAOHIdOKnbr4T4bB7xCExPSQB92g==", null, false, "1191da34-ca1c-48bb-bd36-12c6c954abe8", false, "SecretaryBassem" },
+                    { "8e445865-a24d-4543-a6c6-9443d048cdb9", 0, "42069759-59d9-4a49-b176-0e42d3b681cf", "User", "zainab.alsaghir@gmail.com", true, "زينب ", "الصغير", false, null, null, "ADMIN", "AQAAAAEAACcQAAAAEIIlWMWF8yefjNimvcaZPgEqtFMYN/XQgzLFo+Z84EjVvscxi61NGbt+3Ht9EepJ5Q==", null, false, "c11be3db-8fe6-469b-bd67-4585e948178d", false, "Admin" },
+                    { "8e445865-a24d-4543-i9i9-9443d048cdb9", 0, "c12b4e74-53a7-411f-8957-b480f177ee61", "User", "hsayn.bazzi666@gmail.com", true, "حسين", "بزي", false, null, null, "MANAGER", "AQAAAAEAACcQAAAAEHunJia9BNb5sS/ch43ydRlR3ML7fLvPrXO72L9wunWrsrgRqZ3N5lbhzBMdcbTATg==", null, false, "6d47e596-9979-4caf-bb99-f7ff154ffead", false, "Manager" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Branches",
-                columns: new[] { "ID", "FacultyID", "Name" },
+                columns: new[] { "ID", "DirectorID", "FacultyID", "Name" },
                 values: new object[,]
                 {
-                    { 1, null, "زحلة" },
-                    { 2, null, "الحدت" }
+                    { 1, null, null, "زحلة" },
+                    { 2, null, null, "الحدت" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Faculties",
-                columns: new[] { "ID", "Name" },
-                values: new object[] { 1, "كلية العلوم" });
+                columns: new[] { "ID", "DeanID", "Name" },
+                values: new object[] { 1, null, "كلية العلوم" });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
                 values: new object[,]
                 {
-                    { "3e8115ec-d9ab-46bd-a05a-c571f4b79b55", "8e445865-a24d-4543-7u7u-9443d048cdb9" },
-                    { "3e8115ec-d9ab-46bd-a05a-c571f4b79b55", "8e445865-a24d-4543-9O9O-9443d048cdb9" },
-                    { "29668846-7fe5-4b99-833b-8de5908d1a9c", "8e445865-a24d-4543-a6c6-9443d048cdb9" },
-                    { "ec8710d3-6aaa-4077-9353-5df4ac4b9b88", "8e445865-a24d-4543-i9i9-9443d048cdb9" }
+                    { "b1c5ebb3-e08b-473d-afa9-81d12113c1f8", "8e445865-a24d-4543-7u7u-9443d048cdb9" },
+                    { "b1c5ebb3-e08b-473d-afa9-81d12113c1f8", "8e445865-a24d-4543-9O9O-9443d048cdb9" },
+                    { "a6a44735-415f-4683-ad10-0749c931bf8f", "8e445865-a24d-4543-a6c6-9443d048cdb9" },
+                    { "bda61c7a-3f3a-4ef4-bf2f-eab3c63d83da", "8e445865-a24d-4543-i9i9-9443d048cdb9" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Departments",
-                columns: new[] { "ID", "BranchID", "Name", "SecretaryID" },
+                columns: new[] { "ID", "BranchID", "HeadID", "Name", "SecretaryID" },
                 values: new object[,]
                 {
-                    { 1, 2, "Computer science and mathmatics", "8e445865-a24d-4543-7u7u-9443d048cdb9" },
-                    { 2, 1, "Physics", "8e445865-a24d-4543-9O9O-9443d048cdb9" },
-                    { 3, 1, "Chemistry", null },
-                    { 4, 2, "Biochemistry", null }
+                    { 1, 2, null, "Computer science and mathmatics", "8e445865-a24d-4543-7u7u-9443d048cdb9" },
+                    { 2, 1, null, "Physics", "8e445865-a24d-4543-9O9O-9443d048cdb9" },
+                    { 3, 1, null, "Chemistry", null },
+                    { 4, 2, null, "Biochemistry", null }
                 });
 
             migrationBuilder.InsertData(
@@ -386,6 +404,11 @@ namespace PPT.Migrations
                 column: "DoctorID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Branches_DirectorID",
+                table: "Branches",
+                column: "DirectorID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Branches_FacultyID",
                 table: "Branches",
                 column: "FacultyID");
@@ -396,6 +419,11 @@ namespace PPT.Migrations
                 column: "BranchID");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Departments_HeadID",
+                table: "Departments",
+                column: "HeadID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Departments_SecretaryID",
                 table: "Departments",
                 column: "SecretaryID");
@@ -404,6 +432,11 @@ namespace PPT.Migrations
                 name: "IX_Doctors_DepartmentID",
                 table: "Doctors",
                 column: "DepartmentID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Faculties_DeanID",
+                table: "Faculties",
+                column: "DeanID");
         }
 
         /// <inheritdoc />
@@ -437,13 +470,13 @@ namespace PPT.Migrations
                 name: "Departments");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
                 name: "Branches");
 
             migrationBuilder.DropTable(
                 name: "Faculties");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
         }
     }
 }

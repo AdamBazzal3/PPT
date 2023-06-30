@@ -12,5 +12,7 @@ namespace PPT.Models
         public Branch? Branch { get; set; }
         public string? SecretaryID { get; set; }
         public virtual User? Secretary { get; set; }
+        public string? HeadID { get; set; }
+        public virtual User? Head { get; set; }
     }
 }
