@@ -6,10 +6,10 @@
 }
 
 
-@*strategy: 1: select doctor												DONE
-			2: select month													DONE
-			3: view fresh table of this month regardless of old attendance	DONE
-			4: new checked days will be added								DONE		
+@*strategy: 1: select doctor												
+			2: select month													
+			3: view fresh table of this month regardless of old attendance	
+			4: new checked days will be added										
 			take into consideration that this page will not allow updates,
 			so an update is as follows: 
 			1: select a doctor and a specific month, and then only show days 
@@ -21,54 +21,6 @@
 <body>
 	
 
-
-
-
-@*	<form>
-		<p>
-			الإسم: <input type="text" asp-for="SearchString" />
-			<input type="submit" value="بحث" asp-page-handler="Search"/>
-		</p>
-	</form>
-	@{
-		if(@Model.Doctors != null)
-		{
-			<ul>@foreach(var doctor in @Model.Doctors)
-			{
-				<li>@doctor.name</li>
-			}			
-			</ul>
-		}
-			
-	}*@
-
-
-	
-@*	<script>
-		function show()
-		{
-			const day = document.getElementById("day");
-			const month = document.getElementById("month");
-			if(day.checked)
-			{
-				document.getElementById("dayselector").style.display = "block";
-				document.getElementById("monthselector").style.display = "none";
-			}
-			if(month.checked)
-			{
-				document.getElementById("monthselector").style.display = "block";
-				document.getElementById("dayselector").style.display = "none";
-			}
-		}
-		
-	</script>*@
-
-@*	<input type="radio" id="day" name="attendaceType" value="DAY" onclick="show()">
-	<label for="day">يومي</label><br />
-
-	<input type="radio" id="month" name="attendaceType" value="MONTH" onclick="show()">
-	<label for="month">شهري</label><br /><br />*@
-	
 
 	<div id="monthselector"> 
 
@@ -138,7 +90,7 @@
                         var table = document.getElementById('tableBody');
 						for(let i = 1;i < table.children.length;)
 							table.removeChild(table.children[i]);
-                        for (let i = 1; i < days; i++) {
+                        for (let i = 1; i <= days; i++) {
                             let current_day = new Date(year, month-1, i);
 							let row = document.createElement('tr');
 
