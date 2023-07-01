@@ -9,6 +9,7 @@ namespace PPT.Models
         public int? FacultyID { get; set; }
         public Faculty? Faculty { get; set; }
         public virtual List<Department>? Departments { get; set; }
-
+        public string? DirectorID { get; set; }
+        public virtual User? Director { get; set; }
     }
 }

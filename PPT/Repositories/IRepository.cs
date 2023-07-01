@@ -9,6 +9,7 @@ namespace PPT.Repositories
         Task<T> GetByGuidAsync(Guid id);
         Task<T> GetByLongAsync(long id);
         void InsertAsync(T instance);
+        Task<int> InsertAllAsync(List<T> instances);
         void DeleteAsync(int id);
         Department GetDepartment(User secretary);
         void UpdateAsync(T instance);

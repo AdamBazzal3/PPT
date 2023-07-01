@@ -1,30 +1,47 @@
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PPT.Data;
 using PPT.Models;
+using PPT.Repositories;
 using System.ComponentModel.DataAnnotations;
 
 namespace PPT.Pages
 {
+    [Authorize(Roles = "Secretary")]
     public class DoctorAttendanceModel : PageModel
     {
-        readonly PPTDatacontext _context;
+        private readonly UserManager<User> _userManager;
+        private readonly IRepository<Doctor> _doctorRepository;
+        private readonly IRepository<Attendance> _attendanceRepository;
         public SelectList? DoctorsList { get; set; }
-        public DoctorAttendanceModel(PPTDatacontext context)
+        [BindProperty(SupportsGet = true)]
+        public List<string>? AreChecked { get; set; } = null;
+        [BindProperty(SupportsGet = true)]
+        public List<int>? durations { get; set; } = null;
+        private User user;
+        private Department department;
+        public DoctorAttendanceModel(UserManager<User> userManager, IRepository<Doctor> doctorRepository, IRepository<Attendance> attendanceRepository)
         {
-            _context = context;
+            _userManager = userManager;
+            _doctorRepository = (SqlServerRepository<Doctor>)doctorRepository;
+            _attendanceRepository = (SqlServerRepository<Attendance>)attendanceRepository;
         }
-        public List<Doctor>? Doctors { get; set; }
+        public static List<Doctor>? Doctors { get; set; }
         //public void OnGet()
         //{
         //}
-        public async Task OnGetAsync()
+        public void OnGet()
         {
-            var doctors = from m in _context.Doctors
-                          select m;
-            Doctors = await doctors.ToListAsync();
+            user = _userManager.GetUserAsync(User).GetAwaiter().GetResult();
+            department = _doctorRepository.GetDepartment(user);
+            Doctors = _doctorRepository.GetEntitiesWithCondition(d => d.DepartmentID == department.ID);
+            //var doctors = from m in _doctorRepository.
+            //              select m;
+            //Doctors = await doctors.ToListAsync();
             this.DoctorsList = new SelectList(Doctors, "ID", "Name");
         }
         //public async Task OnGetSearchAsync()
@@ -37,27 +54,55 @@ namespace PPT.Pages
         //        Doctors = await doctors.ToListAsync();
         //    }
         //}
-        public void OnGetByDay()
+        public IActionResult OnGetDateAttendance(string? id, [DataType(DataType.Date)] List<string>? AreChecked,List<int>? durations)
         {
-            if(IsChecked != null && AttendanceDate != null)
+            if (id != null && id!="0" && AreChecked!=null)
             {
-                DateOnly AttDate = DateOnly.FromDateTime((DateTime)AttendanceDate);
+                List<Attendance> list = new List<Attendance>();
+                bool flag = false;
+                for(int i = 0; i < AreChecked.Count; i++)
+                {
+                    DateTime date;
+                    if(DateTime.TryParse(AreChecked[i], out date))
+                    {
+                        flag = false;
+                        foreach(var att in _attendanceRepository.GetAll())
+                        {
+                            if (att.DoctorID == int.Parse(id) && att.Date.CompareTo(date) == 0)
+                            {
+                                flag = true;
+                                break;
+                            }
+                        }
+                        //if attendance dooes not exist,add it, otherwise discard
+                        if(!flag)
+                        {
+                            Attendance attendance = new Attendance();
+                            attendance.DoctorID = int.Parse(id);
+                            attendance.Date = date;
+                            attendance.IsPublished = false;
+                            if(durations != null && durations.Count!=0)
+                                attendance.Duration = durations[i];
+                            list.Add(attendance);
+                        }
+
+                    }
+
+                }
+                Task<int> a = _attendanceRepository.InsertAllAsync(list);
 
             }
-            
+            return RedirectToPage("/Calendar");
 
         }
 
+        public JsonResult OnGetIsContractedAsync(int id)
+        {
+            foreach (var d in Doctors)
+                if (d.ID == id && d.IsContracted!=null && (bool)d.IsContracted==true) return new JsonResult("true");
+            return new JsonResult("false");
+        }
 
-        [BindProperty(SupportsGet = true)]
-        public string? SearchString { get; set; }
-
-        [BindProperty(SupportsGet =true)]
-        public string? IsChecked { get; set; }
-
-        [BindProperty(SupportsGet =true)]
-        [DataType(DataType.Date)]
-        public DateTime? AttendanceDate { get; set; }
 
     }
 }

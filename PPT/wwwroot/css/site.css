@@ -183,3 +183,7 @@ header .current-date {
     z-index: 9998;
     display: none;
 }
+
+table, th, td {
+    border: 1px solid black;
+}

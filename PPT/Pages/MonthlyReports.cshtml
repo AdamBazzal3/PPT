@@ -1,0 +1,13 @@
+﻿@page "{handler?}"
+@model PPT.Pages.MonthlyReportsModel
+@{
+	ViewData["Title"] = "التقرير الشهري";
+}
+<form >
+	<label for="monthSel">الشهر</label>
+	<input type="month" id="monthSel" asp-for = "@Model.Date">
+	<br /><br />
+	<input type="submit" value="تحميل"  asp-page-handler="Download"/>
+</form>
+
+<div asp-validation-summary="All" style="color:red"></div>
