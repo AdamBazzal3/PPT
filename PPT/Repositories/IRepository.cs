@@ -9,11 +9,10 @@ namespace PPT.Repositories
         Task<T> GetByGuidAsync(Guid id);
         Task<T> GetByLongAsync(long id);
         void InsertAsync(T instance);
-        void DeleteAsync(int id);
-        Department GetDepartment(User secretary);
+        void DeleteRange(Expression<Func<T, bool>> condition);
+        T GetEntityWithCondition(Expression<Func<T, bool>> condition);
         void UpdateAsync(T instance);
-        void DeleteEntitiesWithCondition(Expression<Func<T, bool>> condition);
-        List<T> GetEntitiesWithCondition(Expression<Func<T, bool>> condition);
+        List<T> GetEntitiesWithCondition<EInclude>(Expression<Func<T, bool>> condition, Expression<Func<T, EInclude>> include);        
         void SaveAsync();
     }
 }

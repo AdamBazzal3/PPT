@@ -1,11 +1,13 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PPT.Data;
 using PPT.Models;
 using PPT.Repositories;
 using PPT.Services;
 using System.Configuration;
-
+using Newtonsoft.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +21,17 @@ builder.Services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<PPTDatacontext>();
 builder.Services.AddScoped<IRepository<Doctor>, SqlServerRepository<Doctor>>();
 builder.Services.AddScoped<IRepository<Attendance>, SqlServerRepository<Attendance>>();
+builder.Services.AddScoped<IRepository<Department>, SqlServerRepository<Department>>();
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddMvc().AddNewtonsoftJson(o => 
+{
+    o.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+});   
+builder.Services.AddSession(options =>
+{
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 //builder.Services.AddSingleton<IRepository<Department>, SqlServerRepository<Department>>();
 //builder.Services.AddSingleton<IAuthService, AuthService>();
 
@@ -46,6 +59,8 @@ app.UseRouting();
 app.UseAuthentication();;
 
 app.UseAuthorization();
+
+app.UseSession();
 
 app.MapRazorPages();
 

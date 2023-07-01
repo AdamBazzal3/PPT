@@ -4,84 +4,147 @@
     ViewData["Title"] = "الحضور للنهار";
 }
 
+
 <div>
 
     @Html.AntiForgeryToken()
+    <div id="loading-attendances" class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+    <table class="table table-striped display" id="attendanceTable"style="width:100%">
+            <thead>
 
-    @if (Model.Doctors == null || Model.Doctors.Count == 0)
-    {
-        // The list is null or empty
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">الاسم</th>
-                    <th scope="col">القسم</th>
-                </tr>
-            </thead>
-        </table>
-        <h3 class="text-center text-black-50 mt-5">ليس هناك معلومات</h3>
-    }
-    else{
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">الاسم</th>
-                    <th scope="col">القسم</th>
-                    <th>إجراء</th>
-                </tr>
             </thead>
             <tbody>
-                @foreach (var doctor in Model.Doctors)
-                {
-                    <tr>
-                        <th scope="row">@doctor.ID</th>
-                        <td>@doctor.Name</td>
-                        <td>@doctor.Department.Name</td>
-                        <td>
-                            <button class="btn btn-danger" onclick='removeAttendance(this, @doctor.ID, "@Model.date.ToString("yyyy-MM-ddTHH:mm:ss")")'>Remove</button>
-                        </td>
-                    </tr>
-                }
             </tbody>
         </table>
-    }
-    <button class="btn btn-primary" onclick="toggle()">إضافة</button>
+    <button class="btn btn-primary mt-2" onclick="toggle()">إضافة</button>
+    <button id="deleteSelectedBtn" class="btn btn-danger mt-2">Delete Selected</button>
+
 </div>
 
 <div class="overlay" id="overlay"></div>
 
 <div id="popup" class="popup" style="display: none;">
     <span class="btn btn-danger mb-3 display-3" onclick="toggle()"><b>&times;</b></span>
-    <h2>قائمة الأساتذة</h2>
+    <h2 class="mb-5 mt-1 mb-2">قائمة الأساتذة</h2>
+
+    <div id="loading-doctors" class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
     <div id="content">
-        <table class="table table-striped">
+        <table table table-striped display" id="doctorsTable" style="width:100%">
             <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Select</th>
-                </tr>
+
             </thead>
             <tbody>
-                <tr>
-                    <td>Professor 1</td>
-                    <td><input type="checkbox"></td>
-                </tr>
-                <tr>
-                    <td>Professor 2</td>
-                    <td><input type="checkbox"></td>
-                </tr>
-                <tr>
-                    <td>Professor 3</td>
-                    <td><input type="checkbox"></td>
-                </tr>
-                <!-- Add more rows for additional professors -->
+
             </tbody>
         </table>
-        <div class="spinner-border" style="width: 5rem; height: 5rem;display:none;" role="status" id="spinner">
-        </div>
     </div>
-    
+    <button class="btn btn-primary mt-4" onclick="save()">حفظ</button>
+
 </div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            var encodedDate = getUrlParameter('encodedDate');
+             // Initialize DataTable
+            var token = $('input[name="__RequestVerificationToken"]').val();
+            var table;
+        
+            $.ajax({
+                url: '/presenceByDay?handler=Attendances&encodedDate=' + encodedDate,
+                type: 'GET',
+                dataType: 'json',
+                headers: {
+                    'XSRF-TOKEN': token
+                },
+                success: function (data) {
+                    table = $('#attendanceTable').DataTable({
+                        headerCallback: function (thead, data, start, end, display) {
+                            $(thead)
+                                .find('th')
+                                .css('text-align', 'right');
+                        },
+                        language: {
+                            "sEmptyTable": "لا توجد بيانات متاحة في الجدول",
+                            "sInfo": "عرض _START_ إلى _END_ من إجمالي _TOTAL_ مُدخل",
+                            "sInfoEmpty": "عرض 0 إلى 0 من إجمالي 0 مُدخل",
+                            "sInfoFiltered": "(تمت تصفية البيانات من إجمالي _MAX_ مُدخل)",
+                            "sInfoPostFix": "",
+                            "sInfoThousands": ",",
+                            "sLengthMenu": "عرض _MENU_ مُدخل",
+                            "sLoadingRecords": "جارٍ التحميل...",
+                            "sProcessing": "جارٍ المعالجة...",
+                            "sSearch": "بحث:",
+                            "sZeroRecords": "لم يتم العثور على أية سجلات مطابقة",
+                            "oPaginate": {
+                                "sFirst": "الأول",
+                                "sLast": "الأخير",
+                                "sNext": "التالي",
+                                "sPrevious": "السابق"
+                            },
+                            "oAria": {
+                                "sSortAscending": ": تنشيط لترتيب العمود تصاعديًا",
+                                "sSortDescending": ": تنشيط لترتيب العمود تنازليًا"
+                            }
+                        },
+                        data: data,
+                        columns: [
+                            { title: '#', data: 'id' },
+                            { title: 'الاسم', data: 'name' },
+                            { title: 'القسم', data: 'department.name' }
+                            //{ data: `<button class="btn btn-danger" onclick="removeAttendance(${id}, '${ encodedDate }')">X</button>` }
+                        ],
+                        select: true,
+                        responsive: true,
+                        "initComplete": function (settings, json) {
+                            $('#loading-attendances').hide();
+                        },
+                        "preDrawCallback": function (settings) {
+                            $('#loading-attendances').show();
+                        },
+                        "drawCallback": function (settings) {
+                            $('#loading-attendances').hide();
+                        }
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+
+            function getUrlParameter(name) {
+                name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+                var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+                var results = regex.exec(location.search);
+                return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+            }
+            $('#deleteSelectedBtn').click(function () {
+                var rows = table
+                    .rows('.selected');
+
+                //console.log(encodedDate)
+                var idArray = rows.data().toArray().map(item => item.id);
+                //console.log(idArray);
+                if(idArray.length !== 0){
+                    let text = "Do you want to delete those attendances?";
+                    if (confirm(text) == true) {
+                        removeAttendance(idArray);
+
+                        rows.remove().draw();
+                        
+                    }
+                }
+                 
+                    //console.log(rows.data());
+            });
+
+        });
+
+
+    </script>
+}
 

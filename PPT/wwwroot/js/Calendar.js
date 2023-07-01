@@ -1,6 +1,5 @@
 ﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 // for details on configuring this project to bundle and minify static web assets.
-
 // Write your JavaScript code.
 const errorMessage = (day, month, year) => {
     var currentDate = new Date();
@@ -18,9 +17,11 @@ const errorMessage = (day, month, year) => {
     else {
         try {
             var date = new Date(year, month, day); // Replace with your actual date
+            //alert(date);
+            var url = '/PresenceByDay?encodedDate=' + encodeURIComponent(date.toISOString());
 
-            window.location.href = `/PresenceByDay?encodedDate=${encodeURIComponent(date.toISOString())}`;
-
+            // Navigate to the PresenceByDay page
+            window.location.href = url;
         }
         catch (e) {
             console.log(e.errorMessage);

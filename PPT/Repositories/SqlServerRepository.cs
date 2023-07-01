@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NuGet.Packaging.Signing;
 using PPT.Data;
 using PPT.Models;
 using System.Linq;
@@ -33,20 +34,22 @@ namespace PPT.Repositories
             T result = await Table.FindAsync(id);
             return result;
         }
-        public List<T> GetEntitiesWithCondition(Expression<Func<T, bool>> condition)
+        public List<T> GetEntitiesWithCondition<EInclude>(Expression<Func<T, bool>> condition, Expression<Func<T, EInclude>> include)
         {
             return Table
                 .Where(condition)
+                .Include(include)
                 .ToList();
         }
-        public Department GetDepartment(User secretary)
+        public T GetEntityWithCondition(Expression<Func<T, bool>> condition)
         {
-            return _context.Departments.FirstOrDefault(d => d.Secretary.Id == secretary.Id);
+            return Table.FirstOrDefault(condition);
         }
 
         public async void InsertAsync(T obj)
         {
             Table.Add(obj);
+            
             await _context.SaveChangesAsync();
         }
         public async void UpdateAsync(T obj)
@@ -85,10 +88,12 @@ namespace PPT.Repositories
             GC.SuppressFinalize(this);
         }
 
-        public  void DeleteEntitiesWithCondition(Expression<Func<T, bool>> condition)
+        public void DeleteRange(Expression<Func<T, bool>> condition)
         {
             var entitiesToDelete = Table.Where(condition).ToList();
+
             Table.RemoveRange(entitiesToDelete);
+
             _context.SaveChanges();
         }
     }

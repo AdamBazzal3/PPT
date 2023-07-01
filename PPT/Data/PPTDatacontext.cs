@@ -166,13 +166,15 @@ public class PPTDatacontext : IdentityDbContext
             {
                 ID = 1,
                 Name = "علي غريب",
-                DepartmentID = 1
+                DepartmentID = 1,
+                IsContracted = true
             },
             new Doctor
             {
                 ID = 2,
                 Name = "محمد دبوق",
-                DepartmentID = 1
+                DepartmentID = 1,
+                IsContracted = true
             },
             new Doctor
             {
@@ -206,25 +208,29 @@ public class PPTDatacontext : IdentityDbContext
             {
                 ID = 1,
                 DoctorID = 3,
-                IsPublished = false
+                IsPublished = false,
+                Date = DateTime.Now,
             },
             new Attendance
             {
                 ID = 2,
                 DoctorID = 1,
-                IsPublished = false
+                IsPublished = false,
+                Date = DateTime.Now,
             },
             new Attendance
             {
                 ID = 3,
                 DoctorID = 1,
-                IsPublished = false
+                IsPublished = false,
+                Date = DateTime.Now,
             },
             new Attendance
             {
                 ID = 4,
                 DoctorID = 2,
-                IsPublished = false
+                IsPublished = false,
+                Date = DateTime.Now
             }
         );
     }
