@@ -4,47 +4,61 @@
     ViewData["Title"] = "الحضور للنهار";
 }
 
-
 <div>
-
     @Html.AntiForgeryToken()
     <div id="loading-attendances" class="spinner-border text-primary" role="status">
         <span class="visually-hidden">Loading...</span>
     </div>
-    <table class="table table-striped display" id="attendanceTable"style="width:100%">
+    <table class="table table-striped" id="attendanceTable" style="width:100%">
             <thead>
 
             </thead>
             <tbody>
             </tbody>
         </table>
-    <button class="btn btn-primary mt-2" onclick="toggle()">إضافة</button>
-    <button id="deleteSelectedBtn" class="btn btn-danger mt-2">Delete Selected</button>
 
+    
+    <div class="d-flex">
+        <button class="btn btn-secondary mt-2 ms-1" data-bs-toggle="modal" data-bs-target="#doctorsModal" onclick="toggleAddData()">
+            إضافة
+        </button>
+
+        <button id="deleteSelectedBtn" class="btn btn-danger mt-2">حذف المحدد</button>
+        <button class="btn btn-primary mt-2 me-auto" onclick="edit()">
+            حفظ التعديلات
+        </button>
+    </div>
 </div>
 
-<div class="overlay" id="overlay"></div>
+<div class="modal fade" id="doctorsModal" tabindex="-1" role="dialog" aria-labelledby="doctorsModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h5 class="modal-title" id="doctorsModalLabel">قائمة الأساتذة</h5>
+            </div>
+            <div class="modal-body">
+                <div id="loading-doctors" class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <table class="table table-striped" id="doctorsTable" style="width:100%">
+                    <thead>
 
-<div id="popup" class="popup" style="display: none;">
-    <span class="btn btn-danger mb-3 display-3" onclick="toggle()"><b>&times;</b></span>
-    <h2 class="mb-5 mt-1 mb-2">قائمة الأساتذة</h2>
-
-    <div id="loading-doctors" class="spinner-border text-primary" role="status">
-        <span class="visually-hidden">Loading...</span>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+                <button type="button" class="btn btn-primary" onclick="save()">حفظ</button>
+            </div>
+        </div>
     </div>
-    <div id="content">
-        <table table table-striped display" id="doctorsTable" style="width:100%">
-            <thead>
-
-            </thead>
-            <tbody>
-
-            </tbody>
-        </table>
-    </div>
-    <button class="btn btn-primary mt-4" onclick="save()">حفظ</button>
-
 </div>
+
 
 @section scripts{
     <script>
@@ -62,12 +76,24 @@
                     'XSRF-TOKEN': token
                 },
                 success: function (data) {
+                    //console.log(data);
                     table = $('#attendanceTable').DataTable({
                         headerCallback: function (thead, data, start, end, display) {
                             $(thead)
                                 .find('th')
                                 .css('text-align', 'right');
                         },
+                        lengthMenu: [[4, 8], [4, 8]],
+                        buttons: [
+                            {
+                                extend: 'selectAll',
+                                className: 'btn btn-secondary me-auto'
+                            },
+                            {
+                                extend: 'selectNone',
+                                className:'btn btn-secondary'
+                            }
+                        ],
                         language: {
                             "sEmptyTable": "لا توجد بيانات متاحة في الجدول",
                             "sInfo": "عرض _START_ إلى _END_ من إجمالي _TOTAL_ مُدخل",
@@ -89,13 +115,46 @@
                             "oAria": {
                                 "sSortAscending": ": تنشيط لترتيب العمود تصاعديًا",
                                 "sSortDescending": ": تنشيط لترتيب العمود تنازليًا"
+                            },
+                            buttons: {
+                                selectAll: "حدد الكل",
+                                selectNone: "إلغاء التحديد"
                             }
                         },
+                        dom: "<'d-flex justify-content-between flex-wrap'<'mb-2'Q><'mb-2'l><'mb-2'B><'mb-2'f>>" +
+                            "<<tr>>" +
+                            "<<i><p>>",
                         data: data,
                         columns: [
-                            { title: '#', data: 'id' },
+                            { 
+                                title: '#',
+                                data: 'attendances[0].id'
+                            },
+                            {
+                                title: '#doctor',
+                                data: 'id',
+                                visible: false
+                            },
                             { title: 'الاسم', data: 'name' },
-                            { title: 'القسم', data: 'department.name' }
+                            {
+                                title: 'متعاقد',
+                                data: 'isContracted',
+                                render: function (data, type, row) {
+                                    var str = data && data === true ? 'نعم' : 'لا';
+                                    return str;
+                                }
+                            },
+                            {
+                                title: 'المدة (متعاقد)',
+                                data: null,
+                                render: function (data, type, row) {
+                                    var duration = row.attendances && row.attendances.length > 0 ? row.attendances[0].duration : '';
+                                    //console.log(row);
+                                    var view = row.isContracted == true ? `<input type="number" class="form-control" id='doctorAttendance_${row.id}' value="${duration}"  min="1" placeholder="عدد"  />` : '';
+                                    return view;
+                                }
+                            },
+
                             //{ data: `<button class="btn btn-danger" onclick="removeAttendance(${id}, '${ encodedDate }')">X</button>` }
                         ],
                         select: true,
@@ -130,7 +189,7 @@
                 var idArray = rows.data().toArray().map(item => item.id);
                 //console.log(idArray);
                 if(idArray.length !== 0){
-                    let text = "Do you want to delete those attendances?";
+                    let text = "هل تريد الإلغاء؟";
                     if (confirm(text) == true) {
                         removeAttendance(idArray);
 
@@ -141,9 +200,15 @@
                  
                     //console.log(rows.data());
             });
-
+            const numberInputs = document.querySelectorAll('input[type="number"]');
+            numberInputs.forEach(input => {
+                input.addEventListener('input', function () {
+                    this.value = this.value.replace(/\D/g, '');
+                });
+            });
+            
         });
-
+        
 
     </script>
 }

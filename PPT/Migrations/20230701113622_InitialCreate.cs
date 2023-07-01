@@ -226,7 +226,7 @@ namespace PPT.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UniversityId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsContracted = table.Column<bool>(type: "bit", nullable: true),
+                    IsContracted = table.Column<bool>(type: "bit", nullable: false),
                     DepartmentID = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -265,9 +265,9 @@ namespace PPT.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "5d9fe5a3-461e-42b7-8afb-2a76cb616dfd", "67ab664d-fcc5-4427-bfb1-3d59a9dffd24", "Manager", "MANAGER" },
-                    { "6228eb64-eb6f-4861-8171-c515e76d73d1", "e33cdb58-77bb-40b0-820c-51da6899d178", "Secretary", "SECRETARY" },
-                    { "83cfd5bc-f044-4874-8dad-609e0a0076ea", "dfcb7738-16b8-46e9-a306-f97ecd783891", "Administrator", "ADMINISTRATOR" }
+                    { "4aa8fd5d-dda6-4891-b7ee-1e57def6c035", "5f63276a-07da-4502-bacd-e6e0d7a34fa2", "Administrator", "ADMINISTRATOR" },
+                    { "5623606f-c99a-4350-84cb-ed3008f6eb3d", "79209ce3-282f-4b4b-9b8a-3699af1d5f56", "Manager", "MANAGER" },
+                    { "de43b4d8-773c-4bc9-9161-7ea2b7c1da61", "8300657d-f965-46e3-957e-222d227a0a07", "Secretary", "SECRETARY" }
                 });
 
             migrationBuilder.InsertData(
@@ -275,10 +275,10 @@ namespace PPT.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "8e445865-a24d-4543-7u7u-9443d048cdb9", 0, "20175ef5-b478-466e-bacc-211ab3019b6c", "User", "hanaa666@gmail.com", true, "هناء", "", false, null, null, "SECRETARY", "AQAAAAEAACcQAAAAEF6O5bEGsq1g5tBMrLgnPrtzdVT+lhAWuj9eCOgQqqjc00VbXoMa/cdMXcZlEc4WBg==", null, false, "d8ba0526-2d00-450d-8884-a1c3bc900369", false, "Secretary" },
-                    { "8e445865-a24d-4543-9O9O-9443d048cdb9", 0, "b89ed5d4-b2b4-4ef5-813e-b35e6d907b6b", "User", "bassem666@gmail.com", true, "باسم", "", false, null, null, "SECRETARYBASSEM", "AQAAAAEAACcQAAAAEJG7jcoHC+Rp/lHw/sQ7jvv8xzMOKdrp9cRY3QbfWrFV7fVnuAhmeG033XbGqRYHcg==", null, false, "6a4f5526-635f-4888-af7b-cfef8ed751cb", false, "SecretaryBassem" },
-                    { "8e445865-a24d-4543-a6c6-9443d048cdb9", 0, "7bfd9e0a-1a92-48aa-9365-c29795b0a11d", "User", "zainab.alsaghir@gmail.com", true, "زينب ", "الصغير", false, null, null, "ADMIN", "AQAAAAEAACcQAAAAEG4D4tpSOKs8LASGx0HxY/rXIQ/Ddm0hYXWsxsKURl97opUXG/27qTZLMjazRJTzjQ==", null, false, "e86bd978-418b-478a-b56e-5849aecac935", false, "Admin" },
-                    { "8e445865-a24d-4543-i9i9-9443d048cdb9", 0, "80f44140-e183-428d-92ad-92556c1d8678", "User", "hsayn.bazzi666@gmail.com", true, "حسين", "بزي", false, null, null, "MANAGER", "AQAAAAEAACcQAAAAEIFlquiMlQjg0jE/uzC7BA/u4uQlbQJdudOHKhYMl3NxAkQzUF/nDjWXfXvvt9sEzQ==", null, false, "207319e7-39d6-4204-9bdb-5ba4c91df7d7", false, "Manager" }
+                    { "8e445865-a24d-4543-7u7u-9443d048cdb9", 0, "3179fd12-941a-4194-a798-386dae7d1071", "User", "hanaa666@gmail.com", true, "هناء", "", false, null, null, "SECRETARY", "AQAAAAEAACcQAAAAENEPLyzuOPhLuGT5rzeYQmSUd6LrzNYkzbaCKNpxUTnh/maE+ta3VuInWt6yUdaXWQ==", null, false, "9ea6467c-bc40-4d6b-bea2-5d5265dd5db4", false, "Secretary" },
+                    { "8e445865-a24d-4543-9O9O-9443d048cdb9", 0, "aa170e0a-c27a-4b6b-8667-1eb9801a37a0", "User", "bassem666@gmail.com", true, "باسم", "", false, null, null, "SECRETARYBASSEM", "AQAAAAEAACcQAAAAEE+mat29imaRyJ28hxlLNIZy42ejZRt85/nvMtu4BcaOLTVyPSJX6HjeCNcGCipaLw==", null, false, "45cbb50c-de69-402e-9b19-391a646ee5d8", false, "SecretaryBassem" },
+                    { "8e445865-a24d-4543-a6c6-9443d048cdb9", 0, "47552ed1-621f-43a3-bd24-7e4014672414", "User", "zainab.alsaghir@gmail.com", true, "زينب ", "الصغير", false, null, null, "ADMIN", "AQAAAAEAACcQAAAAEHoxIVf9uGUmzEYFWELsBw5iyIaqMxQNzvhQrAZ6cGkj4PEJPijFSeTp3VwrHl2xug==", null, false, "d2f3742d-0d94-4380-b9fd-8d813a4d1759", false, "Admin" },
+                    { "8e445865-a24d-4543-i9i9-9443d048cdb9", 0, "8b1f6634-e581-4f9a-a527-807d94561306", "User", "hsayn.bazzi666@gmail.com", true, "حسين", "بزي", false, null, null, "MANAGER", "AQAAAAEAACcQAAAAEOugTmnXAVyebHiZvcmpo7IU4/rQTLTxBLF4A1aExkVgQqgFLdq+8ynr0SHAMzOWYg==", null, false, "4b369548-2cb9-4ffd-9919-475f43670828", false, "Manager" }
                 });
 
             migrationBuilder.InsertData(
@@ -300,10 +300,10 @@ namespace PPT.Migrations
                 columns: new[] { "RoleId", "UserId" },
                 values: new object[,]
                 {
-                    { "6228eb64-eb6f-4861-8171-c515e76d73d1", "8e445865-a24d-4543-7u7u-9443d048cdb9" },
-                    { "6228eb64-eb6f-4861-8171-c515e76d73d1", "8e445865-a24d-4543-9O9O-9443d048cdb9" },
-                    { "83cfd5bc-f044-4874-8dad-609e0a0076ea", "8e445865-a24d-4543-a6c6-9443d048cdb9" },
-                    { "5d9fe5a3-461e-42b7-8afb-2a76cb616dfd", "8e445865-a24d-4543-i9i9-9443d048cdb9" }
+                    { "de43b4d8-773c-4bc9-9161-7ea2b7c1da61", "8e445865-a24d-4543-7u7u-9443d048cdb9" },
+                    { "de43b4d8-773c-4bc9-9161-7ea2b7c1da61", "8e445865-a24d-4543-9O9O-9443d048cdb9" },
+                    { "4aa8fd5d-dda6-4891-b7ee-1e57def6c035", "8e445865-a24d-4543-a6c6-9443d048cdb9" },
+                    { "5623606f-c99a-4350-84cb-ed3008f6eb3d", "8e445865-a24d-4543-i9i9-9443d048cdb9" }
                 });
 
             migrationBuilder.InsertData(
@@ -324,10 +324,15 @@ namespace PPT.Migrations
                 {
                     { 1, 1, true, "علي غريب", null },
                     { 2, 1, true, "محمد دبوق", null },
-                    { 3, 1, null, "كمال بيضون", null },
-                    { 4, 1, null, "أحمد فاعور", null },
-                    { 5, 2, null, "سامر", null },
-                    { 6, 2, null, "أحمد", null }
+                    { 3, 1, false, "كمال بيضون", null },
+                    { 4, 1, false, "أحمد فاعور", null },
+                    { 5, 2, false, "سامر", null },
+                    { 6, 2, false, "أحمد", null },
+                    { 7, 1, false, "خالد نجار", null },
+                    { 8, 1, false, "محمد حسن", null },
+                    { 9, 1, false, "فاطمة صالح", null },
+                    { 10, 1, false, "ياسر مصطفى", null },
+                    { 11, 1, false, "نورا محمود", null }
                 });
 
             migrationBuilder.InsertData(
@@ -335,10 +340,15 @@ namespace PPT.Migrations
                 columns: new[] { "ID", "Date", "DoctorID", "Duration", "IsPublished" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2023, 6, 20, 16, 35, 46, 253, DateTimeKind.Local).AddTicks(1782), 3, null, false },
-                    { 2, new DateTime(2023, 6, 20, 16, 35, 46, 253, DateTimeKind.Local).AddTicks(1829), 1, null, false },
-                    { 3, new DateTime(2023, 6, 20, 16, 35, 46, 253, DateTimeKind.Local).AddTicks(1836), 1, null, false },
-                    { 4, new DateTime(2023, 6, 20, 16, 35, 46, 253, DateTimeKind.Local).AddTicks(1840), 2, null, false }
+                    { 1, new DateTime(2023, 7, 1, 14, 36, 21, 824, DateTimeKind.Local).AddTicks(2495), 3, null, false },
+                    { 2, new DateTime(2023, 7, 1, 14, 36, 21, 824, DateTimeKind.Local).AddTicks(2532), 1, null, false },
+                    { 3, new DateTime(2023, 7, 1, 14, 36, 21, 824, DateTimeKind.Local).AddTicks(2535), 1, null, false },
+                    { 4, new DateTime(2023, 7, 1, 14, 36, 21, 824, DateTimeKind.Local).AddTicks(2538), 2, null, false },
+                    { 5, new DateTime(2023, 7, 1, 14, 36, 21, 824, DateTimeKind.Local).AddTicks(2541), 7, null, false },
+                    { 6, new DateTime(2023, 7, 1, 14, 36, 21, 824, DateTimeKind.Local).AddTicks(2544), 8, null, false },
+                    { 7, new DateTime(2023, 7, 1, 14, 36, 21, 824, DateTimeKind.Local).AddTicks(2547), 9, null, false },
+                    { 8, new DateTime(2023, 7, 1, 14, 36, 21, 824, DateTimeKind.Local).AddTicks(2549), 10, null, false },
+                    { 9, new DateTime(2023, 7, 1, 14, 36, 21, 824, DateTimeKind.Local).AddTicks(2552), 11, null, false }
                 });
 
             migrationBuilder.CreateIndex(
@@ -381,9 +391,11 @@ namespace PPT.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Attendances_DoctorID",
+                name: "IX_Attendances_DoctorID_Date",
                 table: "Attendances",
-                column: "DoctorID");
+                columns: new[] { "DoctorID", "Date" },
+                unique: true,
+                filter: "[DoctorID] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Branches_FacultyID",

@@ -34,12 +34,16 @@ namespace PPT.Repositories
             T result = await Table.FindAsync(id);
             return result;
         }
-        public List<T> GetEntitiesWithCondition<EInclude>(Expression<Func<T, bool>> condition, Expression<Func<T, EInclude>> include)
+        public List<T> GetEntitiesWithCondition(Expression<Func<T, bool>> condition, params Expression<Func<T, object>>[] includes)
         {
-            return Table
-                .Where(condition)
-                .Include(include)
-                .ToList();
+            var query = Table.AsQueryable();
+
+            if (includes != null)
+            {
+                query = includes.Aggregate(query, (current, include) => current.Include(include));
+            }
+
+            return query.Where(condition).ToList();
         }
         public T GetEntityWithCondition(Expression<Func<T, bool>> condition)
         {
@@ -52,12 +56,7 @@ namespace PPT.Repositories
             
             await _context.SaveChangesAsync();
         }
-        public async void UpdateAsync(T obj)
-        {
-            Table.Attach(obj);
-            _context.Entry(obj).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
-        }
+
         public async void DeleteAsync(int id)
         {
             T existing = Table.Find(id);
@@ -93,6 +92,24 @@ namespace PPT.Repositories
             var entitiesToDelete = Table.Where(condition).ToList();
 
             Table.RemoveRange(entitiesToDelete);
+
+            _context.SaveChanges();
+        }
+
+        public void InsertRange(List<T> list)
+        {
+            Table.AddRange(list);
+
+            _context.SaveChanges();
+        }
+
+        public void UpdateRange(List<T> list)
+        {
+
+            foreach (var record in list)
+            {
+                Table.Update(record);
+            }
 
             _context.SaveChanges();
         }

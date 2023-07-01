@@ -1,20 +1,15 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.JSInterop;
+using Microsoft.IdentityModel.Tokens;
+using NuGet.Packaging.Signing;
 using PPT.Models;
 using PPT.Repositories;
 using PPT.Services;
 using PPT.Validation;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Web;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace PPT.Pages
 {
@@ -66,7 +61,7 @@ namespace PPT.Pages
                 }
                 //Htession.SetObjectInSession("Department", department);
                 //department = _authService.GetEntityWithCondition(user);
-                var Doctors = _doctorRepository.GetEntitiesWithCondition<Department>(d => d.Department.ID == department.ID && d.Attendances.Any(a => a.Date.Date == date.Date), (doctor)=>doctor.Department);
+                var Doctors = _doctorRepository.GetEntitiesWithCondition(d => d.Department.ID == department.ID && d.Attendances.Any(a => a.Date.Date == date.Date), (doctor)=>doctor.Department, (doctor)=>doctor.Attendances);
                 //var serializedData = JsonSerializer.Serialize(Doctors, _jsonOptions);
 
                 return new JsonResult(Doctors);
@@ -81,11 +76,19 @@ namespace PPT.Pages
         
         public JsonResult OnGetDoctors()
         {
+            try
+            {
+                date = HttpContext.Session.GetObjectFromJson<DateTime>(SessionKeyDate);
                 department = HttpContext.Session.GetObjectFromJson<Department>(SessionKeyDepartment);
-            //department = HttpContext.Session.GetCustomObjectFromSession<Department>("Department");
-            var doctors = _doctorRepository.GetEntitiesWithCondition(d => d.Department.ID == department.ID, (doctor)=>doctor.Department);
 
-            return new JsonResult(doctors);
+                var doctors = _doctorRepository.GetEntitiesWithCondition(d => d.Department.ID == department.ID && !d.Attendances.Any(a => a.Date.Date == date.Date), (doctor) => doctor.Department);
+
+                return new JsonResult(doctors);
+            }
+            catch(Exception e)
+            {
+                return new JsonResult(e.ToString());
+            }
         }
         public IActionResult OnPostDelete([Required(ErrorMessage = "لا بيانات")][FromBody] int?[] ids)
         {
@@ -96,12 +99,12 @@ namespace PPT.Pages
                     date = HttpContext.Session.GetObjectFromJson<DateTime>(SessionKeyDate);
             
                     _attendanceRepository.DeleteRange(a => ids.ToList().Contains(a.DoctorID) && a.Date.Date.Equals(date));
-                    
-                    return Page();
+
+                    return new EmptyResult();
                 }
                 catch (Exception e)
                 {
-                    return Page();
+                    return new EmptyResult();
                 }
             }
             else
@@ -109,21 +112,64 @@ namespace PPT.Pages
                 return Redirect("/Error");
             }
         }
-        public IActionResult OnPostSave([Required(ErrorMessage = "لا بيانات")][FromBody] int?[] ids)
+
+        public IActionResult OnPostUpdate([Required(ErrorMessage = "لا بيانات")][FromBody] AttendanceModel?[] updates)
         {
             if (ModelState.IsValid)
             {
                 try
                 {
                     date = HttpContext.Session.GetObjectFromJson<DateTime>(SessionKeyDate);
+                    List<Attendance> attendances = new List<Attendance>();
+                    foreach (var m in updates)
+                    {
+                        attendances.Add(new Attendance
+                        {
+                            ID = m.id,
+                            DoctorID = m.doctorId,
+                            Date = date,
+                            Duration = m.isContracted ? int.Parse(m.duration) : null,
+                        });
+                    }
+                    _attendanceRepository.UpdateRange(attendances);
 
-                    _attendanceRepository.DeleteRange(a => ids.ToList().Contains(a.DoctorID) && a.Date.Date.Equals(date));
-
-                    return Page();
+                    return new EmptyResult();
                 }
                 catch (Exception e)
                 {
-                    return Page();
+                    return new EmptyResult();
+                }
+            }
+            else
+            {
+                return Redirect("/Error");
+            }
+        }
+        public IActionResult OnPostSave([Required(ErrorMessage = "لا بيانات")][FromBody] AttendanceModel[] models)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    date = HttpContext.Session.GetObjectFromJson<DateTime>(SessionKeyDate);
+                    List<Attendance> attendances = new List<Attendance>();
+                    foreach(var m in models)
+                    {
+                        attendances.Add(new Attendance
+                        {
+                            DoctorID = m.doctorId,
+                            Date = date,
+                            Duration = m.isContracted? int.Parse(m.duration): null,
+                        });
+                    }
+
+                    _attendanceRepository.InsertRange(attendances);
+
+                    return new EmptyResult();
+                }
+                catch (Exception)
+                {
+                    return new EmptyResult();
                 }
             }
             else
@@ -133,6 +179,12 @@ namespace PPT.Pages
         }
     }
 
-    
+    public class AttendanceModel
+    {
+        public int id { get; set; }
+        public int doctorId { get; set; }
+        public bool isContracted { get; set; }
+        public string duration { get; set; }
+    }
 }
 

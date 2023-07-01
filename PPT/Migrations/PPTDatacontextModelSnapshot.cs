@@ -51,22 +51,22 @@ namespace PPT.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "83cfd5bc-f044-4874-8dad-609e0a0076ea",
-                            ConcurrencyStamp = "dfcb7738-16b8-46e9-a306-f97ecd783891",
+                            Id = "4aa8fd5d-dda6-4891-b7ee-1e57def6c035",
+                            ConcurrencyStamp = "5f63276a-07da-4502-bacd-e6e0d7a34fa2",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "6228eb64-eb6f-4861-8171-c515e76d73d1",
-                            ConcurrencyStamp = "e33cdb58-77bb-40b0-820c-51da6899d178",
+                            Id = "de43b4d8-773c-4bc9-9161-7ea2b7c1da61",
+                            ConcurrencyStamp = "8300657d-f965-46e3-957e-222d227a0a07",
                             Name = "Secretary",
                             NormalizedName = "SECRETARY"
                         },
                         new
                         {
-                            Id = "5d9fe5a3-461e-42b7-8afb-2a76cb616dfd",
-                            ConcurrencyStamp = "67ab664d-fcc5-4427-bfb1-3d59a9dffd24",
+                            Id = "5623606f-c99a-4350-84cb-ed3008f6eb3d",
+                            ConcurrencyStamp = "79209ce3-282f-4b4b-9b8a-3699af1d5f56",
                             Name = "Manager",
                             NormalizedName = "MANAGER"
                         });
@@ -236,22 +236,22 @@ namespace PPT.Migrations
                         new
                         {
                             UserId = "8e445865-a24d-4543-a6c6-9443d048cdb9",
-                            RoleId = "83cfd5bc-f044-4874-8dad-609e0a0076ea"
+                            RoleId = "4aa8fd5d-dda6-4891-b7ee-1e57def6c035"
                         },
                         new
                         {
                             UserId = "8e445865-a24d-4543-7u7u-9443d048cdb9",
-                            RoleId = "6228eb64-eb6f-4861-8171-c515e76d73d1"
+                            RoleId = "de43b4d8-773c-4bc9-9161-7ea2b7c1da61"
                         },
                         new
                         {
                             UserId = "8e445865-a24d-4543-9O9O-9443d048cdb9",
-                            RoleId = "6228eb64-eb6f-4861-8171-c515e76d73d1"
+                            RoleId = "de43b4d8-773c-4bc9-9161-7ea2b7c1da61"
                         },
                         new
                         {
                             UserId = "8e445865-a24d-4543-i9i9-9443d048cdb9",
-                            RoleId = "5d9fe5a3-461e-42b7-8afb-2a76cb616dfd"
+                            RoleId = "5623606f-c99a-4350-84cb-ed3008f6eb3d"
                         });
                 });
 
@@ -296,7 +296,9 @@ namespace PPT.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("DoctorID");
+                    b.HasIndex("DoctorID", "Date")
+                        .IsUnique()
+                        .HasFilter("[DoctorID] IS NOT NULL");
 
                     b.ToTable("Attendances");
 
@@ -304,29 +306,64 @@ namespace PPT.Migrations
                         new
                         {
                             ID = 1,
-                            Date = new DateTime(2023, 6, 20, 16, 35, 46, 253, DateTimeKind.Local).AddTicks(1782),
+                            Date = new DateTime(2023, 7, 1, 14, 36, 21, 824, DateTimeKind.Local).AddTicks(2495),
                             DoctorID = 3,
                             IsPublished = false
                         },
                         new
                         {
                             ID = 2,
-                            Date = new DateTime(2023, 6, 20, 16, 35, 46, 253, DateTimeKind.Local).AddTicks(1829),
+                            Date = new DateTime(2023, 7, 1, 14, 36, 21, 824, DateTimeKind.Local).AddTicks(2532),
                             DoctorID = 1,
                             IsPublished = false
                         },
                         new
                         {
                             ID = 3,
-                            Date = new DateTime(2023, 6, 20, 16, 35, 46, 253, DateTimeKind.Local).AddTicks(1836),
+                            Date = new DateTime(2023, 7, 1, 14, 36, 21, 824, DateTimeKind.Local).AddTicks(2535),
                             DoctorID = 1,
                             IsPublished = false
                         },
                         new
                         {
                             ID = 4,
-                            Date = new DateTime(2023, 6, 20, 16, 35, 46, 253, DateTimeKind.Local).AddTicks(1840),
+                            Date = new DateTime(2023, 7, 1, 14, 36, 21, 824, DateTimeKind.Local).AddTicks(2538),
                             DoctorID = 2,
+                            IsPublished = false
+                        },
+                        new
+                        {
+                            ID = 5,
+                            Date = new DateTime(2023, 7, 1, 14, 36, 21, 824, DateTimeKind.Local).AddTicks(2541),
+                            DoctorID = 7,
+                            IsPublished = false
+                        },
+                        new
+                        {
+                            ID = 6,
+                            Date = new DateTime(2023, 7, 1, 14, 36, 21, 824, DateTimeKind.Local).AddTicks(2544),
+                            DoctorID = 8,
+                            IsPublished = false
+                        },
+                        new
+                        {
+                            ID = 7,
+                            Date = new DateTime(2023, 7, 1, 14, 36, 21, 824, DateTimeKind.Local).AddTicks(2547),
+                            DoctorID = 9,
+                            IsPublished = false
+                        },
+                        new
+                        {
+                            ID = 8,
+                            Date = new DateTime(2023, 7, 1, 14, 36, 21, 824, DateTimeKind.Local).AddTicks(2549),
+                            DoctorID = 10,
+                            IsPublished = false
+                        },
+                        new
+                        {
+                            ID = 9,
+                            Date = new DateTime(2023, 7, 1, 14, 36, 21, 824, DateTimeKind.Local).AddTicks(2552),
+                            DoctorID = 11,
                             IsPublished = false
                         });
                 });
@@ -431,7 +468,7 @@ namespace PPT.Migrations
                     b.Property<int?>("DepartmentID")
                         .HasColumnType("int");
 
-                    b.Property<bool?>("IsContracted")
+                    b.Property<bool>("IsContracted")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
@@ -466,25 +503,64 @@ namespace PPT.Migrations
                         {
                             ID = 3,
                             DepartmentID = 1,
+                            IsContracted = false,
                             Name = "كمال بيضون"
                         },
                         new
                         {
                             ID = 4,
                             DepartmentID = 1,
+                            IsContracted = false,
                             Name = "أحمد فاعور"
                         },
                         new
                         {
                             ID = 5,
                             DepartmentID = 2,
+                            IsContracted = false,
                             Name = "سامر"
                         },
                         new
                         {
                             ID = 6,
                             DepartmentID = 2,
+                            IsContracted = false,
                             Name = "أحمد"
+                        },
+                        new
+                        {
+                            ID = 7,
+                            DepartmentID = 1,
+                            IsContracted = false,
+                            Name = "خالد نجار"
+                        },
+                        new
+                        {
+                            ID = 8,
+                            DepartmentID = 1,
+                            IsContracted = false,
+                            Name = "محمد حسن"
+                        },
+                        new
+                        {
+                            ID = 9,
+                            DepartmentID = 1,
+                            IsContracted = false,
+                            Name = "فاطمة صالح"
+                        },
+                        new
+                        {
+                            ID = 10,
+                            DepartmentID = 1,
+                            IsContracted = false,
+                            Name = "ياسر مصطفى"
+                        },
+                        new
+                        {
+                            ID = 11,
+                            DepartmentID = 1,
+                            IsContracted = false,
+                            Name = "نورا محمود"
                         });
                 });
 
@@ -531,14 +607,14 @@ namespace PPT.Migrations
                         {
                             Id = "8e445865-a24d-4543-a6c6-9443d048cdb9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7bfd9e0a-1a92-48aa-9365-c29795b0a11d",
+                            ConcurrencyStamp = "47552ed1-621f-43a3-bd24-7e4014672414",
                             Email = "zainab.alsaghir@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEG4D4tpSOKs8LASGx0HxY/rXIQ/Ddm0hYXWsxsKURl97opUXG/27qTZLMjazRJTzjQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHoxIVf9uGUmzEYFWELsBw5iyIaqMxQNzvhQrAZ6cGkj4PEJPijFSeTp3VwrHl2xug==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "e86bd978-418b-478a-b56e-5849aecac935",
+                            SecurityStamp = "d2f3742d-0d94-4380-b9fd-8d813a4d1759",
                             TwoFactorEnabled = false,
                             UserName = "Admin",
                             FirstName = "زينب ",
@@ -548,14 +624,14 @@ namespace PPT.Migrations
                         {
                             Id = "8e445865-a24d-4543-7u7u-9443d048cdb9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "20175ef5-b478-466e-bacc-211ab3019b6c",
+                            ConcurrencyStamp = "3179fd12-941a-4194-a798-386dae7d1071",
                             Email = "hanaa666@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "SECRETARY",
-                            PasswordHash = "AQAAAAEAACcQAAAAEF6O5bEGsq1g5tBMrLgnPrtzdVT+lhAWuj9eCOgQqqjc00VbXoMa/cdMXcZlEc4WBg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENEPLyzuOPhLuGT5rzeYQmSUd6LrzNYkzbaCKNpxUTnh/maE+ta3VuInWt6yUdaXWQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d8ba0526-2d00-450d-8884-a1c3bc900369",
+                            SecurityStamp = "9ea6467c-bc40-4d6b-bea2-5d5265dd5db4",
                             TwoFactorEnabled = false,
                             UserName = "Secretary",
                             FirstName = "هناء",
@@ -565,14 +641,14 @@ namespace PPT.Migrations
                         {
                             Id = "8e445865-a24d-4543-9O9O-9443d048cdb9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b89ed5d4-b2b4-4ef5-813e-b35e6d907b6b",
+                            ConcurrencyStamp = "aa170e0a-c27a-4b6b-8667-1eb9801a37a0",
                             Email = "bassem666@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "SECRETARYBASSEM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJG7jcoHC+Rp/lHw/sQ7jvv8xzMOKdrp9cRY3QbfWrFV7fVnuAhmeG033XbGqRYHcg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEE+mat29imaRyJ28hxlLNIZy42ejZRt85/nvMtu4BcaOLTVyPSJX6HjeCNcGCipaLw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "6a4f5526-635f-4888-af7b-cfef8ed751cb",
+                            SecurityStamp = "45cbb50c-de69-402e-9b19-391a646ee5d8",
                             TwoFactorEnabled = false,
                             UserName = "SecretaryBassem",
                             FirstName = "باسم",
@@ -582,14 +658,14 @@ namespace PPT.Migrations
                         {
                             Id = "8e445865-a24d-4543-i9i9-9443d048cdb9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "80f44140-e183-428d-92ad-92556c1d8678",
+                            ConcurrencyStamp = "8b1f6634-e581-4f9a-a527-807d94561306",
                             Email = "hsayn.bazzi666@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "MANAGER",
-                            PasswordHash = "AQAAAAEAACcQAAAAEIFlquiMlQjg0jE/uzC7BA/u4uQlbQJdudOHKhYMl3NxAkQzUF/nDjWXfXvvt9sEzQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOugTmnXAVyebHiZvcmpo7IU4/rQTLTxBLF4A1aExkVgQqgFLdq+8ynr0SHAMzOWYg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "207319e7-39d6-4204-9bdb-5ba4c91df7d7",
+                            SecurityStamp = "4b369548-2cb9-4ffd-9919-475f43670828",
                             TwoFactorEnabled = false,
                             UserName = "Manager",
                             FirstName = "حسين",

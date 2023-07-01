@@ -24,7 +24,9 @@ public class PPTDatacontext : IdentityDbContext
         // Customize the ASP.NET Identity model and override the defaults if needed.
         // For example, you can rename the ASP.NET Identity table names and more.
         // Add your customizations after calling base.OnModelCreating(builder);
-
+        builder.Entity<Attendance>()
+        .HasIndex(a => new { a.DoctorID, a.Date })
+        .IsUnique();
         string adminId = Guid.NewGuid().ToString();
         string managerId = Guid.NewGuid().ToString();
         string secretaryId = Guid.NewGuid().ToString();
@@ -200,6 +202,36 @@ public class PPTDatacontext : IdentityDbContext
                 ID = 6,
                 Name = "أحمد",
                 DepartmentID = 2
+            },
+            new Doctor
+            {
+                ID = 7,
+                Name = "خالد نجار",
+                DepartmentID = 1
+            },
+            new Doctor
+            {
+                ID = 8,
+                Name = "محمد حسن",
+                DepartmentID = 1
+            },
+            new Doctor
+            {
+                ID = 9,
+                Name = "فاطمة صالح",
+                DepartmentID = 1
+            },
+            new Doctor
+            {
+                ID = 10,
+                Name = "ياسر مصطفى",
+                DepartmentID = 1
+            },
+            new Doctor
+            {
+                ID = 11,
+                Name = "نورا محمود",
+                DepartmentID = 1
             }
         );
 
@@ -229,6 +261,41 @@ public class PPTDatacontext : IdentityDbContext
             {
                 ID = 4,
                 DoctorID = 2,
+                IsPublished = false,
+                Date = DateTime.Now
+            },
+            new Attendance
+            {
+                ID = 5,
+                DoctorID = 7,
+                IsPublished = false,
+                Date = DateTime.Now
+            },
+            new Attendance
+            {
+                ID = 6,
+                DoctorID = 8,
+                IsPublished = false,
+                Date = DateTime.Now
+            },
+            new Attendance
+            {
+                ID = 7,
+                DoctorID = 9,
+                IsPublished = false,
+                Date = DateTime.Now
+            },
+            new Attendance
+            {
+                ID = 8,
+                DoctorID = 10,
+                IsPublished = false,
+                Date = DateTime.Now
+            },
+            new Attendance
+            {
+                ID = 9,
+                DoctorID = 11,
                 IsPublished = false,
                 Date = DateTime.Now
             }
