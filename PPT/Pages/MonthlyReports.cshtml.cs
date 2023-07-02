@@ -1,4 +1,5 @@
 ﻿using CsvHelper;
+using CsvHelper.Configuration.Attributes;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -11,16 +12,16 @@ using System.Text;
 
 namespace PPT.Pages
 {
-    [Authorize(Roles = "Administrator")]
+    [Authorize(Roles = "Administrator,Secretary")]
     public class MonthlyReportsModel : PageModel
     {
+        static List<AttendanceMapper> CSVList = new List<AttendanceMapper>();
         private IWebHostEnvironment Environment;
         private readonly UserManager<User> _userManager;
         private readonly SqlServerRepository<Attendance> _attendanceRepository;
         private static User user;
         private static Department department;
         [BindProperty(SupportsGet = true)]
-        [Required(ErrorMessage = "حدد التاريخ")]
         public string Date { get; set; }
         public MonthlyReportsModel(UserManager<User> userManager, IWebHostEnvironment _environment, IRepository<Attendance> attendanceRepository)
         {
@@ -31,28 +32,52 @@ namespace PPT.Pages
         public void OnGet()
         {
             user = _userManager.GetUserAsync(User).GetAwaiter().GetResult();
-            department = _attendanceRepository.GetDepartmentByHead(user);
+            List<string> role = _userManager.GetRolesAsync(user).GetAwaiter().GetResult().ToList();
+            if(role.ElementAt(0).CompareTo("Secretary")==0)
+                department = _attendanceRepository.GetDepartment(user);
+            else if (role.ElementAt(0).CompareTo("Administrator")==0)
+                department = _attendanceRepository.GetDepartmentByHead(user);
         }
-        public FileResult? OnGetDownload()
+        public JsonResult OnGetReportAsync(string date)
         {
-            DateTime date;
-            if (!DateTime.TryParse(Date, out date))
+            if (!ModelState.IsValid)
+            {
                 return null;
-            List<AttendanceMapper> CSVList = new List<AttendanceMapper>();
-            List<Attendance> attendances =  _attendanceRepository.GetAttendanceByDateForDepartment(department.ID, date);
+            }
+            DateTime Date;
+            if (!DateTime.TryParse(date, out Date))
+                return null;
+            CSVList.Clear();
+            //CSVList = new List<AttendanceMapper>();
+            List<Attendance> attendances = _attendanceRepository.GetAttendanceByDateForDepartment(department.ID, Date);
             AttendanceMapper mapper;
             foreach (Attendance attendance in attendances)
             {
                 mapper = new AttendanceMapper();
                 mapper.ID = (int)attendance.DoctorID;
                 mapper.Name = attendance.Doctor.Name;
-                if(attendance.Doctor.UniversityId != null)
+                if (attendance.Doctor.UniversityId != null)
                     mapper.UniID = attendance.Doctor.UniversityId;
                 mapper.Date = DateOnly.FromDateTime(attendance.Date);
-                if(attendance.Duration != null) 
+                if (attendance.Duration != null)
                     mapper.Duration = (int)attendance.Duration;
+                if (attendance.IsPublished != null)
+                    mapper.Published = (bool)attendance.IsPublished;
+                else
+                    mapper.Published = false;
                 CSVList.Add(mapper);
             }
+            return new JsonResult(CSVList);
+        }
+        public FileResult? OnGetDownload()
+        {
+            if(!ModelState.IsValid)
+            {
+                return null;
+            }
+            DateTime date;
+            if (!DateTime.TryParse(Date, out date))
+                return null;
 
             string fileName = date.Month + "_" + date.Year + ".csv";
             string path = Path.Combine(this.Environment.WebRootPath, "MReports/") + fileName;
@@ -75,6 +100,9 @@ namespace PPT.Pages
             public string Name { get; set; }
             public DateOnly Date { get; set; }
             public int Duration { get; set; } = 0;
+            [BooleanTrueValues("نعم")]
+            [BooleanFalseValues("لا")]
+            public bool Published { get; set; }
             //public AttendanceMapper(int id, int uniid,string name,DateOnly date,int duration)
             //{
             //    ID = id; UniID = uniid; Name = name; Date = date; Duration = duration; 
