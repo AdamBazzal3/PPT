@@ -34,6 +34,12 @@ namespace PPT.Repositories
             T result = await Table.FindAsync(id);
             return result;
         }
+
+        public async Task<T> GetByIntAsync(int id)
+        {
+            T result = await Table.FindAsync(id);
+            return result;
+        }
         public List<T> GetEntitiesWithCondition(Expression<Func<T, bool>> condition)
         {
             return Table
@@ -74,6 +80,13 @@ namespace PPT.Repositories
             Table.Attach(obj);
             _context.Entry(obj).State = EntityState.Modified;
             await _context.SaveChangesAsync();
+        }
+
+        public void Update(T obj)
+        {
+            Table.Attach(obj);
+            _context.Entry(obj).State = EntityState.Modified;
+            _context.SaveChanges();
         }
         public async void DeleteAsync(int id)
         {

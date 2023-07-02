@@ -12,8 +12,8 @@ using PPT.Data;
 namespace PPT.Migrations
 {
     [DbContext(typeof(PPTDatacontext))]
-    [Migration("20230625131945_updatemodels")]
-    partial class updatemodels
+    [Migration("20230702141046_initialmigration")]
+    partial class initialmigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -54,22 +54,22 @@ namespace PPT.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "a6a44735-415f-4683-ad10-0749c931bf8f",
-                            ConcurrencyStamp = "a2fa49ef-74db-4ec8-8fb2-dffbf2c931c7",
+                            Id = "dba50297-4d97-4e8b-bfbb-92de2e10c098",
+                            ConcurrencyStamp = "62e5f184-fd0d-436b-a1f2-e03ceb7d0e9f",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "b1c5ebb3-e08b-473d-afa9-81d12113c1f8",
-                            ConcurrencyStamp = "bb95675e-d7fd-48e4-96b4-0b2efb9c9337",
+                            Id = "df419d50-0d8f-4236-ac74-257be2245a87",
+                            ConcurrencyStamp = "526a412c-3a47-4faf-a42b-643cad415592",
                             Name = "Secretary",
                             NormalizedName = "SECRETARY"
                         },
                         new
                         {
-                            Id = "bda61c7a-3f3a-4ef4-bf2f-eab3c63d83da",
-                            ConcurrencyStamp = "a82a7fda-d8cb-4b1d-9208-7c3169280d6b",
+                            Id = "d7d33197-d923-4be8-bea0-a34f717699d5",
+                            ConcurrencyStamp = "eb24bf24-cb45-4cea-90ca-5fed3a515c9f",
                             Name = "Manager",
                             NormalizedName = "MANAGER"
                         });
@@ -239,22 +239,22 @@ namespace PPT.Migrations
                         new
                         {
                             UserId = "8e445865-a24d-4543-a6c6-9443d048cdb9",
-                            RoleId = "a6a44735-415f-4683-ad10-0749c931bf8f"
+                            RoleId = "dba50297-4d97-4e8b-bfbb-92de2e10c098"
                         },
                         new
                         {
                             UserId = "8e445865-a24d-4543-7u7u-9443d048cdb9",
-                            RoleId = "b1c5ebb3-e08b-473d-afa9-81d12113c1f8"
+                            RoleId = "df419d50-0d8f-4236-ac74-257be2245a87"
                         },
                         new
                         {
                             UserId = "8e445865-a24d-4543-9O9O-9443d048cdb9",
-                            RoleId = "b1c5ebb3-e08b-473d-afa9-81d12113c1f8"
+                            RoleId = "df419d50-0d8f-4236-ac74-257be2245a87"
                         },
                         new
                         {
                             UserId = "8e445865-a24d-4543-i9i9-9443d048cdb9",
-                            RoleId = "bda61c7a-3f3a-4ef4-bf2f-eab3c63d83da"
+                            RoleId = "d7d33197-d923-4be8-bea0-a34f717699d5"
                         });
                 });
 
@@ -409,6 +409,7 @@ namespace PPT.Migrations
                         {
                             ID = 1,
                             BranchID = 2,
+                            HeadID = "8e445865-a24d-4543-a6c6-9443d048cdb9",
                             Name = "Computer science and mathmatics",
                             SecretaryID = "8e445865-a24d-4543-7u7u-9443d048cdb9"
                         },
@@ -547,14 +548,14 @@ namespace PPT.Migrations
                         {
                             Id = "8e445865-a24d-4543-a6c6-9443d048cdb9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "42069759-59d9-4a49-b176-0e42d3b681cf",
+                            ConcurrencyStamp = "274f9539-ca4b-455c-8076-e3b8d3670eb6",
                             Email = "zainab.alsaghir@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAEAACcQAAAAEIIlWMWF8yefjNimvcaZPgEqtFMYN/XQgzLFo+Z84EjVvscxi61NGbt+3Ht9EepJ5Q==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJpER3rd6DHsn8kiUrBR9wchsN1DwpIdChXqbaU0cvgdUc+Qg8ART3lzyVivOApVfA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "c11be3db-8fe6-469b-bd67-4585e948178d",
+                            SecurityStamp = "9bf6225f-2391-4ed7-8ed7-ca70aa10e33c",
                             TwoFactorEnabled = false,
                             UserName = "Admin",
                             FirstName = "زينب ",
@@ -564,14 +565,14 @@ namespace PPT.Migrations
                         {
                             Id = "8e445865-a24d-4543-7u7u-9443d048cdb9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "29101223-065d-47d4-a70e-db0eee9ae89f",
+                            ConcurrencyStamp = "6fa7e5fb-369a-449b-9d9b-b9446a12eea4",
                             Email = "hanaa666@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "SECRETARY",
-                            PasswordHash = "AQAAAAEAACcQAAAAEBSQFg7dHWDAKcs3ZITWvQH2DlRoLLF+tCFvdz7RuYk0cVVUbsCvCFqbsmhOxQpPOA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAECO0gKbJIk+hh89WWcPPh8GE0HcHhZ32DosTKeHSdspbdI3hFjEZ2D+oI1BVYYGTgA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "d46fbc21-893d-470f-8aea-9e50b5c24999",
+                            SecurityStamp = "73a09207-7dab-49de-9654-5a7f6c1ebe79",
                             TwoFactorEnabled = false,
                             UserName = "Secretary",
                             FirstName = "هناء",
@@ -581,14 +582,14 @@ namespace PPT.Migrations
                         {
                             Id = "8e445865-a24d-4543-9O9O-9443d048cdb9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "9278ca84-c7f7-4363-a7d2-8babb0d84e9d",
+                            ConcurrencyStamp = "5d484012-c019-421a-9b32-98bdd221b1ba",
                             Email = "bassem666@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "SECRETARYBASSEM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEI1E4mFtjNsWMUi/QoLHlqGDD6FCy3lqfcGnNViAOHIdOKnbr4T4bB7xCExPSQB92g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEG6Ba++2kYYUKYkum/gzArEXnCqK4L4D5Q5HaJyZ+23xCpkkSOpKn9qLW3yDS3Mlzw==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "1191da34-ca1c-48bb-bd36-12c6c954abe8",
+                            SecurityStamp = "e2f2d824-ec86-4aaf-8e71-4eccb6b1d388",
                             TwoFactorEnabled = false,
                             UserName = "SecretaryBassem",
                             FirstName = "باسم",
@@ -598,14 +599,14 @@ namespace PPT.Migrations
                         {
                             Id = "8e445865-a24d-4543-i9i9-9443d048cdb9",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c12b4e74-53a7-411f-8957-b480f177ee61",
+                            ConcurrencyStamp = "ccb881c0-9ce6-46ae-92be-0b6850459860",
                             Email = "hsayn.bazzi666@gmail.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedUserName = "MANAGER",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHunJia9BNb5sS/ch43ydRlR3ML7fLvPrXO72L9wunWrsrgRqZ3N5lbhzBMdcbTATg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPfQpbYH/R00NII4LRRcYsTml6/Tp7y+glB/eRzlKBnfYXJENUdDGz/3qYtOTdxT2g==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "6d47e596-9979-4caf-bb99-f7ff154ffead",
+                            SecurityStamp = "8de3bc02-6d3e-4f29-b828-77a06fad803c",
                             TwoFactorEnabled = false,
                             UserName = "Manager",
                             FirstName = "حسين",

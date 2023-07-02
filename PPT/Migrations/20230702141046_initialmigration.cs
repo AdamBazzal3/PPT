@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PPT.Migrations
 {
     /// <inheritdoc />
-    public partial class updatemodels : Migration
+    public partial class initialmigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -283,9 +283,9 @@ namespace PPT.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "a6a44735-415f-4683-ad10-0749c931bf8f", "a2fa49ef-74db-4ec8-8fb2-dffbf2c931c7", "Administrator", "ADMINISTRATOR" },
-                    { "b1c5ebb3-e08b-473d-afa9-81d12113c1f8", "bb95675e-d7fd-48e4-96b4-0b2efb9c9337", "Secretary", "SECRETARY" },
-                    { "bda61c7a-3f3a-4ef4-bf2f-eab3c63d83da", "a82a7fda-d8cb-4b1d-9208-7c3169280d6b", "Manager", "MANAGER" }
+                    { "d7d33197-d923-4be8-bea0-a34f717699d5", "eb24bf24-cb45-4cea-90ca-5fed3a515c9f", "Manager", "MANAGER" },
+                    { "dba50297-4d97-4e8b-bfbb-92de2e10c098", "62e5f184-fd0d-436b-a1f2-e03ceb7d0e9f", "Administrator", "ADMINISTRATOR" },
+                    { "df419d50-0d8f-4236-ac74-257be2245a87", "526a412c-3a47-4faf-a42b-643cad415592", "Secretary", "SECRETARY" }
                 });
 
             migrationBuilder.InsertData(
@@ -293,10 +293,10 @@ namespace PPT.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "8e445865-a24d-4543-7u7u-9443d048cdb9", 0, "29101223-065d-47d4-a70e-db0eee9ae89f", "User", "hanaa666@gmail.com", true, "هناء", "", false, null, null, "SECRETARY", "AQAAAAEAACcQAAAAEBSQFg7dHWDAKcs3ZITWvQH2DlRoLLF+tCFvdz7RuYk0cVVUbsCvCFqbsmhOxQpPOA==", null, false, "d46fbc21-893d-470f-8aea-9e50b5c24999", false, "Secretary" },
-                    { "8e445865-a24d-4543-9O9O-9443d048cdb9", 0, "9278ca84-c7f7-4363-a7d2-8babb0d84e9d", "User", "bassem666@gmail.com", true, "باسم", "", false, null, null, "SECRETARYBASSEM", "AQAAAAEAACcQAAAAEI1E4mFtjNsWMUi/QoLHlqGDD6FCy3lqfcGnNViAOHIdOKnbr4T4bB7xCExPSQB92g==", null, false, "1191da34-ca1c-48bb-bd36-12c6c954abe8", false, "SecretaryBassem" },
-                    { "8e445865-a24d-4543-a6c6-9443d048cdb9", 0, "42069759-59d9-4a49-b176-0e42d3b681cf", "User", "zainab.alsaghir@gmail.com", true, "زينب ", "الصغير", false, null, null, "ADMIN", "AQAAAAEAACcQAAAAEIIlWMWF8yefjNimvcaZPgEqtFMYN/XQgzLFo+Z84EjVvscxi61NGbt+3Ht9EepJ5Q==", null, false, "c11be3db-8fe6-469b-bd67-4585e948178d", false, "Admin" },
-                    { "8e445865-a24d-4543-i9i9-9443d048cdb9", 0, "c12b4e74-53a7-411f-8957-b480f177ee61", "User", "hsayn.bazzi666@gmail.com", true, "حسين", "بزي", false, null, null, "MANAGER", "AQAAAAEAACcQAAAAEHunJia9BNb5sS/ch43ydRlR3ML7fLvPrXO72L9wunWrsrgRqZ3N5lbhzBMdcbTATg==", null, false, "6d47e596-9979-4caf-bb99-f7ff154ffead", false, "Manager" }
+                    { "8e445865-a24d-4543-7u7u-9443d048cdb9", 0, "6fa7e5fb-369a-449b-9d9b-b9446a12eea4", "User", "hanaa666@gmail.com", true, "هناء", "", false, null, null, "SECRETARY", "AQAAAAEAACcQAAAAECO0gKbJIk+hh89WWcPPh8GE0HcHhZ32DosTKeHSdspbdI3hFjEZ2D+oI1BVYYGTgA==", null, false, "73a09207-7dab-49de-9654-5a7f6c1ebe79", false, "Secretary" },
+                    { "8e445865-a24d-4543-9O9O-9443d048cdb9", 0, "5d484012-c019-421a-9b32-98bdd221b1ba", "User", "bassem666@gmail.com", true, "باسم", "", false, null, null, "SECRETARYBASSEM", "AQAAAAEAACcQAAAAEG6Ba++2kYYUKYkum/gzArEXnCqK4L4D5Q5HaJyZ+23xCpkkSOpKn9qLW3yDS3Mlzw==", null, false, "e2f2d824-ec86-4aaf-8e71-4eccb6b1d388", false, "SecretaryBassem" },
+                    { "8e445865-a24d-4543-a6c6-9443d048cdb9", 0, "274f9539-ca4b-455c-8076-e3b8d3670eb6", "User", "zainab.alsaghir@gmail.com", true, "زينب ", "الصغير", false, null, null, "ADMIN", "AQAAAAEAACcQAAAAEJpER3rd6DHsn8kiUrBR9wchsN1DwpIdChXqbaU0cvgdUc+Qg8ART3lzyVivOApVfA==", null, false, "9bf6225f-2391-4ed7-8ed7-ca70aa10e33c", false, "Admin" },
+                    { "8e445865-a24d-4543-i9i9-9443d048cdb9", 0, "ccb881c0-9ce6-46ae-92be-0b6850459860", "User", "hsayn.bazzi666@gmail.com", true, "حسين", "بزي", false, null, null, "MANAGER", "AQAAAAEAACcQAAAAEPfQpbYH/R00NII4LRRcYsTml6/Tp7y+glB/eRzlKBnfYXJENUdDGz/3qYtOTdxT2g==", null, false, "8de3bc02-6d3e-4f29-b828-77a06fad803c", false, "Manager" }
                 });
 
             migrationBuilder.InsertData(
@@ -318,10 +318,10 @@ namespace PPT.Migrations
                 columns: new[] { "RoleId", "UserId" },
                 values: new object[,]
                 {
-                    { "b1c5ebb3-e08b-473d-afa9-81d12113c1f8", "8e445865-a24d-4543-7u7u-9443d048cdb9" },
-                    { "b1c5ebb3-e08b-473d-afa9-81d12113c1f8", "8e445865-a24d-4543-9O9O-9443d048cdb9" },
-                    { "a6a44735-415f-4683-ad10-0749c931bf8f", "8e445865-a24d-4543-a6c6-9443d048cdb9" },
-                    { "bda61c7a-3f3a-4ef4-bf2f-eab3c63d83da", "8e445865-a24d-4543-i9i9-9443d048cdb9" }
+                    { "df419d50-0d8f-4236-ac74-257be2245a87", "8e445865-a24d-4543-7u7u-9443d048cdb9" },
+                    { "df419d50-0d8f-4236-ac74-257be2245a87", "8e445865-a24d-4543-9O9O-9443d048cdb9" },
+                    { "dba50297-4d97-4e8b-bfbb-92de2e10c098", "8e445865-a24d-4543-a6c6-9443d048cdb9" },
+                    { "d7d33197-d923-4be8-bea0-a34f717699d5", "8e445865-a24d-4543-i9i9-9443d048cdb9" }
                 });
 
             migrationBuilder.InsertData(
@@ -329,7 +329,7 @@ namespace PPT.Migrations
                 columns: new[] { "ID", "BranchID", "HeadID", "Name", "SecretaryID" },
                 values: new object[,]
                 {
-                    { 1, 2, null, "Computer science and mathmatics", "8e445865-a24d-4543-7u7u-9443d048cdb9" },
+                    { 1, 2, "8e445865-a24d-4543-a6c6-9443d048cdb9", "Computer science and mathmatics", "8e445865-a24d-4543-7u7u-9443d048cdb9" },
                     { 2, 1, null, "Physics", "8e445865-a24d-4543-9O9O-9443d048cdb9" },
                     { 3, 1, null, "Chemistry", null },
                     { 4, 2, null, "Biochemistry", null }
