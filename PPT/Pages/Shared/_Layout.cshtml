@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/PPT.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/lib/DataTables/datatables.min.css" />
+    <link href="~/lib/select2/dist/css/select2.min.css" rel="stylesheet" />
 </head>
 <body>
     <header>
@@ -37,7 +38,15 @@
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Calendar">المفكرة</a>
                             </li>
                             <li class="nav-item">
-                                
+                                <a class="nav-link text-dark" asp-area="" asp-page="/DoctorAttendance">تسجيل حضور أستاذ</a>
+                            </li>
+                            <li class="nav-item">
+                            </li>
+                        }
+                        @if (SignInManager.IsSignedIn(User) && User.IsInRole("Administrator"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/MonthlyReports">تقرير الشهري</a>
                             </li>
                         }
                         <partial name="_LoginPartial" />
@@ -53,9 +62,9 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="border-top text-muted">
         <div class="container">
-            &copy; 2023 - PPT - <a asp-area="" asp-page="/Privacy">Privacy</a>
+            &copy; 2023 - PPT
         </div>
     </footer>
 
@@ -66,6 +75,7 @@
     <script src="~/js/PresenceByDay.js" asp-append-version="true"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" asp-append-version="true"></script>
     <script src="~/lib/DataTables/datatables.min.js" asp-append-version="true"></script>
+    <script src="~/lib/select2/dist/js/select2.min.js" defer></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

@@ -61,7 +61,7 @@ namespace PPT.Pages
                 }
                 //Htession.SetObjectInSession("Department", department);
                 //department = _authService.GetEntityWithCondition(user);
-                var Doctors = _doctorRepository.GetEntitiesWithCondition(d => d.Department.ID == department.ID && d.Attendances.Any(a => a.Date.Date == date.Date), (doctor)=>doctor.Department, (doctor)=>doctor.Attendances);
+                var Doctors = _doctorRepository.GetEntitiesWithCondition(d => d.Department.ID == department.ID && d.Attendances.Any(a => a.Date.Date.Equals(date.Date)), (doctor)=>doctor.Department, (doctor)=>doctor.Attendances);
                 //var serializedData = JsonSerializer.Serialize(Doctors, _jsonOptions);
 
                 return new JsonResult(Doctors);

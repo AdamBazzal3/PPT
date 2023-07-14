@@ -76,7 +76,25 @@
                     'XSRF-TOKEN': token
                 },
                 success: function (data) {
+                    var date = new Date(encodedDate);
                     //console.log(data);
+                    $.each(data, function (index, item) {
+                        if (item.attendances && item.attendances.length > 0) {
+                            // Find the attendance with the specific date
+                            var attendance = item.attendances.find(function (a) {
+                                var attDate = new Date(a.date).toISOString();
+                                var jsDate = date.toISOString();
+                                return attDate === jsDate;
+                            });
+
+                            if (attendance) {
+                                // Render the ID of the found attendance
+                                 item.idAttendanceToday =  attendance.id;
+                            }
+                        }
+                    });
+                    
+
                     table = $('#attendanceTable').DataTable({
                         headerCallback: function (thead, data, start, end, display) {
                             $(thead)
@@ -128,7 +146,7 @@
                         columns: [
                             { 
                                 title: '#',
-                                data: 'attendances[0].id'
+                                data: 'idAttendanceToday',
                             },
                             {
                                 title: '#doctor',
@@ -146,12 +164,21 @@
                             },
                             {
                                 title: 'المدة (متعاقد)',
-                                data: null,
+                                data: 'attendances',
                                 render: function (data, type, row) {
-                                    var duration = row.attendances && row.attendances.length > 0 ? row.attendances[0].duration : '';
-                                    //console.log(row);
-                                    var view = row.isContracted == true ? `<input type="number" class="form-control" id='doctorAttendance_${row.id}' value="${duration}"  min="1" placeholder="عدد"  />` : '';
-                                    return view;
+                                    if (data && data.length > 0) {
+                                        // Find the attendance with the specific date
+                                        var attendance = data.find(function (a) {
+                                            var attDate = new Date(a.date).toISOString();
+                                            var jsDate = date.toISOString();
+                                            return attDate === jsDate;
+                                        });
+                                        if (attendance) {
+                                            // Render the ID of the found attendance
+                                            return row.isContracted == true ? `<input type="number" class="form-control" id='doctorAttendance_${row.id}' value="${attendance.duration}"  min="1" placeholder="عدد"  />` : '';
+                                        }
+                                    }
+                                    return '';
                                 }
                             },
 

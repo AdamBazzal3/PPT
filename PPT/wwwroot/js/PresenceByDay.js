@@ -149,14 +149,15 @@ function edit() {
         .rows();//#doctorAttendance_1
     
     var updates = rows.data().toArray().map((value) => {
+        console.log(value)
         return {
-            id: value.attendances[0].id,
+            id: value.idAttendanceToday,
             doctorId: value.id,
             isContracted: value.isContracted,
             duration: value.isContracted === true ? $('#doctorAttendance_' + value.id).val() : 0
         };
     });
-    
+    console.log(updates);
     if (updates.length !== 0) {
         let text = "هل تريد التعديل؟";
         if (confirm(text) == true) {
@@ -178,7 +179,7 @@ function edit() {
             });
         }
     }
-
+    
 }
 
 function save() {

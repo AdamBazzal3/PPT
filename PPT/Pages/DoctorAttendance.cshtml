@@ -6,10 +6,10 @@
 }
 
 
-@*strategy: 1: select doctor      DONE
-			2: select month
-			3: view fresh table of this month regardless of old attendance
-			4: new checked days will be added 
+@*strategy: 1: select doctor												DONE
+			2: select month													DONE
+			3: view fresh table of this month regardless of old attendance	DONE
+			4: new checked days will be added								DONE		
 			take into consideration that this page will not allow updates,
 			so an update is as follows: 
 			1: select a doctor and a specific month, and then only show days 
@@ -21,24 +21,7 @@
 <body>
 	
 
-        <select id="ddlDoctors" name="id" style="width:170px;" asp-items="@Model.DoctorsList">
-            <option value="0">الإسم</option>
-        </select>
-@*        <input type="hidden" name="DrName"/>*@
-        <br/>
-        <br/>
-@*        <input type="submit" value="Submit"asp-page-handler="Search"/>*@
-		<script src="~/lib/jquery/dist/jquery.min.js"></script>
-		<link href="~/lib/select2/dist/css/select2.min.css" rel="stylesheet" />
-		<script src="~/lib/select2/dist/js/select2.min.js" defer></script>
-        <script type="text/javascript">
-            $(function () {
-                $("#ddlDoctors").select2();
-            });
-            //$("body").on("change", "#ddlDoctors", function () {
-            //    $("input[name=DrName]").val($(this).find("option:selected").text());
-            //});
-        </script>
+
 
 
 @*	<form>
@@ -85,15 +68,105 @@
 
 	<input type="radio" id="month" name="attendaceType" value="MONTH" onclick="show()">
 	<label for="month">شهري</label><br /><br />*@
+	
 
+	<div id="monthselector"> 
 
-	<div id="monthselector">
-		<form action = "DateAttendance">
-			<label for="month">الشهر</label>
-			<input type="month" id="monthSel" name="month">
-@*			<label for="attendance">الحضور</label>
-			<input type="checkbox" id="attendance" name="IsChecked" value="true"><br />
-			<input type="submit" value="حفظ"/>*@
+		<form>
+			<select id="ddlDoctors" name="id" style="width:170px;" asp-items="@Model.DoctorsList">
+				<option value="0">الإسم</option>
+			</select>
+	@*        <input type="hidden" name="DrName"/>*@
+			<br/>
+			<br/>
+	@*        <input type="submit" value="Submit"asp-page-handler="Search"/>*@
+			
+			
+			
+
+			<label for="monthSel">الشهر</label>
+			<input type="month" id="monthSel" name="month" onchange="showTable()">
+			<br /><br />
+			<input type="submit" class="btn btn-primary" value="حفظ" asp-page-handler="DateAttendance" />
+			<table id="tableBody" class="table table-striped">
+				<tr id ="table_head">
+					<th>اليوم</th>
+					<th>الحضور</th>
+					<th id = "duration" style="display:none">المدة</th>
+			    </tr>
+
+			</table>
+			
+			<script>
+					//document.getElementById('ddlDoctors').addEventListener("change", () => {
+					//	Console.Log("hi");
+					//	var url = `/IsContracted?id=${document.getElementById('ddlDoctors').selectedOptions[0].value}`;
+					//	fetch(url)
+					//		.then((response) => {
+					//			return response.text();
+					//		})
+					//		.then((result) => {
+					//			if(result=="true")
+					//				document.getElementById("duration").style.display = "block";
+					//		});
+					//});
+
+				function showTable() {
+					var date = document.getElementById('monthSel').value;
+                    if (date != NaN && document.getElementById('ddlDoctors').value !=0) {
+                        const data = date.split("-");
+                        var year = parseInt(data[0]);
+                        var month = parseInt(data[1]);
+                        var days = new Date(year, month, 0).getDate();
+                        var table = document.getElementById('tableBody');
+						for(let i = 1;i < table.children.length;)
+							table.removeChild(table.children[i]);
+                        for (let i = 1; i < days; i++) {
+                            let current_day = new Date(year, month-1, i);
+							let row = document.createElement('tr');
+
+							let c1 = document.createElement('td');
+							let c2 = document.createElement('td');
+
+							c1.innerHTML  = current_day.toLocaleDateString();
+                            var x = document.createElement('INPUT');
+							x.setAttribute("type", "checkbox");
+							x.setAttribute("name", "AreChecked");
+							x.setAttribute("id",current_day.toLocaleDateString());
+							x.setAttribute("value",current_day.toLocaleDateString())
+							x.addEventListener('change', function() {
+								let aid = "duration"+this.id;
+								let a = document.getElementById(aid);
+								if (this.checked && a!=null) {
+									a.disabled = false;
+									
+								} else if(a!=null){
+									a.disabled = true;
+								}
+							});
+							c2.appendChild(x);
+                            row.appendChild(c1);
+							row.appendChild(c2);
+							if (window.getComputedStyle(document.getElementById('duration')).display != 'none') {
+								let c3 = document.createElement("td")
+								let y = document.createElement('INPUT');
+								y.setAttribute("type", "number");
+								y.setAttribute("name","durations");
+								y.disabled = true;
+								y.setAttribute("id","duration"+ current_day.toLocaleDateString());
+								y.style.width = "70px";
+								c3.appendChild(y);
+								row.appendChild(c3);
+                            }
+								
+                            table.appendChild(row)
+                        }
+                    }
+				}
+				
+			</script>
+
+			
 		</form>		
 	</div>
 
@@ -108,3 +181,23 @@
 	</div>*@
 
 </body>
+@section scripts{
+<script type="text/javascript">
+	$(function () {
+		$("#ddlDoctors").select2();
+		$('#ddlDoctors').on('select2:selecting', function (e) {
+			$.ajax({
+				url: "/doctorattendance/iscontracted",
+				data: { "id": e.params.args.data.id },
+				success: function (result) {
+					if (result == "true")
+						$("#duration").show();
+					else
+						$("#duration").hide();
+				}
+			});
+			$("#tableBody").find("tr:not(:first)").remove();
+		});
+	});
+</script>
+}
