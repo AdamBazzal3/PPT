@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.VisualBasic;
 using PPT.Models;
 using PPT.Repositories;
+using System.Configuration;
 using System.Globalization;
 
 namespace PPT.Pages
@@ -46,16 +48,24 @@ namespace PPT.Pages
                 using (var reader = new StreamReader(UploadFile.OpenReadStream()))
                 using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
                 {
+                    csv.Read();
                     while (csv.Read())
                     {
+                        if (!int.TryParse(csv.GetField<string>(0),out _)) {
+                            FileContent += "Œÿ√ ›Ì  œÊÌ‰ «·„⁄·Ê„«  ›Ì Â–« «·”Ã·";
+                            FileContent += "\n";
+                            continue;
+                                }
                         Doctor doctor = new Doctor();
                         doctor.UniversityId = csv.GetField<string>(2);
                         doctor.Name = csv.GetField<string>(1);
+                        doctor.IsContracted = bool.Parse(csv.GetField<string>(3));
+                        doctor.DepartmentID= int.Parse(csv.GetField<string>(4));
                         Doctors.Add(doctor);
-                        FileContent += doctor.Name;
+                        FileContent =FileContent + " „  œÊÌ‰ ”Ã· »≈”„ «·œﬂ Ê— "+doctor.Name;
                         FileContent += "\n";
                     }
-                _doctorRepository.InsertAllAsync(Doctors).GetAwaiter().GetResult();
+                    _doctorRepository.InsertAllAsync(Doctors).GetAwaiter().GetResult();
 
                 }
             }
