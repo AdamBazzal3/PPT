@@ -11,7 +11,7 @@ using PPT.Models;
 
 namespace PPT.Pages.Departments
 {
-    [Authorize(Roles ="Director")]
+    [Authorize(Roles ="Manager")]
     public class CreateModel : PageModel
     {
         private readonly PPT.Data.PPTDatacontext _context;

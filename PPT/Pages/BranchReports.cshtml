@@ -35,7 +35,7 @@
 </form>
 
 
-<table id="report" style="display:none; width : 100% ">
+<table id="report" class="table table-striped" style="display:none; width : 100% ">
 	<thead>
 		<tr>
 			<th>
@@ -82,11 +82,21 @@
 						$('#report').DataTable({
 						paging: false,
 						data: result,
+						headerCallback: function (thead, data, start, end, display) {
+							$(thead)
+								.find('th')
+								.css('text-align', 'right');
+						},
 						columns: [
 							{ data: 'id' },
 							{ data: 'uniID' },
 							{ data: 'name' },
-							{ data: 'date' },
+								{
+									data: 'date',
+									render: function (data, type, row) {
+										return `${data.year}-${data.month}-${data.day}`;
+									}
+								},
 							{ data: 'duration' },
 							{ data: 'published' },
 						]

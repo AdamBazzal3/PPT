@@ -131,6 +131,7 @@ public class PPTDatacontext : IdentityDbContext
             {
                 ID = 2,
                 Name = "الحدت",
+                DirectorID = "8e445865-a24d-4543-i9i9-9443d048cdb9"
             }
         );
 
