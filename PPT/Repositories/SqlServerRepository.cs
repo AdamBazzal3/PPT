@@ -46,6 +46,11 @@ namespace PPT.Repositories
 
             return query.Where(condition).ToList();
         }
+        public async Task<T> GetByIntAsync(int id)
+        {
+            T result = await Table.FindAsync(id);
+            return result;
+        }
         public T GetEntityWithCondition(Expression<Func<T, bool>> condition)
         {
             return Table.FirstOrDefault(condition);
@@ -82,6 +87,13 @@ namespace PPT.Repositories
             Table.Attach(obj);
             _context.Entry(obj).State = EntityState.Modified;
             await _context.SaveChangesAsync();
+        }
+
+        public void Update(T obj)
+        {
+            Table.Attach(obj);
+            _context.Entry(obj).State = EntityState.Modified;
+            _context.SaveChanges();
         }
         public async void DeleteAsync(int id)
         {
@@ -120,13 +132,22 @@ namespace PPT.Repositories
 
             _context.SaveChanges();
         }
-
+        public Department GetDepartment(User secretary)
+        {
+            return _context.Departments.FirstOrDefault(d => d.Secretary.Id == secretary.Id);
+        }
 
         public void DeleteEntitiesWithCondition(Expression<Func<T, bool>> condition)
         {
             var entitiesToDelete = Table.Where(condition);
             Table.RemoveRange(entitiesToDelete);
             _context.SaveChanges();
+        }
+        public List<T> GetEntitiesWithCondition(Expression<Func<T, bool>> condition)
+        {
+            return Table
+                .Where(condition)
+                .ToList();
         }
     }
 }

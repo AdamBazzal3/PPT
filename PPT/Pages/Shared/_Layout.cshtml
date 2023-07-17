@@ -41,13 +41,22 @@
                                 <a class="nav-link text-dark" asp-area="" asp-page="/DoctorAttendance">تسجيل حضور أستاذ</a>
                             </li>
                             <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Publish">إرسال الحضور</a>
                             </li>
+                            
                         }
                         @if (SignInManager.IsSignedIn(User) && User.IsInRole("Administrator"))
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-page="/MonthlyReports">تقرير الشهري</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Importdata">تحميل المعلومات</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Doctors/Index">لائحة الأساتذة</a>
+                            </li>
+                            
                         }
                         <partial name="_LoginPartial" />
                     </ul>

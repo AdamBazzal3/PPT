@@ -148,7 +148,8 @@ public class PPTDatacontext : IdentityDbContext
                 ID = 2,
                 Name = "Physics",
                 BranchID = 1,
-                SecretaryID = "8e445865-a24d-4543-9O9O-9443d048cdb9"
+                SecretaryID = "8e445865-a24d-4543-9O9O-9443d048cdb9",
+
             },
             new Department
             {

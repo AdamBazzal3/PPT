@@ -24,7 +24,7 @@ namespace PPT.Pages
         [BindProperty(SupportsGet = true)]
         public List<int>? durations { get; set; } = null;
         private User user;
-        private Department department;
+        public static Department department;
         public DoctorAttendanceModel(UserManager<User> userManager, IRepository<Doctor> doctorRepository, IRepository<Attendance> attendanceRepository, IRepository<Department> departmentRepository)
         {
             _userManager = userManager;
@@ -56,11 +56,20 @@ namespace PPT.Pages
         //        Doctors = await doctors.ToListAsync();
         //    }
         //}
-        public IActionResult OnGetDateAttendance(string? id, [DataType(DataType.Date)] List<string>? AreChecked,List<int>? durations)
+        public async Task<IActionResult> OnGetDateAttendance(string? id, [DataType(DataType.Date)] List<string>? AreChecked,List<int>? durations)
         {
+
             if (id != null && id!="0" && AreChecked!=null)
             {
-                List<Attendance> list = new List<Attendance>();
+				//user = _userManager.GetUserAsync(User).GetAwaiter().GetResult();
+				//department = _departmentsRepository.GetEntityWithCondition((d) => d.SecretaryID == user.Id);
+				List<Attendance> list = new List<Attendance>();
+                List<Attendance> old;
+                DateTime temp;
+                if (DateTime.TryParse(AreChecked[0], out temp))
+                    old = _attendanceRepository.GetAttendanceByDateForDepartment(department.ID, new DateTime(temp.Year,temp.Month,1));
+                else
+                    return null;
                 bool flag = false;
                 for(int i = 0; i < AreChecked.Count; i++)
                 {
@@ -68,7 +77,7 @@ namespace PPT.Pages
                     if(DateTime.TryParse(AreChecked[i], out date))
                     {
                         flag = false;
-                        foreach(var att in _attendanceRepository.GetAll())
+                        foreach(var att in old)
                         {
                             if (att.DoctorID == int.Parse(id) && att.Date.CompareTo(date) == 0)
                             {
@@ -91,10 +100,17 @@ namespace PPT.Pages
                     }
 
                 }
-                Task<int> a = _attendanceRepository.InsertAllAsync(list);
+                try
+                {
+                    await _attendanceRepository.InsertAllAsync(list);
+                }
+                catch(Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
 
             }
-            return RedirectToPage("/Calendar");
+            return RedirectToPage("/MonthlyReports");
 
         }
 

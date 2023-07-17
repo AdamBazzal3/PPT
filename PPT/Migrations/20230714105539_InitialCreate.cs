@@ -283,9 +283,9 @@ namespace PPT.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "6e39fed1-41e0-4f03-917f-2b24e7baa463", "2dc58ae5-8e2d-4b5d-ae71-a48546f1497a", "Secretary", "SECRETARY" },
-                    { "b8e589b5-d8b2-4935-9661-920627c52cb8", "b7d9852a-0e18-4ae4-a17e-f35eef752d49", "Administrator", "ADMINISTRATOR" },
-                    { "c930e739-31f1-4695-a914-dc7e0627ba16", "83d1dc76-828b-4645-9d07-21c07cb51936", "Manager", "MANAGER" }
+                    { "01828a2f-9c17-49af-8b0d-16105eae309c", "e67a6e99-0180-43f4-80e2-bfe5e14b66de", "Secretary", "SECRETARY" },
+                    { "5cb0282a-059b-47dd-b90e-3b749ac153af", "27b7ffce-ce69-4b53-917b-a6cc8ab34056", "Administrator", "ADMINISTRATOR" },
+                    { "972381b6-e45f-49ad-adfe-bc6a1f0e8cb0", "d6c8a4c7-7eda-40c2-a195-ee1d37b6f24e", "Manager", "MANAGER" }
                 });
 
             migrationBuilder.InsertData(
@@ -293,10 +293,10 @@ namespace PPT.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "8e445865-a24d-4543-7u7u-9443d048cdb9", 0, "43ffee33-2208-4005-a570-3ead0ad35180", "User", "hanaa666@gmail.com", true, "هناء", "", false, null, null, "SECRETARY", "AQAAAAEAACcQAAAAEM0ZvnxQndNzQyk8/uL3su/0smyEcd2M5RQlhkrOjIJNSMt/AkVIUClQC5XcS0/GTA==", null, false, "f512c8e7-9311-456d-83bc-4ac7c0588088", false, "Secretary" },
-                    { "8e445865-a24d-4543-9O9O-9443d048cdb9", 0, "a8fde3dd-d3c0-4740-9368-d238a0058cda", "User", "bassem666@gmail.com", true, "باسم", "", false, null, null, "SECRETARYBASSEM", "AQAAAAEAACcQAAAAEFfSrG9FAexFLZDNmUg9RlWxOfbtmdJMdtJpFiAZsk0uyD7NlHsR26SGTeaQL5uO+Q==", null, false, "b96e5fb5-d356-4ccb-8ce8-59b0b4089436", false, "SecretaryBassem" },
-                    { "8e445865-a24d-4543-a6c6-9443d048cdb9", 0, "dacbbdd1-e937-4760-88a0-6771362768ca", "User", "zainab.alsaghir@gmail.com", true, "زينب ", "الصغير", false, null, null, "ADMIN", "AQAAAAEAACcQAAAAEIrfC1roWJXP2JjuYdHqpjwwGNDWTQhftOF7CFwywQSkEWgu1FTl4i8t4uMx4W0d8g==", null, false, "02d5faab-f20e-456c-94ed-490fff1dcfcc", false, "Admin" },
-                    { "8e445865-a24d-4543-i9i9-9443d048cdb9", 0, "69787669-73a7-430e-9347-4de2b8be7723", "User", "hsayn.bazzi666@gmail.com", true, "حسين", "بزي", false, null, null, "MANAGER", "AQAAAAEAACcQAAAAEHYAyH3DG8IaLMpVvQG5JtEYGv63B3iRae6QoB++/JcFvbPQFY8g54JESnV2FXQcWw==", null, false, "60d60581-0964-4bba-a6d1-93726dfde20b", false, "Manager" }
+                    { "8e445865-a24d-4543-7u7u-9443d048cdb9", 0, "8d7f0641-5053-435a-82e0-64768e8e35ba", "User", "hanaa666@gmail.com", true, "هناء", "", false, null, null, "SECRETARY", "AQAAAAEAACcQAAAAECQwjzMe6wJncSQqnIiQtK+r9161Q7QbU1ksGsVj5vEoQtTfzUtC7kfoupJpyvXVIQ==", null, false, "d18bb80b-d9d9-4843-a4a7-c6ea695f9acb", false, "Secretary" },
+                    { "8e445865-a24d-4543-9O9O-9443d048cdb9", 0, "2b63d95d-4620-4e58-b641-f9129f619db4", "User", "bassem666@gmail.com", true, "باسم", "", false, null, null, "SECRETARYBASSEM", "AQAAAAEAACcQAAAAEOpW36FWge8lBV5/UMZqxgGOICKlqsK/ZSFUq6rOBK8KdeVwEOmhfwN0TnzmZSfWqg==", null, false, "aa0ddf1a-bbc2-45e5-b4c2-c98adf35a793", false, "SecretaryBassem" },
+                    { "8e445865-a24d-4543-a6c6-9443d048cdb9", 0, "43e87ac5-0ae0-4a26-a5c5-aa8563fcf09c", "User", "zainab.alsaghir@gmail.com", true, "زينب ", "الصغير", false, null, null, "ADMIN", "AQAAAAEAACcQAAAAEEtzrnIJl2TRgucJ/cKrN6QH0OR64oRWFUO79JBO+LTFlcknDMnShmhQGnssvLU9iA==", null, false, "5d07b3ea-3633-40ed-9b90-be9edf5b5abd", false, "Admin" },
+                    { "8e445865-a24d-4543-i9i9-9443d048cdb9", 0, "5a4c445d-dbed-42b9-bb1f-6bb87039a18e", "User", "hsayn.bazzi666@gmail.com", true, "حسين", "بزي", false, null, null, "MANAGER", "AQAAAAEAACcQAAAAEA9PRbHxW1prqxdtAJSjeob+F1ZdY//b0PBlyVyFhaJ2g825dDzGyZYywb1Hc6CJig==", null, false, "b7ae4e82-1450-4c11-bd14-6c76f774d321", false, "Manager" }
                 });
 
             migrationBuilder.InsertData(
@@ -318,10 +318,10 @@ namespace PPT.Migrations
                 columns: new[] { "RoleId", "UserId" },
                 values: new object[,]
                 {
-                    { "6e39fed1-41e0-4f03-917f-2b24e7baa463", "8e445865-a24d-4543-7u7u-9443d048cdb9" },
-                    { "6e39fed1-41e0-4f03-917f-2b24e7baa463", "8e445865-a24d-4543-9O9O-9443d048cdb9" },
-                    { "b8e589b5-d8b2-4935-9661-920627c52cb8", "8e445865-a24d-4543-a6c6-9443d048cdb9" },
-                    { "c930e739-31f1-4695-a914-dc7e0627ba16", "8e445865-a24d-4543-i9i9-9443d048cdb9" }
+                    { "01828a2f-9c17-49af-8b0d-16105eae309c", "8e445865-a24d-4543-7u7u-9443d048cdb9" },
+                    { "01828a2f-9c17-49af-8b0d-16105eae309c", "8e445865-a24d-4543-9O9O-9443d048cdb9" },
+                    { "5cb0282a-059b-47dd-b90e-3b749ac153af", "8e445865-a24d-4543-a6c6-9443d048cdb9" },
+                    { "972381b6-e45f-49ad-adfe-bc6a1f0e8cb0", "8e445865-a24d-4543-i9i9-9443d048cdb9" }
                 });
 
             migrationBuilder.InsertData(
@@ -358,15 +358,15 @@ namespace PPT.Migrations
                 columns: new[] { "ID", "Date", "DoctorID", "Duration", "IsPublished" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2023, 7, 14, 13, 0, 28, 175, DateTimeKind.Local).AddTicks(8316), 3, null, false },
-                    { 2, new DateTime(2023, 7, 14, 13, 0, 28, 175, DateTimeKind.Local).AddTicks(8354), 1, null, false },
-                    { 3, new DateTime(2023, 7, 14, 13, 0, 28, 175, DateTimeKind.Local).AddTicks(8357), 1, null, false },
-                    { 4, new DateTime(2023, 7, 14, 13, 0, 28, 175, DateTimeKind.Local).AddTicks(8360), 2, null, false },
-                    { 5, new DateTime(2023, 7, 14, 13, 0, 28, 175, DateTimeKind.Local).AddTicks(8363), 7, null, false },
-                    { 6, new DateTime(2023, 7, 14, 13, 0, 28, 175, DateTimeKind.Local).AddTicks(8366), 8, null, false },
-                    { 7, new DateTime(2023, 7, 14, 13, 0, 28, 175, DateTimeKind.Local).AddTicks(8369), 9, null, false },
-                    { 8, new DateTime(2023, 7, 14, 13, 0, 28, 175, DateTimeKind.Local).AddTicks(8372), 10, null, false },
-                    { 9, new DateTime(2023, 7, 14, 13, 0, 28, 175, DateTimeKind.Local).AddTicks(8375), 11, null, false }
+                    { 1, new DateTime(2023, 7, 14, 13, 55, 39, 436, DateTimeKind.Local).AddTicks(5582), 3, null, false },
+                    { 2, new DateTime(2023, 7, 14, 13, 55, 39, 436, DateTimeKind.Local).AddTicks(5619), 1, null, false },
+                    { 3, new DateTime(2023, 7, 14, 13, 55, 39, 436, DateTimeKind.Local).AddTicks(5621), 1, null, false },
+                    { 4, new DateTime(2023, 7, 14, 13, 55, 39, 436, DateTimeKind.Local).AddTicks(5624), 2, null, false },
+                    { 5, new DateTime(2023, 7, 14, 13, 55, 39, 436, DateTimeKind.Local).AddTicks(5627), 7, null, false },
+                    { 6, new DateTime(2023, 7, 14, 13, 55, 39, 436, DateTimeKind.Local).AddTicks(5629), 8, null, false },
+                    { 7, new DateTime(2023, 7, 14, 13, 55, 39, 436, DateTimeKind.Local).AddTicks(5632), 9, null, false },
+                    { 8, new DateTime(2023, 7, 14, 13, 55, 39, 436, DateTimeKind.Local).AddTicks(5635), 10, null, false },
+                    { 9, new DateTime(2023, 7, 14, 13, 55, 39, 436, DateTimeKind.Local).AddTicks(5637), 11, null, false }
                 });
 
             migrationBuilder.CreateIndex(

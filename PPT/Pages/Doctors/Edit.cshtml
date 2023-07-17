@@ -1,0 +1,50 @@
+﻿@page
+@model PPT.Pages.Doctors.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1> تعديل أستاذ</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Doctor.ID" />
+            <div class="form-group">
+                <label asp-for="Doctor.UniversityId" class="control-label"></label>
+                <input asp-for="Doctor.UniversityId" class="form-control" />
+                <span asp-validation-for="Doctor.UniversityId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Doctor.Name" class="control-label"></label>
+                <input asp-for="Doctor.Name" class="form-control" />
+                <span asp-validation-for="Doctor.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Doctor.IsContracted" /> @Html.DisplayNameFor(model => model.Doctor.IsContracted)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="Doctor.DepartmentID" class="control-label"></label>
+                <select asp-for="Doctor.DepartmentID" class="form-control" asp-items="ViewBag.DepartmentID"></select>
+                <span asp-validation-for="Doctor.DepartmentID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">الرجوع</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

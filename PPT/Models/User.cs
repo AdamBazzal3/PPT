@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.CodeAnalysis;
 
 namespace PPT.Models
 {
@@ -7,5 +8,6 @@ namespace PPT.Models
 
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string ConcatenatedName => $"{FirstName} {LastName}";
     }
 }

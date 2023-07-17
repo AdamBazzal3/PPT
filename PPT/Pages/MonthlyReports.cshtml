@@ -3,11 +3,88 @@
 @{
 	ViewData["Title"] = "التقرير الشهري";
 }
+@*
+	Let the head of department to view attendance by month 
+	and download the exel file for it, by applying a change listener 
+	to the month selector(ajax call).
+*@
 <form >
 	<label for="monthSel">الشهر</label>
 	<input type="month" id="monthSel" asp-for = "@Model.Date">
 	<br /><br />
 	<input type="submit" value="تحميل"  asp-page-handler="Download"/>
+	<br />
+	<br />
 </form>
 
-<div asp-validation-summary="All" style="color:red"></div>
+
+<table id="report" class="table table-striped" style="display:none; width : 100% ">
+	<thead>
+		<tr>
+			<th>
+				الرقم
+			</th>
+			<th>
+				الرقم الجامعي
+			</th>
+			<th>
+				الإسم
+			</th>
+			<th>
+				التاريخ
+			</th>
+			<th>
+				المدة
+			</th>
+			<th>
+				الإصدار
+			</th>
+		</tr>
+	</thead>
+	
+</table>
+@section scripts{
+<script type="text/javascript">
+	$(function () {
+		$('#monthSel').change(
+			
+			function(){
+				if($(this).val() == ''){return;} 
+				$.ajax({
+					url: "/MonthlyReports/Report",
+					data: { "date": $(this).val() },
+					success: function (result) {
+						console.log(result)
+		 //               $.each(result, function (index, item) {
+
+		 //               });
+						$('#report').DataTable().destroy();
+						$('#report').DataTable({
+						paging: false,
+						data: result,
+						headerCallback: function (thead, data, start, end, display) {
+							$(thead)
+								.find('th')
+								.css('text-align', 'right');
+						},
+						columns: [
+							{ data: 'id' },
+							{ data: 'uniID' },
+							{ data: 'name' },
+							{ 
+								data: 'date',
+								render: function (data, type, row) { 
+									return `${data.year}-${data.month}-${data.day}`;
+								}
+							},
+							{ data: 'duration' },
+							{ data: 'published' },
+						]
+						});
+					$('#report').show()
+					}
+				});
+		});
+	});
+</script>
+}

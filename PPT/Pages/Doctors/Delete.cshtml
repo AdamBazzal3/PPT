@@ -1,0 +1,47 @@
+﻿@page
+@model PPT.Pages.Doctors.DeleteModel
+
+@{
+    ViewData["Title"] = "إلغاء";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>إلغاء</h1>
+
+<h3>هل تريد الإلغاء</h3>
+<div>
+    <h4>Doctor</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Doctor.UniversityId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Doctor.UniversityId)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Doctor.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Doctor.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Doctor.IsContracted)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Doctor.IsContracted)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Doctor.Department)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Doctor.Department.ID)
+        </dd>
+    </dl>
+    
+    <form method="post">
+        <input type="hidden" asp-for="Doctor.ID" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-page="./Index">الرجوع</a>
+    </form>
+</div>
