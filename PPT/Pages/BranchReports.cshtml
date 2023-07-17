@@ -1,0 +1,99 @@
+﻿@page "{handler?}"
+@model PPT.Pages.BranchReportsModel
+@{
+	ViewData["Title"] = "التقرير الشهري";
+}
+@*
+	Let the head of branch to view attendance by month 
+	and download the exel file for it, by applying a change listener 
+	to the month selector(ajax call).
+*@
+<select id="deps" name="id" style="width:200px;" asp-items="@Model.DepartmentsList">
+	<option value="0">الإسم</option>
+</select>
+<br />
+<br />
+<form >
+	<label for="monthSel">الشهر</label>
+	<input type="month" id="monthSel" asp-for = "@Model.Date">
+	<br /><br />
+	<input type="hidden" id="targetInput" name="depid" value= "" />
+
+	<input type="submit" id="setValueBtn"  value="تحميل"  asp-page-handler="Download"/>
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$("#setValueBtn").on("click", function() {
+				var sourceValue = $("#deps").val();
+				$("#targetInput").val(sourceValue);
+			});
+		});
+
+	</script>
+	<br />
+	<br />
+</form>
+
+
+<table id="report" style="display:none; width : 100% ">
+	<thead>
+		<tr>
+			<th>
+				الرقم
+			</th>
+			<th>
+				الرقم الجامعي
+			</th>
+			<th>
+				الإسم
+			</th>
+			<th>
+				التاريخ
+			</th>
+			<th>
+				المدة
+			</th>
+			<th>
+				الإصدار
+			</th>
+		</tr>
+	</thead>
+	
+</table>
+
+
+<link href="~/lib/DataTables/datatables.min.css" rel="stylesheet"/>
+<script src="~/lib/DataTables/datatables.min.js" defer></script>
+<script type="text/javascript">
+	$(function () {
+		$('#monthSel').change(
+			
+			function(){
+				if($(this).val() == ''){return;} 
+				$.ajax({
+					url: "/BranchReports/Report",
+					data: { "date": $(this).val(),
+							"id":$("#deps").val()},
+					success: function (result) {
+		 //               $.each(result, function (index, item) {
+
+		 //               });
+						$('#report').DataTable().destroy();
+						$('#report').DataTable({
+						paging: false,
+						data: result,
+						columns: [
+							{ data: 'id' },
+							{ data: 'uniID' },
+							{ data: 'name' },
+							{ data: 'date' },
+							{ data: 'duration' },
+							{ data: 'published' },
+						]
+						});
+					$('#report').show()
+					}
+				});
+		});
+	});
+</script>
