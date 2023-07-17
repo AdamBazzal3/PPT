@@ -48,6 +48,10 @@ namespace PPT.Repositories
         {
             return _context.Departments.FirstOrDefault(d => d.HeadID == head.Id);
         }
+        public Branch GetBranch(User manager)
+        {
+            return _context.Branches.Include(d => d.Departments).FirstOrDefault(d => d.DirectorID == manager.Id);
+        }
 
         public async void InsertAsync(T obj)
         {

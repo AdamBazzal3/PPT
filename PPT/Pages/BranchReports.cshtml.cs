@@ -4,26 +4,27 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using PPT.Models;
 using PPT.Repositories;
-using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using System.Text;
 
 namespace PPT.Pages
 {
-    [Authorize(Roles = "Administrator,Secretary")]
-    public class MonthlyReportsModel : PageModel
+    [Authorize(Roles = "Manager")]
+    public class BranchReportsModel : PageModel
     {
         static List<AttendanceMapper> CSVList = new List<AttendanceMapper>();
         private IWebHostEnvironment Environment;
         private readonly UserManager<User> _userManager;
         private readonly SqlServerRepository<Attendance> _attendanceRepository;
         private static User user;
-        private static Department department;
+        private Branch branch;
+        public SelectList? DepartmentsList { get; set; }
         [BindProperty(SupportsGet = true)]
         public string Date { get; set; }
-        public MonthlyReportsModel(UserManager<User> userManager, IWebHostEnvironment _environment, IRepository<Attendance> attendanceRepository)
+        public BranchReportsModel(UserManager<User> userManager, IWebHostEnvironment _environment, IRepository<Attendance> attendanceRepository)
         {
             this.Environment = _environment;
             _userManager = userManager;
@@ -32,14 +33,13 @@ namespace PPT.Pages
         public void OnGet()
         {
             user = _userManager.GetUserAsync(User).GetAwaiter().GetResult();
-            List<string> role = _userManager.GetRolesAsync(user).GetAwaiter().GetResult().ToList();
-            if(role.ElementAt(0).CompareTo("Secretary")==0)
-                department = _attendanceRepository.GetDepartment(user);
-            else if (role.ElementAt(0).CompareTo("Administrator")==0)
-                department = _attendanceRepository.GetDepartmentByHead(user);
+            branch = _attendanceRepository.GetBranch(user);
+            DepartmentsList = new SelectList(branch.Departments, "ID", "Name");
         }
-        public JsonResult OnGetReportAsync(string date)
+        public JsonResult OnGetReportAsync(string date,int id)
         {
+            user = _userManager.GetUserAsync(User).GetAwaiter().GetResult();
+            branch = _attendanceRepository.GetBranch(user);
             if (!ModelState.IsValid)
             {
                 return null;
@@ -47,9 +47,11 @@ namespace PPT.Pages
             DateTime Date;
             if (!DateTime.TryParse(date, out Date))
                 return null;
+            if (id == null || id == 0)
+                return null;
             CSVList.Clear();
-            //CSVList = new List<AttendanceMapper>();
-            List<Attendance> attendances = _attendanceRepository.GetAttendanceByDateForDepartment(department.ID, Date);
+            CSVList = new List<AttendanceMapper>();
+            List<Attendance> attendances = _attendanceRepository.GetAttendanceByDateForDepartment(id, Date);
             AttendanceMapper mapper;
             foreach (Attendance attendance in attendances)
             {
@@ -69,20 +71,28 @@ namespace PPT.Pages
             }
             return new JsonResult(CSVList);
         }
-        public FileResult? OnGetDownload()
+        public FileResult? OnGetDownload(int depid)
         {
-            if(!ModelState.IsValid)
+            user = _userManager.GetUserAsync(User).GetAwaiter().GetResult();
+            branch = _attendanceRepository.GetBranch(user);
+            if (!ModelState.IsValid)
             {
                 return null;
             }
             DateTime date;
             if (!DateTime.TryParse(Date, out date))
                 return null;
-
-            string fileName =department.Name+ "_"+ date.Month + "_" + date.Year + ".csv";
+            string depname= "";
+            foreach(var dep in branch.Departments)
+                if(dep.ID == depid)
+                {
+                    depname = dep.Name;
+                    break;
+                }
+            string fileName = depname+"_"+ date.Month + "_" + date.Year + ".csv";
             string path = Path.Combine(this.Environment.WebRootPath, "MReports/") + fileName;
             using (var stream = System.IO.File.OpenWrite(path))
-            using (var writer = new StreamWriter(stream,Encoding.UTF8))
+            using (var writer = new StreamWriter(stream, Encoding.UTF8))
             using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
             {
                 csv.WriteRecords(CSVList);
@@ -94,7 +104,7 @@ namespace PPT.Pages
         }
         public class AttendanceMapper
         {
-            
+
             public int ID { get; set; }
             public string UniID { get; set; } = "0";
             public string Name { get; set; }
@@ -108,6 +118,5 @@ namespace PPT.Pages
             //    ID = id; UniID = uniid; Name = name; Date = date; Duration = duration; 
             //}
         }
-
     }
 }
