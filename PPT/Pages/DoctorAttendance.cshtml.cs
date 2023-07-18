@@ -87,7 +87,7 @@ namespace PPT.Pages
                             attendance.DoctorID = int.Parse(id);
                             attendance.Date = date;
                             attendance.IsPublished = false;
-                            if(durations != null && durations.Count!=0)
+                            if(durations != null && durations.Count!=0 && durations[i]>0 && durations[i] <10)
                                 attendance.Duration = durations[i];
                             list.Add(attendance);
                         }

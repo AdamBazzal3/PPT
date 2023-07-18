@@ -4,6 +4,7 @@ using PPT.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using static PPT.Pages.DepartmentReportModel;
 
 namespace PPT.Repositories
 {
@@ -71,6 +72,22 @@ namespace PPT.Repositories
         public List<Attendance> GetAttendanceByDateForDepartment(int id, DateTime date)
         {
             List<Attendance> list = _context.Attendances.Where(m => m.Doctor.DepartmentID == id && m.Date.Year == date.Year && m.Date.Month == date.Month).OrderBy(d=> d.DoctorID).ThenBy(d=>d.Date).Include(d=>d.Doctor).ToList();
+            return list;
+        }
+        public List<AttendanceMapper> GetAttendanceByDateForDepartmentUndetailed(int id, DateTime date,bool iscontracted1,bool? iscontracted2)
+        {
+            // consider null values for iscontracted
+            var list = _context.Attendances
+                .Where(m => m.Doctor.DepartmentID == id && (m.Doctor.IsContracted == iscontracted1 || m.Doctor.IsContracted == iscontracted2) && m.Date.Year == date.Year && m.Date.Month == date.Month)
+                .GroupBy(m => m.DoctorID)
+                .Select(m => new AttendanceMapper
+                {
+                    ID = (int)m.Key,
+					UniID = m.Select(d => d.Doctor.UniversityId).First(),
+                    Name = m.Select(d => d.Doctor.Name).First(),
+                    TotalDays = m.Count(),
+                    TotalDuration = (int)m.Sum(m => m.Duration)
+                }).ToList();
             return list;
         }
         public async void UpdateAsync(T obj)
