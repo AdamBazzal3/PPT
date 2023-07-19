@@ -39,38 +39,45 @@ namespace PPT.Pages
         }
         public IActionResult OnPost()
         {
-            if (UploadFile == null || UploadFile.Length <= 0)
-            {
-                ModelState.AddModelError(string.Empty, "Ø§Ù„Ù…Ù„Ù ÙØ§Ø±Øº Ø£Ùˆ ØºÙŠØ± Ù…ÙˆØ¬ÙˆØ¯");
-                return Page();
-            }
-            if (UploadFile != null && UploadFile.Length > 0)
-            {
-                using (var reader = new StreamReader(UploadFile.OpenReadStream()))
-                using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
+                if (UploadFile == null || UploadFile.Length <= 0)
                 {
-                    csv.Read();
-                    while (csv.Read())
-                    {
-                        if (!int.TryParse(csv.GetField<string>(0),out _)) {
-                            FileContent += "ÎØÃ İí ÊÏæíä ÇáãÚáæãÇÊ İí åĞÇ ÇáÓÌá";
-                            FileContent += "\n";
-                            continue;
-                                }
-                        Doctor doctor = new Doctor();
-                        doctor.UniversityId = csv.GetField<string>(2);
-                        doctor.Name = csv.GetField<string>(1);
-                        doctor.IsContracted = bool.Parse(csv.GetField<string>(3));
-                        doctor.DepartmentID= int.Parse(csv.GetField<string>(4));
-                        Doctors.Add(doctor);
-                        FileContent =FileContent + "Êã ÊÏæíä ÓÌá ÈÅÓã ÇáÏßÊæÑ "+doctor.Name;
-                        FileContent += "\n";
-                    }
-                    _doctorRepository.InsertAllAsync(Doctors).GetAwaiter().GetResult();
-
+                    ModelState.AddModelError(string.Empty, "Ø§Ù„Ù…Ù„Ù ÙØ§Ø±Øº Ø£Ùˆ ØºÙŠØ± Ù…ÙˆØ¬ÙˆØ¯");
+                    return Page();
                 }
-            }
-            return RedirectToPage("Importdata", new { _FileContent=FileContent});
+                if (UploadFile != null && UploadFile.Length > 0)
+                {
+                    using (var reader = new StreamReader(UploadFile.OpenReadStream()))
+                    using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
+                    {
+                        csv.Read();
+                        while (csv.Read())
+                        {
+                            if (!int.TryParse(csv.GetField<string>(0), out _))
+                            {
+                                FileContent += "Ø®Ø·Ø£ ÙÙŠ ØªØ¯ÙˆÙŠÙ† Ø§Ù„Ù…Ø¹Ù„ÙˆÙ…Ø§Øª";
+                                FileContent += "\n";
+                                continue;
+                            }
+                            Doctor doctor = new Doctor();
+                            doctor.UniversityId = csv.GetField<string>(2);
+                            doctor.Name = csv.GetField<string>(1);
+                            doctor.IsContracted = bool.Parse(csv.GetField<string>(3));
+                            doctor.DepartmentID = int.Parse(csv.GetField<string>(4));
+                            if(_doctorRepository.GetEntityWithCondition(d=>d.UniversityId==doctor.UniversityId) == null)
+                            {
+
+                           
+                            Doctors.Add(doctor);
+                          
+                            FileContent = FileContent + " ØªÙ… ØªØ¯ÙˆÙŠÙ† Ø§Ù„Ø³Ø¬Ù„ Ø¨Ø¥Ø³Ù… Ø§Ù„Ø¯ÙƒØªÙˆØ± " + doctor.Name;
+                            FileContent += "\n";
+                        }
+                    }
+                        _doctorRepository.InsertAllAsync(Doctors).GetAwaiter().GetResult();
+
+                    }
+                }
+                return RedirectToPage("Importdata", new { _FileContent = FileContent });
 
         }
     }

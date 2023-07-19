@@ -38,7 +38,8 @@ namespace PPT.Pages
         public DateTime date { get; set; }
         private User user;
         public Department department { get; set; }
-        public void OnGet() { }
+        public void OnGet() {
+        }
         public JsonResult OnGetAttendances([Required] [DataType(DataType.Date)] [AttendanceDate] string encodedDate)
         {
             if (ModelState.IsValid)
@@ -48,7 +49,7 @@ namespace PPT.Pages
                 date = DateTime.Parse(decodedDate);
                 HttpContext.Session.SetObjectAsJson(SessionKeyDate, date);
 
-                user = _userManager.GetUserAsync(User).GetAwaiter().GetResult(); ;
+                user = _userManager.GetUserAsync(User).GetAwaiter().GetResult();
 
                 if (string.IsNullOrEmpty(HttpContext.Session.GetString(SessionKeyDepartment)))
                 {

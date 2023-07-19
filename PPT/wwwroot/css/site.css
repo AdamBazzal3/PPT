@@ -146,7 +146,12 @@ header .current-date {
 .form-label{
     text-align: end;
 }
-
+.form-control {
+    margin-bottom: 1.2rem;
+}
+.control-label {
+    margin-bottom: 0.5rem;
+}
 .drop-area {
     border: 2px dashed #ccc;
     padding: 10px;
