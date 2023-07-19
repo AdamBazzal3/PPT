@@ -53,7 +53,7 @@ namespace PPT.Pages
                     while (csv.Read())
                     {
                         if (!int.TryParse(csv.GetField<string>(0),out _)) {
-                            FileContent += "ÎØÃ Ýí ÊÏæíä ÇáãÚáæãÇÊ Ýí åÐÇ ÇáÓÌá";
+                            FileContent += "ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½";
                             FileContent += "\n";
                             continue;
                                 }
@@ -63,7 +63,7 @@ namespace PPT.Pages
                         doctor.IsContracted = bool.Parse(csv.GetField<string>(3));
                         doctor.DepartmentID= int.Parse(csv.GetField<string>(4));
                         Doctors.Add(doctor);
-                        FileContent =FileContent + "Êã ÊÏæíä ÓÌá ÈÅÓã ÇáÏßÊæÑ "+doctor.Name;
+                        FileContent =FileContent + "ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ "+doctor.Name;
                         FileContent += "\n";
                     }
                     _doctorRepository.InsertAllAsync(Doctors).GetAwaiter().GetResult();
