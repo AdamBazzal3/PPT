@@ -37,10 +37,15 @@
                                 foreach (var attendance in doctor.Attendances.Where(a => !a.IsPublished.Value))
                                 {
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="@("attendance_" + attendance.ID)" name="AttendanceIds" value="@attendance.ID">
+                                        <input class="form-check-input" type="checkbox" id="@("attendance_" + attendance.ID)" name="AttendanceIds" value="@attendance.ID" checked="checked">
                                         <label class="form-check-label" for="@("attendance_" + attendance.ID)">
-                                            @attendance.Date.ToString("yyyy-MM-dd") -> @attendance.Duration
+                                            @attendance.Date.ToString("yyyy-MM-dd") 
                                         </label>
+                                        @if (@attendance.Duration.HasValue)
+                                        {
+                                            <label>عدد ساعات الحضور في اليوم =  @attendance.Duration</label>
+                                        }
+                                        
                                     </div>
                                 }
                             }
