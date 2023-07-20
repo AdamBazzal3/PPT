@@ -1,0 +1,26 @@
+﻿@page "{handler?}"
+@model PPT.Pages.DepartmentReportModel
+@{
+	ViewData["Title"] = "التقرير الشهري النهائي";
+}
+<div>
+	<form>
+		<h4>المتفرغين</h4><br />
+		<label>الشهر</label>
+		<input type="month" id="monthSelFull" name="monthF">
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<input type="submit" value="تحميل"  asp-page-handler="DownloadFull"/>
+	</form>
+
+</div>
+<br /><br />
+<div>
+	<form >
+		<h4>غير المتفرغين</h4><br />
+		<label>الشهر</label>
+		<input type="month" id="monthSelPart" name="monthP">
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<input type="submit" value="تحميل"  asp-page-handler="DownloadPart"/>
+	</form>
+
+</div>
