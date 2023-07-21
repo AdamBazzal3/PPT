@@ -84,7 +84,7 @@ namespace PPT.Repositories
         }
         public List<Attendance> GetAttendanceByDateForDepartment(int id, DateTime date)
         {
-            List<Attendance> list = _context.Attendances.Where(m => m.Doctor.DepartmentID == id && m.Date.Year == date.Year && m.Date.Month == date.Month).OrderBy(d=> d.DoctorID).ThenBy(d=>d.Date).Include(d=>d.Doctor).ToList();
+            List<Attendance> list = _context.Attendances.Where(m => m.Doctor.DepartmentID == id && m.Date.Year == date.Year && m.Date.Month == date.Month).OrderBy(d=> d.DoctorID).ThenBy(d=>d.Date).Include(d=>d.Doctor).Include(d=>d.Doctor.Department).ToList();
             return list;
         }
         public List<AttendanceMapper> GetAttendanceByDateForDepartmentUndetailed(int id, DateTime date,bool iscontracted1,bool? iscontracted2)
@@ -97,6 +97,23 @@ namespace PPT.Repositories
                 {
                     ID = (int)m.Key,
 					UniID = m.Select(d => d.Doctor.UniversityId).First(),
+                    Name = m.Select(d => d.Doctor.Name).First(),
+                    TotalDays = m.Count(),
+                    TotalDuration = (int)m.Sum(m => m.Duration)
+                }).ToList();
+            return list;
+        }
+        public List<Pages.BranchFinalReportModel.AttendanceMapper> GetAttendanceByDateForBranchUndetailed(int id, DateTime date, bool iscontracted1, bool? iscontracted2)
+        {
+            // consider null values for iscontracted
+            var list = _context.Attendances
+                .Where(m => m.Doctor.Department.BranchID == id && (m.Doctor.IsContracted == iscontracted1 || m.Doctor.IsContracted == iscontracted2) && m.Date.Year == date.Year && m.Date.Month == date.Month)
+                .GroupBy(m => m.DoctorID)
+                .Select(m => new Pages.BranchFinalReportModel.AttendanceMapper
+                {
+                    DepName = m.Select(d => d.Doctor.Department.Name).First(),
+                    ID = (int)m.Key,
+                    UniID = m.Select(d => d.Doctor.UniversityId).First(),
                     Name = m.Select(d => d.Doctor.Name).First(),
                     TotalDays = m.Count(),
                     TotalDuration = (int)m.Sum(m => m.Duration)

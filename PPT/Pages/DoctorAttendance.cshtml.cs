@@ -24,15 +24,16 @@ namespace PPT.Pages
         [BindProperty(SupportsGet = true)]
         public List<int>? durations { get; set; } = null;
         private User user;
-        public static Department department;
-        public DoctorAttendanceModel(UserManager<User> userManager, IRepository<Doctor> doctorRepository, IRepository<Attendance> attendanceRepository, IRepository<Department> departmentRepository)
+        
+        private Department department;
+        public DoctorAttendanceModel(UserManager<User> userManager, IRepository<Doctor> doctorRepository, IRepository<Attendance> attendanceRepository, IRepostory<Department> departmentRepository)
         {
             _userManager = userManager;
             _doctorRepository = (SqlServerRepository<Doctor>)doctorRepository;
             _attendanceRepository = (SqlServerRepository<Attendance>)attendanceRepository;
             _departmentsRepository = (SqlServerRepository<Department>)departmentRepository;
         }
-        public static List<Doctor>? Doctors { get; set; }
+        public List<Doctor>? Doctors { get; set; }
         //public void OnGet()
         //{
         //}
@@ -58,6 +59,9 @@ namespace PPT.Pages
         //}
         public async Task<IActionResult> OnGetDateAttendance(string? id, [DataType(DataType.Date)] List<string>? AreChecked,List<int>? durations)
         {
+
+            user = _userManager.GetUserAsync(User).GetAwaiter().GetResult();
+            department = _doctorRepository.GetDepartment(user);
 
             if (id != null && id!="0" && AreChecked!=null)
             {
@@ -116,6 +120,9 @@ namespace PPT.Pages
 
         public JsonResult OnGetIsContractedAsync(int id)
         {
+            user = _userManager.GetUserAsync(User).GetAwaiter().GetResult();
+            department = _doctorRepository.GetDepartment(user);
+            Doctors = _doctorRepository.GetEntitiesWithCondition(d => d.DepartmentID == department.ID);
             foreach (var d in Doctors)
                 if (d.ID == id && d.IsContracted!=null && (bool)d.IsContracted==true) return new JsonResult("true");
             return new JsonResult("false");
