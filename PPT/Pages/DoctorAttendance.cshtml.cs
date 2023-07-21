@@ -26,7 +26,7 @@ namespace PPT.Pages
         private User user;
         
         private Department department;
-        public DoctorAttendanceModel(UserManager<User> userManager, IRepository<Doctor> doctorRepository, IRepository<Attendance> attendanceRepository, IRepostory<Department> departmentRepository)
+        public DoctorAttendanceModel(UserManager<User> userManager, IRepository<Doctor> doctorRepository, IRepository<Attendance> attendanceRepository, IRepository<Department> departmentRepository)
         {
             _userManager = userManager;
             _doctorRepository = (SqlServerRepository<Doctor>)doctorRepository;

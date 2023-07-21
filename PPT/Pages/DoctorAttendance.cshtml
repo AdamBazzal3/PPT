@@ -37,10 +37,10 @@
 			
 
 			<label for="monthSel">الشهر</label>
-			<input type="month" id="monthSel" name="month" onchange="showTable()">
+			<input type="month" id="monthSel" name="month" onchange="showTable()" class="form-control">
 			<br /><br />
 			<input type="submit" class="btn btn-primary" value="حفظ" asp-page-handler="DateAttendance" />
-			<table id="tableBody" class="table table-striped">
+			<table id="tableBody" class="table">
 				<tr id ="table_head">
 					<th>اليوم</th>
 					<th>الحضور</th>
@@ -105,6 +105,7 @@
 								y.setAttribute("type", "number");
 								y.setAttribute("name","durations");
 								y.setAttribute("min",1);
+								y.setAttribute("class", "form-control");
 								y.setAttribute("max",9);
 								y.setAttribute("required","required");
 								y.disabled = true;

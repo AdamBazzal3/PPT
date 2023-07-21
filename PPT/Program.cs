@@ -22,6 +22,7 @@ builder.Services.AddIdentity<User, IdentityRole>()
 builder.Services.AddScoped<IRepository<Doctor>, SqlServerRepository<Doctor>>();
 builder.Services.AddScoped<IRepository<Attendance>, SqlServerRepository<Attendance>>();
 builder.Services.AddScoped<IRepository<Department>, SqlServerRepository<Department>>();
+builder.Services.AddScoped<IRepository<Branch>, SqlServerRepository<Branch>>();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddMvc().AddNewtonsoftJson(o => 
 {

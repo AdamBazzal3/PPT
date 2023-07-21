@@ -198,10 +198,9 @@ header .current-date {
     display: none;
 }
 
-table, th, td {
-    border: 1px solid black;
+.nav-link {
+    background-color: var(--bs-btn-bg);
 }
-
 .navbar-nav .nav-link {
     font-weight:normal !important;
 }

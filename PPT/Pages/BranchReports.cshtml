@@ -8,18 +8,16 @@
 	and download the exel file for it, by applying a change listener 
 	to the month selector(ajax call).
 *@
-<select id="deps" name="id" style="width:200px;" asp-items="@Model.DepartmentsList">
+<select id="deps" name="id" style="width:200px;" asp-items="@Model.DepartmentsList" class="form-select">
 	<option value="0">الإسم</option>
 </select>
-<br />
-<br />
+
 <form >
 	<label for="monthSel">الشهر</label>
-	<input type="month" id="monthSel" asp-for = "@Model.Date">
-	<br /><br />
+	<input type="month" id="monthSel" asp-for = "@Model.Date" class="form-control">
 	<input type="hidden" id="targetInput" name="depid" value= "" />
 
-	<input type="submit" id="setValueBtn"  value="تحميل"  asp-page-handler="Download"/>
+	<input type="submit" id="setValueBtn"  value="تحميل"  asp-page-handler="Download" class="btn btn-primary"/>
 	<script src="~/lib/jquery/dist/jquery.min.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function(){

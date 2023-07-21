@@ -11,7 +11,7 @@
 <p>
     <a asp-page="Create">جديد</a>
 </p>
-<table class="table">
+<table class="table table-striped" id="allDepartmentsTable">
     <thead>
         <tr>
             <th>
@@ -53,3 +53,42 @@
 }
     </tbody>
 </table>
+@section Scripts{
+    <script>
+        $('#allDepartmentsTable').DataTable({
+            responsive: true,
+            headerCallback: function (thead, data, start, end, display) {
+                $(thead)
+                    .find('th')
+                    .css('text-align', 'right');
+            },
+            language: {
+                "sEmptyTable": "لا توجد بيانات متاحة في الجدول",
+                "sInfo": "عرض _START_ إلى _END_ من إجمالي _TOTAL_ مُدخل",
+                "sInfoEmpty": "عرض 0 إلى 0 من إجمالي 0 مُدخل",
+                "sInfoFiltered": "(تمت تصفية البيانات من إجمالي _MAX_ مُدخل)",
+                "sInfoPostFix": "",
+                "sInfoThousands": ",",
+                "sLengthMenu": "عرض _MENU_ مُدخل",
+                "sLoadingRecords": "جارٍ التحميل...",
+                "sProcessing": "جارٍ المعالجة...",
+                "sSearch": "بحث:",
+                "sZeroRecords": "لم يتم العثور على أية سجلات مطابقة",
+                "oPaginate": {
+                    "sFirst": "الأول",
+                    "sLast": "الأخير",
+                    "sNext": "التالي",
+                    "sPrevious": "السابق"
+                },
+                "oAria": {
+                    "sSortAscending": ": تنشيط لترتيب العمود تصاعديًا",
+                    "sSortDescending": ": تنشيط لترتيب العمود تنازليًا"
+                },
+            },
+            lengthMenu: [[4, 8], [4, 8]],
+            dom: "<'container d-flex justify-content-between flex-wrap'<'mb-2'Q><'mb-2'l><'mb-2'B><'mb-2'f>>" +
+                "<<tr>>" +
+                "<<i><p>>"
+        });
+    </script>
+}

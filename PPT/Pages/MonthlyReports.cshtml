@@ -10,11 +10,9 @@
 *@
 <form >
 	<label for="monthSel">الشهر</label>
-	<input type="month" id="monthSel" asp-for = "@Model.Date">
-	<br /><br />
-	<input type="submit" value="تحميل"  asp-page-handler="Download"/>
-	<br />
-	<br />
+	<input type="month" id="monthSel" asp-for = "@Model.Date" class="form-control">
+	<input type="submit" value="تحميل"  asp-page-handler="Download" class="btn btn-primary"/>
+
 </form>
 
 
