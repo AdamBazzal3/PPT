@@ -22,15 +22,15 @@ namespace PPT.Pages
         public List<string>? AreChecked { get; set; } = null;
         [BindProperty(SupportsGet = true)]
         public List<int>? durations { get; set; } = null;
-        static private User user;
-        static private Department department;
+        private User user;
+        private Department department;
         public DoctorAttendanceModel(UserManager<User> userManager, IRepository<Doctor> doctorRepository, IRepository<Attendance> attendanceRepository)
         {
             _userManager = userManager;
             _doctorRepository = (SqlServerRepository<Doctor>)doctorRepository;
             _attendanceRepository = (SqlServerRepository<Attendance>)attendanceRepository;
         }
-        public static List<Doctor>? Doctors { get; set; }
+        public List<Doctor>? Doctors { get; set; }
         //public void OnGet()
         //{
         //}
@@ -56,6 +56,8 @@ namespace PPT.Pages
         //}
         public IActionResult OnGetDateAttendance(string? id, [DataType(DataType.Date)] List<string>? AreChecked,List<int>? durations)
         {
+            user = _userManager.GetUserAsync(User).GetAwaiter().GetResult();
+            department = _doctorRepository.GetDepartment(user);
             if (id != null && id!="0" && AreChecked!=null)
             {
                 List<Attendance> list = new List<Attendance>();
@@ -104,6 +106,9 @@ namespace PPT.Pages
 
         public JsonResult OnGetIsContractedAsync(int id)
         {
+            user = _userManager.GetUserAsync(User).GetAwaiter().GetResult();
+            department = _doctorRepository.GetDepartment(user);
+            Doctors = _doctorRepository.GetEntitiesWithCondition(d => d.DepartmentID == department.ID);
             foreach (var d in Doctors)
                 if (d.ID == id && d.IsContracted!=null && (bool)d.IsContracted==true) return new JsonResult("true");
             return new JsonResult("false");

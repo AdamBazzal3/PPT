@@ -121,6 +121,9 @@
 								let y = document.createElement('INPUT');
 								y.setAttribute("type", "number");
 								y.setAttribute("name","durations");
+								y.setAttribute("min",1);
+								y.setAttribute("max",9);
+								y.setAttribute("required","required");
 								y.disabled = true;
 								y.setAttribute("id","duration"+ current_day.toLocaleDateString());
 								y.style.width = "70px";
