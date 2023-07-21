@@ -7,12 +7,16 @@
 <html lang="en" dir="rtl" id="page">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <title>@ViewData["Title"] - PPT</title>
+
+    
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/PPT.styles.css" asp-append-version="true" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+    <link rel="stylesheet" href="~/lib/DataTables/datatables.min.css" />
+    <link href="~/lib/select2/dist/css/select2.min.css" rel="stylesheet" />
 </head>
 <body>
     <header>
@@ -33,6 +37,35 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Calendar">المفكرة</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/DoctorAttendance">تسجيل حضور أستاذ</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Publish">إرسال الحضور</a>
+                            </li>
+                            
+                        }
+                        @if (SignInManager.IsSignedIn(User) && User.IsInRole("Administrator"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/MonthlyReports">تقرير الشهري</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Importdata">تحميل المعلومات</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Doctors/Index">لائحة الأساتذة</a>
+                            </li>
+                            
+                        }
+                        @if (SignInManager.IsSignedIn(User) && User.IsInRole("Manager"))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/BranchReports">تقارير الفرع</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Departments/Index">الفروع</a>
+                            </li>
                         }
                         <partial name="_LoginPartial" />
                     </ul>
@@ -47,16 +80,21 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="border-top text-muted">
         <div class="container">
-            &copy; 2023 - PPT - <a asp-area="" asp-page="/Privacy">Privacy</a>
+            &copy; 2023 - PPT
         </div>
     </footer>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="~/lib/jquery/dist/jquery.min.js" asp-append-version="true"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js" asp-append-version="true"></script>
     <script src="~/js/Calendar.js" asp-append-version="true"></script>
     <script src="~/js/PresenceByDay.js" asp-append-version="true"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" asp-append-version="true"></script>
+    <script src="~/lib/DataTables/datatables.min.js" asp-append-version="true"></script>
+    <script src="~/lib/select2/dist/js/select2.min.js" defer></script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

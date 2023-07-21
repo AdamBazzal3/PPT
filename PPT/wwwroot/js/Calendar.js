@@ -1,6 +1,5 @@
 ﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 // for details on configuring this project to bundle and minify static web assets.
-
 // Write your JavaScript code.
 const errorMessage = (day, month, year) => {
     var currentDate = new Date();
@@ -18,9 +17,11 @@ const errorMessage = (day, month, year) => {
     else {
         try {
             var date = new Date(year, month, day); // Replace with your actual date
+            //alert(date);
+            var url = '/PresenceByDay?encodedDate=' + encodeURIComponent(date.toISOString());
 
-            window.location.href = `/PresenceByDay?encodedDate=${encodeURIComponent(date.toISOString())}`;
-
+            // Navigate to the PresenceByDay page
+            window.location.href = url;
         }
         catch (e) {
             console.log(e.errorMessage);
@@ -59,8 +60,8 @@ const renderCalendar = () => {
     for (let i = 1; i <= lastDateofMonth; i++) { // creating li of all days of current month
         // adding active class to li if the current day, month, and year matched
         let isToday = i === date.getDate() && currMonth === new Date().getMonth()
-            && currYear === new Date().getFullYear() ? "text-white bg-blue" : "text-black";
-        liTag += `<li><button class="btn btn-link text-decoration-none ${isToday} rounded-circle p-1" type="submit"
+            && currYear === new Date().getFullYear() ? "btn-primary" : "text-black";
+        liTag += `<li ><button class="btn text-decoration-none ${isToday} rounded-circle p-2" type="submit"
         onclick="errorMessage(${i}, ${currMonth}, ${currYear})" >
             ${ i.toLocaleString("ar-EG") }
             </button ></li>`;

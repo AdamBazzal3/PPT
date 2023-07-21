@@ -1,0 +1,55 @@
+﻿@page
+@model PPT.Pages.Departments.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>لائحة الأقسام</h1>
+
+<p>
+    <a asp-page="Create">جديد</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Department[0].Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Department[0].Branch)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Department[0].Secretary)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Department[0].Head)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Department) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Branch.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Secretary.ConcatenatedName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Head.ConcatenatedName)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.ID">تعديل</a> |
+                <a asp-page="./Details" asp-route-id="@item.ID">تفاصيل</a> |
+                <a asp-page="./Delete" asp-route-id="@item.ID">إلغاء</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

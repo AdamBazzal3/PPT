@@ -18,7 +18,7 @@
 </form>
 
 
-<table id="report" style="display:none; width : 100% ">
+<table id="report" class="table table-striped" style="display:none; width : 100% ">
 	<thead>
 		<tr>
 			<th>
@@ -43,10 +43,7 @@
 	</thead>
 	
 </table>
-
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
-<link href="~/lib/DataTables/datatables.min.css" rel="stylesheet"/>
-<script src="~/lib/DataTables/datatables.min.js" defer></script>
+@section scripts{
 <script type="text/javascript">
 	$(function () {
 		$('#monthSel').change(
@@ -57,6 +54,7 @@
 					url: "/MonthlyReports/Report",
 					data: { "date": $(this).val() },
 					success: function (result) {
+						console.log(result)
 		 //               $.each(result, function (index, item) {
 
 		 //               });
@@ -64,11 +62,21 @@
 						$('#report').DataTable({
 						paging: false,
 						data: result,
+						headerCallback: function (thead, data, start, end, display) {
+							$(thead)
+								.find('th')
+								.css('text-align', 'right');
+						},
 						columns: [
 							{ data: 'id' },
 							{ data: 'uniID' },
 							{ data: 'name' },
-							{ data: 'date' },
+							{ 
+								data: 'date',
+								render: function (data, type, row) { 
+									return `${data.year}-${data.month}-${data.day}`;
+								}
+							},
 							{ data: 'duration' },
 							{ data: 'published' },
 						]
@@ -79,3 +87,4 @@
 		});
 	});
 </script>
+}

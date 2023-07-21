@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using PPT.Models;
 using System.ComponentModel;
+using PPT.Services;
 
 namespace PPT.Areas.Identity.Pages.Account
 {
@@ -118,6 +119,7 @@ namespace PPT.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
+
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)

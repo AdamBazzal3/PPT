@@ -1,0 +1,68 @@
+﻿@page
+@model PPT.Pages.PublishModel
+@{
+    ViewData["Title"] = "Publish";
+}
+
+<form method="post" asp-page-handler="ShowAttendance">
+    <div class="form-group">
+        <label asp-for="SelectedMonth">اختيار الشهر</label>
+        <input asp-for="SelectedMonth" type="month" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary">الحضور</button>
+</form>
+
+@if (Model.Doctors != null && Model.Doctors.Any())
+{
+    <form method="post" asp-page-handler="PublishAttendances">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>الرقم</th>
+                    <th>الاسم</th>
+                    <th>القسم</th>
+                    <th>الحضور وعدد الحصص(إذا وجد)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var doctor in Model.Doctors)
+                {
+                    <tr>
+                        <td>@doctor.ID</td>
+                        <td>@doctor.Name</td>
+                        <td>@doctor.Department.Name</td>
+                        <td>
+                            @if (doctor.Attendances != null && doctor.Attendances.Any())
+                            {
+                                foreach (var attendance in doctor.Attendances.Where(a => !a.IsPublished.Value))
+                                {
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="@("attendance_" + attendance.ID)" name="AttendanceIds" value="@attendance.ID" checked="checked">
+                                        <label class="form-check-label" for="@("attendance_" + attendance.ID)">
+                                            @attendance.Date.ToString("yyyy-MM-dd") 
+                                        </label>
+                                        @if (@attendance.Duration.HasValue)
+                                        {
+                                            <label>عدد ساعات الحضور في اليوم =  @attendance.Duration</label>
+                                        }
+                                        
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <p>لا يوجد حضور</p>
+                            }
+                        </td>
+                        <td></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <button type="submit" class="btn btn-primary">إرسال</button>
+    </form>
+}
+else
+{
+    <p>لا يوجد أي حضور لهذا الشهر يحتاج الى إرسال</p>
+}

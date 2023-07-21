@@ -5,28 +5,249 @@
 }
 
 <div>
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Name</th>
-                <th scope="col">Rank</th>
-                <th scope="col">Department id</th>
-                <th scope="col">Present</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach(var doctor in Model.Doctors){
-                <tr>
-                    <th scope="row">@doctor.ID</th>
-                    <td>@doctor.Name</td>
-                    <td>@doctor.DepartmentID</td>
-                    <td>
-                        <input type="checkbox" class="custom-control-input" name="Present">
-                    </td>
-                </tr>
-            }
-      
-        </tbody>
-    </table>
+    @Html.AntiForgeryToken()
+    <h1 id="AttendanceDateHeading"></h1>
+    <div id="loading-attendances" class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+    <table class="table table-striped" id="attendanceTable" style="width:100%">
+            <thead>
+
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+
+    
+    <div class="d-flex">
+        <button class="btn btn-secondary mt-2 ms-1" data-bs-toggle="modal" data-bs-target="#doctorsModal" onclick="toggleAddData()">
+            إضافة
+        </button>
+
+        <button id="deleteSelectedBtn" class="btn btn-danger mt-2">حذف المحدد</button>
+        <button class="btn btn-primary mt-2 me-auto" onclick="edit()">
+            حفظ التعديلات
+        </button>
+    </div>
 </div>
+
+<div class="modal fade" id="doctorsModal" tabindex="-1" role="dialog" aria-labelledby="doctorsModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h5 class="modal-title" id="doctorsModalLabel">قائمة الأساتذة</h5>
+            </div>
+            <div class="modal-body">
+                <div id="loading-doctors" class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <table class="table table-striped" id="doctorsTable" style="width:100%">
+                    <thead>
+
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+                <button type="button" class="btn btn-primary" onclick="save()">حفظ</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            var encodedDate = getUrlParameter('encodedDate');
+             // Initialize DataTable
+            var token = $('input[name="__RequestVerificationToken"]').val();
+            var table;
+        
+            $.ajax({
+                url: '/presenceByDay?handler=Attendances&encodedDate=' + encodedDate,
+                type: 'GET',
+                dataType: 'json',
+                headers: {
+                    'XSRF-TOKEN': token
+                },
+                success: function (data) {
+                    var date = new Date(encodedDate);
+                    var y = date.getFullYear(); // Get the full year (e.g., 2023)
+                    var m = date.getMonth() + 1; // Get the month (0 - 11, so we add 1 to get 1 - 12)
+                    var d = date.getDate(); // Get the day of the month (1 - 31)
+
+                    // Convert the month and day to zero-padded strings if necessary
+                    m = m < 10 ? '0' + m : m.toString();
+                    d = d < 10 ? '0' + d : d.toString();
+
+                    var formattedDate = y + '-' + m + '-' + d;
+                    $('#AttendanceDateHeading').text(formattedDate)
+                    console.log(date);
+                    $.each(data, function (index, item) {
+                        if (item.attendances && item.attendances.length > 0) {
+                            // Find the attendance with the specific date
+                            var attendance = item.attendances.find(function (a) {
+                                var attDate = new Date(a.date).toISOString();
+                                var jsDate = date.toISOString();
+                                return attDate === jsDate;
+                            });
+
+                            if (attendance) {
+                                // Render the ID of the found attendance
+                                 item.idAttendanceToday =  attendance.id;
+                            }
+                        }
+                    });
+
+                    
+                    table = $('#attendanceTable').DataTable({
+                        headerCallback: function (thead, data, start, end, display) {
+                            $(thead)
+                                .find('th')
+                                .css('text-align', 'right');
+                        },
+                        lengthMenu: [[4, 8], [4, 8]],
+                        buttons: [
+                            {
+                                extend: 'selectAll',
+                                className: 'btn btn-secondary me-auto'
+                            },
+                            {
+                                extend: 'selectNone',
+                                className:'btn btn-secondary'
+                            }
+                        ],
+                        language: {
+                            "sEmptyTable": "لا توجد بيانات متاحة في الجدول",
+                            "sInfo": "عرض _START_ إلى _END_ من إجمالي _TOTAL_ مُدخل",
+                            "sInfoEmpty": "عرض 0 إلى 0 من إجمالي 0 مُدخل",
+                            "sInfoFiltered": "(تمت تصفية البيانات من إجمالي _MAX_ مُدخل)",
+                            "sInfoPostFix": "",
+                            "sInfoThousands": ",",
+                            "sLengthMenu": "عرض _MENU_ مُدخل",
+                            "sLoadingRecords": "جارٍ التحميل...",
+                            "sProcessing": "جارٍ المعالجة...",
+                            "sSearch": "بحث:",
+                            "sZeroRecords": "لم يتم العثور على أية سجلات مطابقة",
+                            "oPaginate": {
+                                "sFirst": "الأول",
+                                "sLast": "الأخير",
+                                "sNext": "التالي",
+                                "sPrevious": "السابق"
+                            },
+                            "oAria": {
+                                "sSortAscending": ": تنشيط لترتيب العمود تصاعديًا",
+                                "sSortDescending": ": تنشيط لترتيب العمود تنازليًا"
+                            },
+                            buttons: {
+                                selectAll: "حدد الكل",
+                                selectNone: "إلغاء التحديد"
+                            }
+                        },
+                        dom: "<'d-flex justify-content-between flex-wrap'<'mb-2'Q><'mb-2'l><'mb-2'B><'mb-2'f>>" +
+                            "<<tr>>" +
+                            "<<i><p>>",
+                        data: data,
+                        columns: [
+                            { 
+                                title: '#',
+                                data: 'idAttendanceToday',
+                            },
+                            {
+                                title: '#doctor',
+                                data: 'id',
+                                visible: false
+                            },
+                            { title: 'الاسم', data: 'name' },
+                            {
+                                title: 'متعاقد',
+                                data: 'isContracted',
+                                render: function (data, type, row) {
+                                    var str = data && data === true ? 'نعم' : 'لا';
+                                    return str;
+                                }
+                            },
+                            {
+                                title: 'المدة (متعاقد)',
+                                data: 'attendances',
+                                render: function (data, type, row) {
+                                    if (data && data.length > 0) {
+                                        // Find the attendance with the specific date
+                                        var attendance = data.find(function (a) {
+                                            var attDate = new Date(a.date).toISOString();
+                                            var jsDate = date.toISOString();
+                                            return attDate === jsDate;
+                                        });
+                                        if (attendance) {
+                                            // Render the ID of the found attendance
+                                            return row.isContracted == true ? `<input type="number" class="form-control" id='doctorAttendance_${row.id}' value="${attendance.duration}"  min="1" placeholder="عدد"  />` : '';
+                                        }
+                                    }
+                                    return '';
+                                }
+                            },
+
+                            //{ data: `<button class="btn btn-danger" onclick="removeAttendance(${id}, '${ encodedDate }')">X</button>` }
+                        ],
+                        select: true,
+                        responsive: true,
+                        "initComplete": function (settings, json) {
+                            $('#loading-attendances').hide();
+                        },
+                        "preDrawCallback": function (settings) {
+                            $('#loading-attendances').show();
+                        },
+                        "drawCallback": function (settings) {
+                            $('#loading-attendances').hide();
+                        }
+                    });
+                },
+                error: function (xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+
+            function getUrlParameter(name) {
+                name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+                var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+                var results = regex.exec(location.search);
+                return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+            }
+            $('#deleteSelectedBtn').click(function () {
+                var rows = table
+                    .rows('.selected');
+
+                //console.log(encodedDate)
+                var idArray = rows.data().toArray().map(item => item.id);
+                //console.log(idArray);
+                if(idArray.length !== 0){
+                    let text = "هل تريد الإلغاء؟";
+                    if (confirm(text) == true) {
+                        removeAttendance(idArray);
+
+                        rows.remove().draw();
+                        
+                    }
+                }
+                 
+                    //console.log(rows.data());
+            });
+            const numberInputs = document.querySelectorAll('input[type="number"]');
+            numberInputs.forEach(input => {
+                input.addEventListener('input', function () {
+                    this.value = this.value.replace(/\D/g, '');
+                });
+            });
+            
+        });
+        
+
+    </script>
+}
+

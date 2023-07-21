@@ -1,0 +1,44 @@
+﻿@page
+@model PPT.Pages.Doctors.DetailsModel
+
+@{
+    ViewData["Title"] = "تفاصيل";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>تفاصيل</h1>
+
+<div>
+    <h4>أستاذ</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Doctor.UniversityId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Doctor.UniversityId)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Doctor.Name)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Doctor.Name)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Doctor.IsContracted)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Doctor.IsContracted)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Doctor.Department)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Doctor.Department.ID)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Doctor?.ID">تعديل</a> |
+    <a asp-page="./Index">الرجوع</a>
+</div>

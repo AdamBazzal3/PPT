@@ -32,33 +32,15 @@
 			<br/>
 			<br/>
 	@*        <input type="submit" value="Submit"asp-page-handler="Search"/>*@
-			<script src="~/lib/jquery/dist/jquery.min.js"></script>
-			<link href="~/lib/select2/dist/css/select2.min.css" rel="stylesheet" />
-			<script src="~/lib/select2/dist/js/select2.min.js" defer></script>
-			<script type="text/javascript">
-				$(function () {
-					$("#ddlDoctors").select2();
-					$('#ddlDoctors').on('select2:selecting', function(e) {
-						$.ajax({
-						url: "/doctorattendance/iscontracted",
-						data: { "id": e.params.args.data.id },
-						success: function (result) {
-							if (result == "true")
-								$("#duration").show();
-							else 
-								$("#duration").hide();
-						}
-						});
-						$("#tableBody").find("tr:not(:first)").remove();
-					});
-				});
-			</script>
+			
+			
+			
 
 			<label for="monthSel">الشهر</label>
 			<input type="month" id="monthSel" name="month" onchange="showTable()">
 			<br /><br />
-
-			<table id="tableBody">
+			<input type="submit" class="btn btn-primary" value="حفظ" asp-page-handler="DateAttendance" />
+			<table id="tableBody" class="table table-striped">
 				<tr id ="table_head">
 					<th>اليوم</th>
 					<th>الحضور</th>
@@ -66,6 +48,7 @@
 			    </tr>
 
 			</table>
+			
 			<script>
 					//document.getElementById('ddlDoctors').addEventListener("change", () => {
 					//	Console.Log("hi");
@@ -138,7 +121,7 @@
 				
 			</script>
 
-			<input type="submit" value="حفظ" asp-page-handler="DateAttendance"/>
+			
 		</form>		
 	</div>
 
@@ -153,3 +136,23 @@
 	</div>*@
 
 </body>
+@section scripts{
+<script type="text/javascript">
+	$(function () {
+		$("#ddlDoctors").select2();
+		$('#ddlDoctors').on('select2:selecting', function (e) {
+			$.ajax({
+				url: "/doctorattendance/iscontracted",
+				data: { "id": e.params.args.data.id },
+				success: function (result) {
+					if (result == "true")
+						$("#duration").show();
+					else
+						$("#duration").hide();
+				}
+			});
+			$("#tableBody").find("tr:not(:first)").remove();
+		});
+	});
+</script>
+}
