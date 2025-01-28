@@ -4,7 +4,7 @@
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
 <!DOCTYPE html>
-<html lang="en" dir="rtl" id="page">
+<html lang="en" id="page">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -16,61 +16,61 @@
 
     <link rel="stylesheet" href="~/lib/DataTables/datatables.min.css" />
     <link href="~/lib/select2/dist/css/select2.min.css" rel="stylesheet" />
-    @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />*@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/PPT.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/scss/main.css" asp-append-version="true" />
 </head>
-<body>
+<body class="bg-primary">
     <header>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light" style=" box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+        <nav class="navbar navbar-expand-lg navbar-light bg-secondary text-white" style=" box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-page="/Index">تسجيل الحضور</a>
+                <a class="navbar-brand text-primary" asp-area="" asp-page="/Index">Presence Tracking</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-page="/Index">الرئيسية</a>
+                            <a class="nav-link" asp-area="" asp-page="/Index">Home</a>
                         </li>
                         @if (SignInManager.IsSignedIn(User) && User.IsInRole("Secretary"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Calendar">المفكرة</a>
+                                <a class="nav-link" asp-area="" asp-page="/Calendar">المفكرة</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/DoctorAttendance">تسجيل حضور أستاذ</a>
+                                <a class="nav-link" asp-area="" asp-page="/DoctorAttendance">تسجيل حضور أستاذ</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Publish">إرسال الحضور</a>
+                                <a class="nav-link" asp-area="" asp-page="/Publish">إرسال الحضور</a>
                             </li>
                             
                         }
                         @if (SignInManager.IsSignedIn(User) && User.IsInRole("Administrator"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/MonthlyReports">تقرير القسم</a>
+                                <a class="nav-link" asp-area="" asp-page="/MonthlyReports">Department reports</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/DepartmentReport">تقرير متفرغين/متعاقدين</a>
+                                <a class="nav-link" asp-area="" asp-page="/DepartmentReport">contracted/permanent reports</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Importdata">تحميل المعلومات</a>
+                                <a class="nav-link" asp-area="" asp-page="/Importdata">import</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Doctors/Index">لائحة الأساتذة</a>
+                                <a class="nav-link" asp-area="" asp-page="/Doctors/Index">Doctor List</a>
                             </li>
                         }
                         @if (SignInManager.IsSignedIn(User) && User.IsInRole("Manager"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/BranchReports">تقرير قسم معين</a>
+                                <a class="nav-link" asp-area="" asp-page="/BranchReports">department report</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/BranchFinalReport">تقرير الفرع</a>
+                                <a class="nav-link" asp-area="" asp-page="/BranchFinalReport">Branch Report</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Departments/Index">الأقسام</a>
+                                <a class="nav-link" asp-area="" asp-page="/Departments/Index">Department</a>
                             </li>
                         }
                         <partial name="_LoginPartial" />

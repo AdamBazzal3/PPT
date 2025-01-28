@@ -14,7 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddDbContext<PPTDatacontext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("PPTContext")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("TestConnection")));
 builder.Services.AddIdentity<User, IdentityRole>()
     .AddDefaultTokenProviders()
                 .AddDefaultUI()

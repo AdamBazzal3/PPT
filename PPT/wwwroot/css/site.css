@@ -22,7 +22,7 @@ a {
     font-weight: bold !important;
 }
 a:hover {
-    text-decoration:underline !important;
+    text-decoration:none !important;
 
 }
 
@@ -200,17 +200,16 @@ header .current-date {
 
 .nav-link {
     background-color: var(--bs-btn-bg);
+    color: white !important;
 }
 .navbar-nav .nav-link {
     font-weight:normal !important;
 }
 
     .navbar-nav .nav-link:hover {
-        background-color: var(--bs-primary);
-        color: #fff !important;
-        font-weight: bold !important;
         text-decoration:none !important;
     }
 .navbar-nav .nav-item:not(:last-child) {
-    margin-right: 1rem; /* Adjust the margin as needed */
+    margin-right: 1rem;  Adjust the margin as needed 
 }
+

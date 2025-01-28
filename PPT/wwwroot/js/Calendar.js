@@ -11,7 +11,7 @@ const errorMessage = (day, month, year) => {
     var div = document.getElementById('demo');
     if (year > currentYear || month > currentMonth) {
         div.style.display = 'block';
-        div.innerHTML = `لا تسجيل حضور للشهر ${(month + 1).toLocaleString("ar-EG")}`;
+        div.innerHTML = `No presence registration for month ${(month + 1)}`;
         //console.log(month + " " + currentMonth)
     }
     else {
@@ -41,8 +41,8 @@ let date = new Date(),
     currMonth = date.getMonth();
 
 // storing full name of all months in array
-const months = ["ك٢", "شباط", "آذار", "نيسان", "أيار", "حزيران", "تموز",
-    "آب", "أيلول", "ت١", "ت٢", "ك١"];
+const months = ["January", "February", "March", "April", "May", "June", "July",
+    "Augest", "September", "October", "November", "December"];
 
 
 
@@ -54,7 +54,7 @@ const renderCalendar = () => {
     let liTag = "";
 
     for (let i = firstDayofMonth; i > 0; i--) { // creating li of previous month last days
-        liTag += `<li class="inactive">${(lastDateofLastMonth - i + 1).toLocaleString("ar-EG") }</li>`;
+        liTag += `<li class="inactive">${(lastDateofLastMonth - i + 1) }</li>`;
     }
 
     for (let i = 1; i <= lastDateofMonth; i++) { // creating li of all days of current month
@@ -63,14 +63,14 @@ const renderCalendar = () => {
             && currYear === new Date().getFullYear() ? "btn-primary" : "text-black";
         liTag += `<li ><button class="btn text-decoration-none ${isToday} rounded-circle p-2" type="submit"
         onclick="errorMessage(${i}, ${currMonth}, ${currYear})" >
-            ${ i.toLocaleString("ar-EG") }
+            ${ i    }
             </button ></li>`;
     } 
 
     for (let i = lastDayofMonth; i < 6; i++) { // creating li of next month first days
-        liTag += `<li class="inactive" asp-page="/Calendar">${(i - lastDayofMonth + 1).toLocaleString("ar-EG") }</li>`
+        liTag += `<li class="inactive" asp-page="/Calendar">${(i - lastDayofMonth + 1) }</li>`
     }
-    currentDate.innerText = `${months[currMonth]} ${currYear.toLocaleString("ar-EG") }`; // passing current mon and yr as currentDate text
+    currentDate.innerText = `${months[currMonth]} ${currYear }`; // passing current mon and yr as currentDate text
     daysTag.innerHTML = liTag;
 }
 
