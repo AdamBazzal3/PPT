@@ -22,20 +22,20 @@ using PPT.Models;
 
 namespace PPT.Areas.Identity.Pages.Account
 {
-    public class RegisterModel : PageModel
+    public class SignupModel : PageModel
     {
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
         private readonly IUserStore<User> _userStore;
         private readonly IUserEmailStore<User> _emailStore;
-        private readonly ILogger<RegisterModel> _logger;
+        private readonly ILogger<SignupModel> _logger;
         private readonly IEmailSender _emailSender;
 
-        public RegisterModel(
+        public SignupModel(
             UserManager<User> userManager,
             IUserStore<User> userStore,
             SignInManager<User> signInManager,
-            ILogger<RegisterModel> logger,
+            ILogger<SignupModel> logger,
             IEmailSender emailSender)
         {
             _userManager = userManager;
@@ -75,7 +75,7 @@ namespace PPT.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
+            [Required(ErrorMessage ="Email is required.")]
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
@@ -84,7 +84,7 @@ namespace PPT.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
+            [Required(ErrorMessage = "Password is required.")]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
@@ -96,6 +96,7 @@ namespace PPT.Areas.Identity.Pages.Account
             /// </summary>
             [DataType(DataType.Password)]
             [Display(Name = "Confirm password")]
+            [Required(ErrorMessage ="Confirm password is required.")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
         }

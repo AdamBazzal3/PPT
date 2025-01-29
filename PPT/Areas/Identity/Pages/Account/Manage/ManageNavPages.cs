@@ -117,7 +117,7 @@ namespace  PPT.Areas.Identity.Pages.Account.Manage
         {
             var activePage = viewContext.ViewData["ActivePage"] as string
                 ?? System.IO.Path.GetFileNameWithoutExtension(viewContext.ActionDescriptor.DisplayName);
-            return string.Equals(activePage, page, StringComparison.OrdinalIgnoreCase) ? "text-white bg-primary" : null;
+            return string.Equals(activePage, page, StringComparison.OrdinalIgnoreCase) ? "sub-nav-active" : null;
         }
     }
 }

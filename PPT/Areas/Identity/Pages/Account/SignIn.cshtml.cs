@@ -20,12 +20,12 @@ using PPT.Services;
 
 namespace PPT.Areas.Identity.Pages.Account
 {
-    public class LoginModel : PageModel
+    public class SignInModel : PageModel
     {
         private readonly SignInManager<User> _signInManager;
-        private readonly ILogger<LoginModel> _logger;
+        private readonly ILogger<SignInModel> _logger;
 
-        public LoginModel(SignInManager<User> signInManager, ILogger<LoginModel> logger)
+        public SignInModel(SignInManager<User> signInManager, ILogger<SignInModel> logger)
         {
             _signInManager = signInManager;
             _logger = logger;
@@ -67,16 +67,16 @@ namespace PPT.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required(ErrorMessage = "يجب إدخال هذه الخانة")]
-            [DisplayName("البريد")]
+            [Required(ErrorMessage = "Email is required.")]
+            [DisplayName("Email")]
             public string Email { get; set; }
 
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required(ErrorMessage = "يجب إدخال هذه الخانة")]
-            [DisplayName("كلمة السر")]
+            [Required(ErrorMessage = "Password is required.")]
+            [DisplayName("Password")]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
@@ -84,7 +84,7 @@ namespace PPT.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Display(Name = "حفظ؟")]
+            [Display(Name = "Remember me")]
             public bool RememberMe { get; set; }
         }
 

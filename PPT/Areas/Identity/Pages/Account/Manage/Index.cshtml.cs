@@ -58,6 +58,7 @@ namespace PPT.Areas.Identity.Pages.Account.Manage
             /// </summary>
             [Phone]
             [Display(Name = "Phone number")]
+            [Required(ErrorMessage ="Phone number is required.")]
             public string PhoneNumber { get; set; }
         }
 

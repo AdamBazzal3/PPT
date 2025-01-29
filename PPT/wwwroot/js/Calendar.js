@@ -60,7 +60,7 @@ const renderCalendar = () => {
     for (let i = 1; i <= lastDateofMonth; i++) { // creating li of all days of current month
         // adding active class to li if the current day, month, and year matched
         let isToday = i === date.getDate() && currMonth === new Date().getMonth()
-            && currYear === new Date().getFullYear() ? "btn-primary" : "text-black";
+            && currYear === new Date().getFullYear() ? "btn-accent" : "text-black";
         liTag += `<li ><button class="btn text-decoration-none ${isToday} rounded-circle p-2" type="submit"
         onclick="errorMessage(${i}, ${currMonth}, ${currYear})" >
             ${ i    }

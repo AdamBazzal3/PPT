@@ -1,4 +1,37 @@
 
-$theme-colors: ( "primary": #f0f8ff, "secondary": #4682b4, "accent": #ff7f50);
+$theme-colors: ( "primary": #f0f8ff, "secondary": #4682b4, "accent": #ff7f50,"danger": #dc3545, // Ensure this exists
+"warning": #ffc107, "info": #0dcaf0, "light": #f8f9fa, "dark": #212529);
+$input-focus-box-shadow: 0 0 0 0.25rem rgba(255, 127, 80, 0.5);
+$form-check-input-focus-box-shadow: 0 0 0 0.25rem rgba(255, 127, 80, 0.5);
+$input-focus-border-color: #ff7f50;
+$form-check-input-checked-color: #fff;
+$form-check-input-checked-bg-color: rgba(var( --bs-accent-rgb));
+$btn-color: #fff;
+
+
 // Override nav-link variables with theme color
 @import "../lib/bootstrap/css/scss/bootstrap";
+// Customizing .btn-accent
+.btn-accent {
+    background-color: var(--bs-accent); // here
+    border-color: transparent; // Set custom border color
+    color: #fff;
+
+    &:hover {
+        background-color: darken(#ff5733, 10%);
+        border-color: darken(#ff5733, 10%);
+        color: #fff;
+    }
+}
+
+// Customizing .btn-outline-primary
+.btn-outline-accent {
+    color: var(--bs-accent); // Set text color to primary color
+    border-color: var(--bs-accent); // Set border color to primary color
+
+    &:hover {
+        background-color: var(--bs-accent); // Set background color on hover
+        color: white; // Set text color on hover
+        border-color: transparent; // Set border color on hover
+    }
+}

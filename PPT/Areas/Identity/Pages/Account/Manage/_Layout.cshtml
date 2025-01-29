@@ -10,14 +10,15 @@
 }
 
 
-<div>
-    <h1 class="text-primary mb-3">تنظيم إعدادات الحساب</h1>
-    <hr />
-    <div class="row">
-        <div class="col-md-3">
+<div class="p-5 d-flex flex-column">
+    <h1 class="mb-3 fw-bolder">User Settings</h1>
+    
+    <div>
+        <div>
             <partial name="_ManageNav" />
+            <hr class="mt-0"/>
         </div>
-        <div class="col-md-9">
+        <div  class="w-100">
             @RenderBody()
         </div>
     </div>

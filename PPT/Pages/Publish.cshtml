@@ -9,7 +9,7 @@
         <label asp-for="SelectedMonth">اختيار الشهر</label>
         <input asp-for="SelectedMonth" type="month" class="form-control" />
     </div>
-    <button type="submit" class="btn btn-primary">الحضور</button>
+    <button type="submit" class="btn btn-accent">الحضور</button>
 </form>
 
 @if (Model.Doctors != null && Model.Doctors.Any())
@@ -59,7 +59,7 @@
                 }
             </tbody>
         </table>
-        <button type="submit" class="btn btn-primary">إرسال</button>
+        <button type="submit" class="btn btn-accent">إرسال</button>
     </form>
 }
 else

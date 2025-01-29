@@ -10,8 +10,12 @@ html {
     min-height: 100%;
     font-size: 14px;
 }
+*{
+    box-sizing:border-box !important;
 
+}
 body {
+   
   margin-bottom: 60px;
 }
 
@@ -138,17 +142,20 @@ header .current-date {
     padding-right: 0.3125rem;
     padding-left: 0.3125rem;
     font-weight:bold;
-}
 
-.nav-link {
-    color: rgb(13, 110, 253);
 }
+    .navbar-brand:focus{
+        border:none;
+    }
+    .nav-link {
+        color: rgb(13, 110, 253);
+    }
+
 .form-label{
     text-align: end;
 }
-.form-control {
-    margin-bottom: 1.2rem;
-}
+
+
 .control-label {
     margin-bottom: 0.5rem;
 }
@@ -210,6 +217,67 @@ header .current-date {
         text-decoration:none !important;
     }
 .navbar-nav .nav-item:not(:last-child) {
-    margin-right: 1rem;  Adjust the margin as needed 
+    margin-right: 1rem;  
 }
 
+.form-err{
+    font-size:small;
+}
+
+.auth-form-width{
+    width:320px;
+}
+
+@media(min-width: 768px){
+    .auth-form-width {
+        width: 400px;
+    }
+}
+
+.sub-nav{
+    display: flex;
+    padding:0;
+    margin: 0;
+}
+
+
+    .sub-nav .sub-nav-item {
+
+        list-style-type: none;
+        box-sizing: border-box;
+
+    }
+        .sub-nav .sub-nav-item .sub-nav-item-link {
+            color: black;
+            font-weight: normal !important;
+            display: block;
+            width: 100%;
+            height: 100%;
+            border-bottom: 3px solid transparent;
+            padding: 1rem 0;
+        }
+        .sub-nav .sub-nav-item .sub-nav-item-link:active {
+            color: var(--bs-secondary);
+
+        }
+
+            .sub-nav .sub-nav-item .sub-nav-item-link:active {
+                color: var(--bs-secondary);
+            }
+        .sub-nav .sub-nav-item .sub-nav-active {
+            color: var(--bs-secondary) !important;
+            border-bottom: 3px solid var(--bs-secondary) !important;
+            font-weight:bold !important;
+        }
+
+.authSettings-form-width {
+    width: auto;
+}
+
+@media(min-width: 768px) {
+    .authSettings-form-width {
+        width: 400px;
+    }
+}
+   
+        

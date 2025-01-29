@@ -11,7 +11,7 @@
     var fullName = user.FirstName +" "+ user.LastName; // Assuming you have a "FullName" property in your User model
 
     <li class="nav-item">
-            <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@fullName</a>
+            <a id="manage" class="nav-link" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@fullName</a>
     </li>
     <li class="nav-item">
         <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })">
@@ -22,10 +22,13 @@
 else
 {
     @*<li class="nav-item">
-            <a class="nav-link btn btn-primary text-white me-2 rounded" id="register" asp-area="Identity" asp-page="/Account/Register">Register</a>
+            <a class="nav-link btn btn-accent text-white me-2 rounded" id="register" asp-area="Identity" asp-page="/Account/Register">Register</a>
     </li>*@
     <li class="nav-item">
-            <a class="btn btn-accent rounded text-white" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
+            <a class="btn btn-outline-accent rounded" id="SignIn" asp-area="Identity" asp-page="/Account/SignIn">Sign in</a>
+    </li>
+    <li class="nav-item">
+        <a class="btn btn-accent rounded" id="SignUp" asp-area="Identity" asp-page="/Account/SignUp">Sign up</a>
     </li>
 }
 </ul>

@@ -20,7 +20,7 @@
     <link rel="stylesheet" href="~/PPT.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/scss/main.css" asp-append-version="true" />
 </head>
-<body class="bg-primary">
+<body class="bg-primary d-flex flex-column min-vh-100">
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-secondary text-white" style=" box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
             <div class="container-fluid">
@@ -36,13 +36,13 @@
                         @if (SignInManager.IsSignedIn(User) && User.IsInRole("Secretary"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-page="/Calendar">المفكرة</a>
+                                <a class="nav-link" asp-area="" asp-page="/Calendar">Calendar</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-page="/DoctorAttendance">تسجيل حضور أستاذ</a>
+                                <a class="nav-link" asp-area="" asp-page="/DoctorAttendance">Presence Registration</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" asp-area="" asp-page="/Publish">إرسال الحضور</a>
+                                <a class="nav-link" asp-area="" asp-page="/Publish">Publish</a>
                             </li>
                             
                         }
@@ -79,14 +79,14 @@
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3" style="margin-top:2rem;">
+    <div class="d-flex flex-column flex-grow-1">
+        <main role="main" class="d-flex flex-column flex-grow-1">
     
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top text-muted">
+    <footer class="border-top text-muted text-center p-3 mt-auto">
         <div class="container">
             &copy; 2023 - PPT
         </div>

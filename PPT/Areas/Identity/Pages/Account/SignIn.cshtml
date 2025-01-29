@@ -1,0 +1,51 @@
+﻿@page
+@model SignInModel
+
+
+@{
+    ViewData["Title"] = "Sign in";
+}
+
+
+<div class="container d-flex flex-column justify-content-center align-items-center my-auto">
+    <div class="border border-1 border-muted px-5 py-4 shadow-lg rounded-4 auth-form-width">
+        <section>
+            <form id="account" method="post">
+                <h2 class="mb-5 text-center">Sign in</h2>
+                <div class="d-flex flex-column gap-4">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-floating d-flex flex-column gap-2">
+                            <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
+                            <label asp-for="Input.Email" class="form-label"></label>
+                            <span asp-validation-for="Input.Email" class="text-danger form-err"></span>
+                        </div>
+
+                        <div class="form-floating d-flex flex-column gap-2">
+                            <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true"  />
+                            <label asp-for="Input.Password" class="form-label" ></label>
+                            <span asp-validation-for="Input.Password" class="text-danger form-err"></span>
+                        </div>
+                    <div>
+                        <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-accent text-primary">Sign in</button>
+                    </div>
+                    <div>
+                        <div class="checkbox">
+                            <label asp-for="Input.RememberMe" class="form-label d-flex gap-2">
+                                <input class="form-check-input" asp-for="Input.RememberMe" />
+                                @Html.DisplayNameFor(m => m.Input.RememberMe)
+                            </label>
+                        </div>
+                    </div>
+                    <div>
+                        <p class="text-muted fw-light">Don’t have an account? <a class="text-accent" asp-area="Identity" asp-page="/Account/SignUp">Sign up</a></p>
+                    </div>
+                </div>
+            </form>
+        </section>
+    </div>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
